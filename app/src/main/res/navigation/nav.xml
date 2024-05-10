@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav"
+    app:startDestination="@id/pagina_inici">
+
+
+    <fragment
+        android:id="@+id/pagina_inici"
+        android:name="com.example.provamaps.IniciFragment"
+        tools:layout="@layout/fragment_inici"
+        android:label="Inici"/>
+
+    <fragment
+        android:id="@+id/pagina_perfil"
+        android:name="com.example.provamaps.PerfilFragment"
+        tools:layout="@layout/fragment_perfil"
+        android:label="Perfil"/>
+
+    <fragment
+        android:id="@+id/pagina_afegir"
+        android:name="com.example.provamaps.AfegirFragment"
+        tools:layout="@layout/fragment_afegir"
+        android:label="Afegir">
+        <action
+            android:id="@+id/pagina_afegir_a_pagina_afegir_font"
+            app:destination="@id/pagina_afegir_font" />
+    </fragment>
+
+    <!--fragment
+        android:id="@+id/mapFragment"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:label="Mapa"
+        /-->
+
+    <fragment
+        android:id="@+id/pagina_afegir_font"
+        android:name="com.example.provamaps.AfegirFontFragment"
+        android:label="Afegir Font"
+        tools:layout="@layout/fragment_afegir_font" />
+
+    <fragment
+        android:id="@+id/pagina_afegir_contenidor"
+        android:name="com.example.provamaps.AfegirContenidorFragment"
+        android:label="Afegir Contenidor"
+        tools:layout="@layout/fragment_afegir_contenidor" />
+
+    <fragment
+        android:id="@+id/pagina_afegir_lavabo"
+        android:name="com.example.provamaps.AfegirLavaboFragment"
+        android:label="Afegir Lavabo"
+        tools:layout="@layout/fragment_afegir_lavabo" />
+
+    <fragment
+        android:id="@+id/pagina_afegir_picnic"
+        android:name="com.example.provamaps.AfegirPicnicFragment"
+        android:label="Afegir Picnic"
+        tools:layout="@layout/fragment_afegir_picnic" />
+
+
+
+
+</navigation>

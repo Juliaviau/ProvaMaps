@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/pagina_perfil"
+        android:icon="@drawable/icona_perfil"
+        android:title="Perfil"/>
+
+    <item android:id="@+id/pagina_inici"
+        android:icon="@drawable/icona_inici_mapa"
+        android:title="Inici"/>
+
+    <item android:id="@+id/pagina_afegir"
+        android:icon="@drawable/icona_afegir"
+        android:title="Afegir"/>
+
+    <!--item android:id="@+id/mapFragment"
+        android:icon="@drawable/icona_mapa2"
+        android:title="Afegir"/-->
+
+</menu>
