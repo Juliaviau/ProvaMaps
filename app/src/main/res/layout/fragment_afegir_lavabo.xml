@@ -1,14 +1,361 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AfegirLavaboFragment">
+    tools:context=".AfegirLavaboFragment"
+    android:background="@color/fons">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="afegir lavabo" />
+        android:layout_height="match_parent">
 
+        <!-- LinearLayout global. -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <!-- LinearLayout de la capçalera. Conté títol i botó de cancelar. -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="@color/fons_titol">
+
+                <TextView
+                    android:id="@+id/tv_TitolAfegirLavabo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Afegir un lavabo"
+                    android:textColor="@color/black"
+                    android:textSize="23dp"
+                    android:layout_gravity="center"
+                    android:padding="10dp"
+                    android:textStyle="bold"/>
+
+                <Button
+                    android:id="@+id/boto_tancar_afegir_lavabo"
+                    android:layout_width="95dp"
+                    android:layout_height="45dp"
+                    android:layout_margin="10dp"
+                    android:backgroundTint="@color/cancelar2"
+                    android:text="Cancelar"
+                    android:layout_gravity="center"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:textSize="12dp" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/darker_gray"/>
+
+            <!-- LinearLayout que conté el contingut de l'imatge-->
+            <LinearLayout
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_marginTop="12dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_penjaImatgeLavabo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="12dp"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:textSize="16dp"
+                    android:text="Penja una imatge:" />
+
+                <TextView
+                    android:id="@+id/tv_descPenjaImatgeLavabo"
+                    android:layout_marginHorizontal="12dp"
+                    android:textStyle="italic"
+                    android:textSize="13dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Fes una imatge al lavabo on es vegi correctament. Procura fer-la des de la distància correcte, ni molt aprop ni molt lluny. I amb una bona il·luminació." />
+
+                <ImageView
+                    android:id="@+id/iv_imatgeAfegirLavabo"
+                    android:layout_width="300dp"
+                    android:layout_height="200dp"
+                    android:src="@drawable/photo_2024_05_09_19_50_35"
+                    android:gravity="center"
+                    android:scaleType="fitCenter"
+                    android:adjustViewBounds="true"
+                    android:layout_marginTop="14dp"
+                    android:background="@color/fons_titol"
+                    android:layout_marginStart="10dp"
+                    android:layout_gravity="center_horizontal"/>
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="5dp"
+                    android:text="Afegir imatge"
+                    android:layout_marginHorizontal="10dp"
+                    android:textAllCaps="false"
+                    android:textStyle="normal"
+                    android:id="@+id/boto_afegirImatgeLavabo"/>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.51dp"
+                android:layout_marginVertical="10dp"
+                android:background="@android:color/darker_gray"/>
+
+            <TextView
+                android:id="@+id/tv_caracteristiquesAfegirLavabo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="5dp"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:textSize="16dp"
+                android:text="Característiques:" />
+
+            <TextView
+                android:id="@+id/tv_descCaracteristiquesAfegirLavabo"
+                android:layout_marginHorizontal="12dp"
+                android:textStyle="italic"
+                android:textSize="13dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Escull les opcions de cada categoria segons com sigui la zona de lavabos." />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text= "Tipus de lavabo"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:gravity="center"
+                android:paddingStart="20dp"
+                android:layout_marginTop="12dp"
+                android:textSize="16dp"/>
+
+            <com.google.android.material.button.MaterialButtonToggleGroup
+                android:id="@+id/tggb_lavaboTipus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="16dp"
+                android:layout_gravity="center"
+                app:checkedButton="@id/boto_tggb_lavaboTipusHomeDona"
+                app:singleSelection="false">
+
+                <Button
+                    android:id="@+id/boto_tggb_lavaboTipusNado"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    app:icon="@drawable/icona_canviarnado"
+                    style="?attr/materialButtonOutlinedStyle"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    app:iconGravity="textStart"
+                    app:iconPadding="8dp"
+                    android:layout_marginEnd="8dp"
+                    app:iconSize="32dp"/>
+
+                <Button
+                    android:id="@+id/boto_tggb_lavaboTipusHomeDona"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    app:icon="@drawable/icona_lavabo"
+                    style="?attr/materialButtonOutlinedStyle"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    app:iconGravity="textStart"
+                    app:iconPadding="8dp"
+                    android:layout_marginEnd="8dp"
+                    app:iconSize="32dp"/>
+
+                <Button
+                    android:id="@+id/boto_tggb_lavaboTipusDona"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    app:icon="@drawable/icona_dona"
+                    style="?attr/materialButtonOutlinedStyle"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    app:iconGravity="textStart"
+                    app:iconPadding="8dp"
+                    android:layout_marginEnd="8dp"
+                    app:iconSize="32dp"/>
+
+                <Button
+                    android:id="@+id/boto_tggb_lavaboTipusHome"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    app:icon="@drawable/icona_home"
+                    style="?attr/materialButtonOutlinedStyle"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    app:iconGravity="textStart"
+                    app:iconPadding="8dp"
+                    android:layout_marginEnd="8dp"
+                    app:iconSize="32dp"/>
+
+                <Button
+                    android:id="@+id/boto_tggb_lavaboTipusAccesible"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    app:icon="@drawable/icona_accesible"
+                    style="?attr/materialButtonOutlinedStyle"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    app:iconGravity="textStart"
+                    app:iconPadding="8dp"
+                    android:layout_marginEnd="8dp"
+                    app:iconSize="32dp"/>
+            </com.google.android.material.button.MaterialButtonToggleGroup>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text= "Disposa de paper higiènic?"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:gravity="center"
+                android:paddingStart="20dp"
+                android:layout_marginTop="12dp"
+                android:textSize="16dp"/>
+
+            <com.google.android.material.button.MaterialButtonToggleGroup
+                android:id="@+id/tggb_lavaboPaper"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="40dp"
+                android:layout_gravity="center"
+                app:checkedButton="@id/boto_tggb_lavaboNoPaper"
+                app:singleSelection="true">
+
+                <Button
+                    android:id="@+id/boto_tggb_lavaboPaper"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Si"
+                    style="?attr/materialButtonOutlinedStyle"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    app:iconGravity="textStart"
+                    app:iconPadding="8dp" />
+
+                <Button
+                    android:id="@+id/boto_tggb_lavaboNoPaper"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="No"
+                    style="?attr/materialButtonOutlinedStyle"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    app:iconGravity="textStart"
+                    app:iconPadding="8dp" />
+            </com.google.android.material.button.MaterialButtonToggleGroup>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text= "Disposa de pica?"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:gravity="center"
+                android:paddingStart="20dp"
+                android:layout_marginTop="12dp"
+                android:textSize="16dp"/>
+
+            <com.google.android.material.button.MaterialButtonToggleGroup
+                android:id="@+id/tggb_lavaboPica"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="40dp"
+                android:layout_gravity="center"
+                app:checkedButton="@id/boto_tggb_lavaboNoPica"
+                app:singleSelection="true">
+
+                <Button
+                    android:id="@+id/boto_tggb_lavaboPica"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Si"
+                    style="?attr/materialButtonOutlinedStyle"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    app:iconGravity="textStart"
+                    app:iconPadding="8dp" />
+
+                <Button
+                    android:id="@+id/boto_tggb_lavaboNoPica"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="No"
+                    style="?attr/materialButtonOutlinedStyle"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    app:iconGravity="textStart"
+                    app:iconPadding="8dp" />
+            </com.google.android.material.button.MaterialButtonToggleGroup>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.51dp"
+                android:layout_marginVertical="10dp"
+                android:background="@android:color/darker_gray" />
+
+            <TextView
+                android:id="@+id/tv_localitzacioAfegirLavabo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:layout_marginTop="5dp"
+                android:layout_marginStart="12dp"
+                android:textSize="16dp"
+                android:text="Localització de la lavabo:" />
+
+            <TextView
+                android:id="@+id/tv_descLocalitzacioAfegirLavabo"
+                android:layout_marginHorizontal="12dp"
+                android:textStyle="italic"
+                android:textSize="13dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="El mapa indica la posició on guardarà el lavabo. Si és incorrecte, prem cancelar i torna-ho a intentar." />
+
+            <ImageView
+                android:id="@+id/iv_mapaLocalitzacioAfegirLavabo"
+                android:src="@drawable/mapafont"
+                android:layout_width="320dp"
+                android:layout_marginTop="14dp"
+                android:layout_height="190dp"
+                android:scaleType="centerCrop"
+                android:adjustViewBounds="true"
+                android:layout_gravity="center_horizontal"/>
+
+            <Button
+                android:id="@+id/boto_afegir_afegirLavabo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|center_horizontal"
+                android:layout_marginVertical="20dp"
+                android:text="Afegir" />
+        </LinearLayout>
+    </ScrollView>
 </FrameLayout>
