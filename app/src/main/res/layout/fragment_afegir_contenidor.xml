@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -86,7 +85,7 @@
                     android:id="@+id/iv_imatgeAfegirContenidor"
                     android:layout_width="300dp"
                     android:layout_height="200dp"
-                    android:src="@drawable/photo_2024_05_09_19_50_35"
+                    android:src="@drawable/icona_imatge"
                     android:gravity="center"
                     android:scaleType="fitCenter"
                     android:adjustViewBounds="true"
@@ -95,16 +94,30 @@
                     android:layout_marginStart="10dp"
                     android:layout_gravity="center_horizontal"/>
 
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="5dp"
-                    android:text="Afegir imatge"
-                    android:layout_marginHorizontal="10dp"
-                    android:textAllCaps="false"
-                    android:textStyle="normal"
-                    android:id="@+id/boto_afegirImatgeContenidor"/>
+
+                <LinearLayout android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="5dp"
+                        android:text="Afegir imatge"
+                        android:layout_marginHorizontal="10dp"
+                        android:textAllCaps="false"
+                        android:textStyle="normal"
+                        android:id="@+id/boto_afegirImatgeContenidor"/>
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:paddingHorizontal="2dp"
+                        android:layout_marginTop="5dp"
+                        android:drawableBottom="@drawable/icona_fer_foto"
+                        android:id="@+id/boto_ferFotoContenidor"/>
+                </LinearLayout>
             </LinearLayout>
 
             <View

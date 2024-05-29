@@ -1,24 +1,44 @@
 package com.example.provamaps;
 
+import android.content.Context;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.PickVisualMediaRequest;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import android.os.Environment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.activity.result.contract.ActivityResultContracts.*;
 
+import java.io.File;
+import java.net.URI;
+
 public class AfegirFontFragment extends Fragment {
 
+    Uri uriImatge;
+    ImageView imatgeFont;
 
+    ActivityResultLauncher<Uri> contract = registerForActivityResult(new ActivityResultContracts.TakePicture(), result -> {
+        imatgeFont.setImageURI(null);
+        imatgeFont.setImageURI(uriImatge);
+    });
+
+    private Uri createImageUri(Context context) {
+        File image = new File(context.getFilesDir(), "camera_fotos.png");
+        return FileProvider.getUriForFile(context, "com.example.provamaps.FileProvider", image);
+    }
 
     public AfegirFontFragment() {
         // Required empty public constructor
@@ -44,20 +64,6 @@ public class AfegirFontFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_afegir_font, container, false);
         Button closeButton = rootView.findViewById(R.id.boto_tancar_afegir_font);
-        Button botoAfegirImatge = rootView.findViewById(R.id.boto_afegirImatgeFont);
-        imatgeFont = rootView.findViewById(R.id.iv_imatgeAfegirFont);
-
-
-        botoAfegirImatge.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view)             {
-                pickMedia.launch(new PickVisualMediaRequest.Builder()
-                        .setMediaType(PickVisualMedia.ImageOnly.INSTANCE)
-                        .build());
-            }
-        });
-
-
         closeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -65,17 +71,38 @@ public class AfegirFontFragment extends Fragment {
             }
         });
 
-        return rootView;
+        Context context = requireContext();
+        uriImatge = createImageUri(context);
 
-        //return inflater.inflate(R.layout.fragment_afegir_font, container, false);
+        imatgeFont = rootView.findViewById(R.id.iv_imatgeAfegirFont);
+
+        Button botoFerFoto = rootView.findViewById(R.id.boto_ferFotoFont);
+        botoFerFoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (uriImatge != null) {
+                    contract.launch(uriImatge);
+                } else {
+                    Toast.makeText(context, "Error en fer la foto", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        Button botoAfegirImatge = rootView.findViewById(R.id.boto_afegirImatgeFont);
+        botoAfegirImatge.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view)             {
+                escullImatgeGaleria.launch(new PickVisualMediaRequest.Builder()
+                        .setMediaType(PickVisualMedia.ImageOnly.INSTANCE)
+                        .build());
+            }
+        });
+
+        return rootView;
     }
 
-    ImageView imatgeFont;
-
-    // Registers a photo picker activity launcher in single-select mode.
-    ActivityResultLauncher<PickVisualMediaRequest> pickMedia =
+    ActivityResultLauncher<PickVisualMediaRequest> escullImatgeGaleria =
             registerForActivityResult(new PickVisualMedia(), uri -> {
-                // Callback is invoked after the user selects a media item or closes the photo picker.
                 if (uri != null) {
                     Log.d("TriaImatge", "URI de l'imatge seleccionada: " + uri);
                     imatgeFont.setImageURI(uri);
@@ -83,37 +110,6 @@ public class AfegirFontFragment extends Fragment {
                     Log.d("TriaImatge", "No s'ha seleccionat cap imatge");
                 }
             });
-
-    // Include only one of the following calls to launch(), depending on the types
-    // of media that you want to let the user choose from.
-
-    // Launch the photo picker and let the user choose images and videos.
-    //pickMedia.launch(new PickVisualMediaRequest.Builder().setMediaType(PickVisualMedia.ImageAndVideo.INSTANCE).build());
-
-    // Launch the photo picker and let the user choose only images.
-    //pickMedia.launch(new PickVisualMediaRequest.Builder().setMediaType(PickVisualMedia.ImageOnly.INSTANCE).build());
-
-    // Launch the photo picker and let the user choose only videos.
-    //pickMedia.launch(new PickVisualMediaRequest.Builder().setMediaType(PickVisualMedia.VideoOnly.INSTANCE).build());
-
-    // Launch the photo picker and let the user choose only images/videos of a
-    // specific MIME type, such as GIFs.
-    //String mimeType = "image/gif";
-    //pickMedia.launch(new PickVisualMediaRequest.Builder().setMediaType(new PickVisualMedia.SingleMimeType(mimeType)).build());
-
-
-
-    /*private ActivityResultLauncher<PickVisualMediaRequest> pickVisualMediaActivityResultLauncher;
-
-    private ActivityResultLauncher<PickVisualMedia> triaImg = registerForActivityResult(new PickVisualMedia(), uri -> {
-        if (uri != null) {
-            // Handle selected image
-        } else {
-            // Handle no image selected
-        }
-    });*/
-
-
 
     private void tancarFragment() {
         FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
@@ -139,5 +135,4 @@ public class AfegirFontFragment extends Fragment {
             mainActivity.mostrarBottomMenu();
         }
     }
-
 }

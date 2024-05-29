@@ -1,14 +1,25 @@
 package com.example.provamaps;
 
+import android.content.Context;
+import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.PickVisualMediaRequest;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.Toast;
+
+import java.io.File;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -17,6 +28,18 @@ import android.widget.Button;
  */
 public class AfegirLavaboFragment extends Fragment {
 
+    Uri uriImatge;
+    ImageView imatgeLavabo;
+
+    ActivityResultLauncher<Uri> contract = registerForActivityResult(new ActivityResultContracts.TakePicture(), result -> {
+        imatgeLavabo.setImageURI(null);
+        imatgeLavabo.setImageURI(uriImatge);
+    });
+
+    private Uri createImageUri(Context context) {
+        File image = new File(context.getFilesDir(), "camera_fotos.png");
+        return FileProvider.getUriForFile(context, "com.example.provamaps.FileProvider", image);
+    }
 
     public AfegirLavaboFragment() {
         // Required empty public constructor
@@ -50,10 +73,46 @@ public class AfegirLavaboFragment extends Fragment {
             }
         });
 
-        return rootView;
 
-        //return inflater.inflate(R.layout.fragment_afegir_font, container, false);
+        Context context = requireContext();
+        uriImatge = createImageUri(context);
+
+        imatgeLavabo = rootView.findViewById(R.id.iv_imatgeAfegirLavabo);
+
+        Button botoFerFoto = rootView.findViewById(R.id.boto_ferFotoLavabo);
+        botoFerFoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (uriImatge != null) {
+                    contract.launch(uriImatge);
+                } else {
+                    Toast.makeText(context, "Error en fer la foto", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        Button botoAfegirImatge = rootView.findViewById(R.id.boto_afegirImatgeLavabo);
+        botoAfegirImatge.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view)             {
+                escullImatgeGaleria.launch(new PickVisualMediaRequest.Builder()
+                        .setMediaType(ActivityResultContracts.PickVisualMedia.ImageOnly.INSTANCE)
+                        .build());
+            }
+        });
+
+        return rootView;
     }
+
+    ActivityResultLauncher<PickVisualMediaRequest> escullImatgeGaleria =
+            registerForActivityResult(new ActivityResultContracts.PickVisualMedia(), uri -> {
+                if (uri != null) {
+                    Log.d("TriaImatge", "URI de l'imatge seleccionada: " + uri);
+                    imatgeLavabo.setImageURI(uri);
+                } else {
+                    Log.d("TriaImatge", "No s'ha seleccionat cap imatge");
+                }
+            });
 
     private void tancarFragment() {
         FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
