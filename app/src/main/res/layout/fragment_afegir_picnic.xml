@@ -1,14 +1,334 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AfegirPicnicFragment">
+    tools:context=".AfegirPicnicFragment"
+    android:background="@color/fons">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="afegir picnic" />
+        android:layout_height="match_parent">
 
+        <!-- LinearLayout global. -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <!-- LinearLayout de la capçalera. Conté títol i botó de cancelar. -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="@color/fons_titol">
+
+                <TextView
+                    android:id="@+id/tv_TitolAfegirPicnic"
+                    android:layout_width="match_parent"
+                    android:autoSizeTextType="uniform"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Afegir una zona de pícnic"
+                    android:textColor="@color/black"
+                    android:textSize="20dp"
+                    android:layout_gravity="center"
+                    android:padding="10dp"
+                    android:textStyle="bold"/>
+
+                <Button
+                    android:id="@+id/boto_tancar_afegir_picnic"
+                    android:layout_width="95dp"
+                    android:layout_height="45dp"
+                    android:layout_margin="10dp"
+                    android:backgroundTint="@color/cancelar2"
+                    android:text="Cancelar"
+                    android:layout_gravity="center"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:textSize="12dp" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/darker_gray"/>
+
+            <!-- LinearLayout que conté el contingut de l'imatge-->
+            <LinearLayout
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_marginTop="12dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_penjaImatgePicnic"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="12dp"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:textSize="16dp"
+                    android:text="Penja una imatge:" />
+
+                <TextView
+                    android:id="@+id/tv_descPenjaImatgePicnic"
+                    android:layout_marginHorizontal="12dp"
+                    android:textStyle="italic"
+                    android:textSize="13dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Fes una imatge a la zona de pícnics on es vegi correctament, si ocupa una zona àmplia, fes la foto que representi millor la zona. Procura fer-la des de la distància correcte, ni molt aprop ni molt lluny. I amb una bona il·luminació." />
+
+                <ImageView
+                    android:id="@+id/iv_imatgeAfegirPicnic"
+                    android:layout_width="300dp"
+                    android:layout_height="200dp"
+                    android:src="@drawable/photo_2024_05_09_19_50_35"
+                    android:gravity="center"
+                    android:scaleType="fitCenter"
+                    android:adjustViewBounds="true"
+                    android:layout_marginTop="14dp"
+                    android:background="@color/fons_titol"
+                    android:layout_marginStart="10dp"
+                    android:layout_gravity="center_horizontal"/>
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="5dp"
+                    android:text="Afegir imatge"
+                    android:layout_marginHorizontal="10dp"
+                    android:textAllCaps="false"
+                    android:textStyle="normal"
+                    android:id="@+id/boto_afegirImatgePicnic"/>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.51dp"
+                android:layout_marginVertical="10dp"
+                android:background="@android:color/darker_gray"/>
+
+            <TextView
+                android:id="@+id/tv_caracteristiquesAfegirPicnic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="5dp"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:textSize="16dp"
+                android:text="Característiques:" />
+
+            <TextView
+                android:id="@+id/tv_descCaracteristiquesAfegirPicnic"
+                android:layout_marginHorizontal="12dp"
+                android:textStyle="italic"
+                android:textSize="13dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Escull una opció de cada categoria." />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text= "Hi ha bancs i/o taules?"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:gravity="center"
+                android:paddingStart="20dp"
+                android:layout_marginTop="12dp"
+                android:textSize="16dp"/>
+            <!-- ToggleGroup de potable -->
+            <com.google.android.material.button.MaterialButtonToggleGroup
+                android:id="@+id/tggb_banctaula"
+                android:layout_width="match_parent"
+                android:layout_gravity="center"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="30dp"
+                app:checkedButton="@id/boto_tggb_bancs"
+                app:singleSelection="true">
+
+                <Button
+                    android:id="@+id/boto_tggb_bancs"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Bancs"
+                    style="?attr/materialButtonOutlinedStyle"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    app:iconGravity="textStart"
+                    app:iconPadding="8dp" />
+
+                <Button
+                    android:id="@+id/boto_tggb_taules"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Taules"
+                    style="?attr/materialButtonOutlinedStyle"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    app:iconGravity="textStart"
+                    app:iconPadding="8dp" />
+
+                <Button
+                    android:id="@+id/boto_tggb_bancTaula"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Bancs i taules"
+                    style="?attr/materialButtonOutlinedStyle"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    app:iconGravity="textStart"
+                    app:iconPadding="8dp" />
+            </com.google.android.material.button.MaterialButtonToggleGroup>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text= "Que hi ha?"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:gravity="center"
+                android:paddingStart="20dp"
+                android:layout_marginTop="12dp"
+                android:textSize="16dp"/>
+
+            <com.google.android.material.button.MaterialButtonToggleGroup
+                android:id="@+id/tggb_picnicConte"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="46dp"
+                android:layout_gravity="center"
+                app:checkedButton="@id/boto_tggb_lavaboTipusHomeDona"
+                app:singleSelection="false">
+
+                <Button
+                    android:id="@+id/boto_tggb_picnicConteBarbacoa"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    app:icon="@drawable/icona_barbacoa"
+                    style="?attr/materialButtonOutlinedStyle"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    app:iconGravity="textStart"
+                    app:iconPadding="8dp"
+                    android:layout_marginEnd="8dp"
+                    app:iconSize="32dp"/>
+
+                <Button
+                    android:id="@+id/boto_tggb_picnicConteHerba"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    app:icon="@drawable/icona_herba"
+                    style="?attr/materialButtonOutlinedStyle"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    app:iconGravity="textStart"
+                    app:iconPadding="8dp"
+                    android:layout_marginEnd="8dp"
+                    app:iconSize="32dp"/>
+
+                <Button
+                    android:id="@+id/tggb_picnicConteContenidors"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    app:icon="@drawable/icona_contenidor"
+                    style="?attr/materialButtonOutlinedStyle"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    app:iconGravity="textStart"
+                    app:iconPadding="8dp"
+                    android:layout_marginEnd="8dp"
+                    app:iconSize="32dp"/>
+
+                <Button
+                    android:id="@+id/boto_tggb_picnicConteSombrilla"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    app:icon="@drawable/icona_sombrilla"
+                    style="?attr/materialButtonOutlinedStyle"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    app:iconGravity="textStart"
+                    app:iconPadding="8dp"
+                    android:layout_marginEnd="8dp"
+                    app:iconSize="32dp"/>
+
+                <Button
+                    android:id="@+id/boto_tggb_picnicConteLlum"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    app:icon="@drawable/icona_llum"
+                    style="?attr/materialButtonOutlinedStyle"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    app:iconGravity="textStart"
+                    app:iconPadding="8dp"
+                    android:layout_marginEnd="8dp"
+                    app:iconSize="32dp"/>
+            </com.google.android.material.button.MaterialButtonToggleGroup>
+
+
+
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.51dp"
+                android:layout_marginVertical="10dp"
+                android:background="@android:color/darker_gray" />
+
+            <TextView
+                android:id="@+id/tv_localitzacioAfegirPicnic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:layout_marginTop="5dp"
+                android:layout_marginStart="12dp"
+                android:textSize="16dp"
+                android:text="Localització de la zona de pícnic:" />
+
+            <TextView
+                android:id="@+id/tv_descLocalitzacioAfegirPicnic"
+                android:layout_marginHorizontal="12dp"
+                android:textStyle="italic"
+                android:textSize="13dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="El mapa indica la posició on guardarà la zona de pícnic. Si és incorrecte, prem cancelar i torna-ho a intentar." />
+
+            <ImageView
+                android:id="@+id/iv_mapaLocalitzacioAfegirPicnic"
+                android:src="@drawable/mapafont"
+                android:layout_width="320dp"
+                android:layout_marginTop="14dp"
+                android:layout_height="190dp"
+                android:scaleType="centerCrop"
+                android:adjustViewBounds="true"
+                android:layout_gravity="center_horizontal"/>
+
+            <Button
+                android:id="@+id/boto_afegir_afegirPicnic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|center_horizontal"
+                android:layout_marginVertical="20dp"
+                android:text="Afegir" />
+        </LinearLayout>
+    </ScrollView>
 </FrameLayout>

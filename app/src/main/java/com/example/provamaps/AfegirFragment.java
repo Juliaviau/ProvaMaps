@@ -50,7 +50,6 @@ public class AfegirFragment extends Fragment {
         cardViewFont.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Navegar al nuevo fragmento al hacer clic en el CardView
                 Navigation.findNavController(v).navigate(R.id.pagina_afegir_font);
             }
         });
@@ -59,7 +58,6 @@ public class AfegirFragment extends Fragment {
         cardViewContenidor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Navegar al nuevo fragmento al hacer clic en el CardView
                 Navigation.findNavController(v).navigate(R.id.pagina_afegir_contenidor);
             }
         });
@@ -68,7 +66,6 @@ public class AfegirFragment extends Fragment {
         cardViewLavabo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Navegar al nuevo fragmento al hacer clic en el CardView
                 Navigation.findNavController(v).navigate(R.id.pagina_afegir_lavabo);
             }
         });

@@ -3,7 +3,7 @@
     <color name="purple_200">#78AEC1</color>
     <color name="purple_500">#3C6877</color>
     <color name="purple_700">#21414C</color>
-    <color name="teal_200">#DA03A4</color>
+    <color name="teal_200">#4A889E</color>
     <color name="teal_700">#C1950E</color>
 
     <!--color name="purple_d200">#FFBB86FC</color>
@@ -11,6 +11,14 @@
     <color name="purple_d700">#FF3700B3</color>
     <color name="teal_d200">#FF03DAC5</color>
     <color name="teal_d700">#FF018786</color-->
+
+    <color name="contenidor_vidre">#1C7F28</color>
+    <color name="contenidor_paper">#033E78</color>
+    <color name="contenidor_envasos">#EDD221</color>
+    <color name="contenidor_organic">#83573B</color>
+    <color name="contenidor_rebuig">#616169</color>
+    <color name="contenidor_roba">#EF5425</color>
+    <color name="contenidor_paperera">#515558</color>
 
 
 
