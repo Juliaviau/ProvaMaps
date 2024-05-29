@@ -9,11 +9,9 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
-        <!-- LinearLayout global. -->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
             <!-- LinearLayout de la capçalera. Conté títol i botó de cancelar. -->
@@ -25,12 +23,12 @@
 
                 <TextView
                     android:id="@+id/tv_TitolAfegirContenidor"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Afegir un contenidor"
                     android:textColor="@color/black"
-                    android:textSize="23dp"
+                    android:textSize="23sp"
                     android:layout_gravity="center"
                     android:padding="10dp"
                     android:textStyle="bold"/>
@@ -45,7 +43,7 @@
                     android:layout_gravity="center"
                     android:textAllCaps="false"
                     android:textColor="@color/white"
-                    android:textSize="12dp" />
+                    android:textSize="12sp" />
             </LinearLayout>
 
             <View
@@ -68,14 +66,14 @@
                     android:layout_marginStart="12dp"
                     android:textColor="@color/black"
                     android:textStyle="bold"
-                    android:textSize="16dp"
+                    android:textSize="16sp"
                     android:text="Penja una imatge:" />
 
                 <TextView
                     android:id="@+id/tv_descPenjaImatgeContenidor"
                     android:layout_marginHorizontal="12dp"
                     android:textStyle="italic"
-                    android:textSize="13dp"
+                    android:textSize="13sp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -135,14 +133,14 @@
                 android:layout_marginTop="5dp"
                 android:textColor="@color/black"
                 android:textStyle="bold"
-                android:textSize="16dp"
+                android:textSize="16sp"
                 android:text="Característiques:" />
 
             <TextView
                 android:id="@+id/tv_descCaracteristiquesAfegirContenidor"
                 android:layout_marginHorizontal="12dp"
                 android:textStyle="italic"
-                android:textSize="13dp"
+                android:textSize="13sp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -157,7 +155,7 @@
                 android:gravity="center"
                 android:paddingStart="20dp"
                 android:layout_marginTop="12dp"
-                android:textSize="16dp"/>
+                android:textSize="16sp"/>
 
             <!-- Envasos lleugers (contenidor groc)
 Vidre (contenidor verd)
@@ -191,7 +189,7 @@ Rebuig (contenidor gris) -->
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="15dp"
-                        android:textSize="14dp"
+                        android:textSize="14sp"
                         android:buttonTint="@color/contenidor_vidre"
                         android:text="Vidre" />
                 </LinearLayout>
@@ -215,7 +213,7 @@ Rebuig (contenidor gris) -->
                         android:layout_marginHorizontal="15dp"
 
                         android:layout_height="wrap_content"
-                        android:textSize="14dp"
+                        android:textSize="14sp"
                         android:buttonTint="@color/contenidor_paper"
                         android:text="Paper i cartró" />
                 </LinearLayout>
@@ -238,7 +236,7 @@ Rebuig (contenidor gris) -->
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="15dp"
-                        android:textSize="14dp"
+                        android:textSize="14sp"
                         android:buttonTint="@color/contenidor_envasos"
                         android:text="Envasos" />
                 </LinearLayout>
@@ -269,7 +267,7 @@ Rebuig (contenidor gris) -->
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="15dp"
-                    android:textSize="14dp"
+                    android:textSize="14sp"
                     android:buttonTint="@color/contenidor_roba"
                     android:text="Roba" />
             </LinearLayout>
@@ -291,7 +289,7 @@ Rebuig (contenidor gris) -->
                     android:id="@+id/cb_contenidororganicAfegirContenidor"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="14dp"
+                    android:textSize="14sp"
                     android:layout_marginHorizontal="15dp"
                     android:buttonTint="@color/contenidor_organic"
                     android:text="Orgànic" />
@@ -314,7 +312,7 @@ Rebuig (contenidor gris) -->
                         android:id="@+id/cb_contenidorrebuigAfegirContenidor"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="14dp"
+                        android:textSize="14sp"
                         android:layout_marginHorizontal="15dp"
                         android:buttonTint="@color/contenidor_rebuig"
                         android:text="Rebuig" />
@@ -337,7 +335,7 @@ Rebuig (contenidor gris) -->
                         android:id="@+id/cb_contenidorpapereraAfegirContenidor"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="14dp"
+                        android:textSize="14sp"
                         android:layout_marginHorizontal="15dp"
                         android:layout_gravity="center"
                         android:buttonTint="@color/contenidor_paperera"
@@ -361,14 +359,14 @@ Rebuig (contenidor gris) -->
                 android:textStyle="bold"
                 android:layout_marginTop="5dp"
                 android:layout_marginStart="12dp"
-                android:textSize="16dp"
+                android:textSize="16sp"
                 android:text="Localització del contenidor:" />
 
             <TextView
                 android:id="@+id/tv_descLocalitzacioAfegirContenidor"
                 android:layout_marginHorizontal="12dp"
                 android:textStyle="italic"
-                android:textSize="13dp"
+                android:textSize="13sp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
