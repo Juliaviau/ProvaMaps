@@ -81,6 +81,4 @@ public class AfegirFragment extends Fragment {
 
         return rootView;
     }
-
-
 }

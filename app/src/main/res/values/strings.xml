@@ -1,5 +1,88 @@
 <resources>
     <string name="app_name">ProvaMaps</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="afegir_zona_mapa">Afegir una zona al mapa</string>
+    <string name="font">Font</string>
+    <string name="contenidor">Contenidor</string>
+    <string name="lavabo_public">Lavabo públic</string>
+    <string name="zona_picnic">Zona pícnic</string>
+
+    <string name="cancelar">Cancelar</string>
+    <string name="penja_una_imatge">Penja una imatge:</string>
+    <string name="afegir_imatge">Afegir imatge</string>
+    <string name="caracteristiques">Característiques:</string>
+    <string name="afegir">Afegir</string>
+
+    <string name="afegir_font">Afegir una font</string>
+    <string name="penja_imatge_font_desc">Fes una imatge a la font on es vegi correctament. Procura fer-la des de la distància correcte, ni molt aprop ni molt lluny. I amb una bona il·luminació.</string>
+    <string name="escull_una_opcio_categoria">Escull una opció de cada categoria.</string>
+    <string name="potable">Potable</string>
+    <string name="no_potable">No Potable</string>
+    <string name="sense_informacio">Sense informació</string>
+    <string name="estat">Estat</string>
+    <string name="en_servei">En servei</string>
+    <string name="sense_servei">Sense servei</string>
+    <string name="localitzacio_font">Localització de la font:</string>
+    <string name="informacio_mapa_font">El mapa indica la posició on guardarà la font. Si és incorrecte, prem cancelar i torna-ho a intentar.</string>
+
+    <string name="afegir_contenidor">Afegir un contenidor</string>
+    <string name="penja_imatge_contenidor_desc">Fes una imatge al contenidor on es vegi correctament, si n\\\'hi ha més d\\\'un procura que es vegin tots. Procura fer-la des de la distància correcte, ni molt aprop ni molt lluny. I amb una bona il·luminació.</string>
+    <string name="selecciona_tipus_contenidor">Selecciona els tipus de contenidors que hi ha a la posició on et trobes.</string>
+    <string name="tipus_contenidor">Tipus de contenidor</string>
+    <string name="vidre">Vidre</string>
+    <string name="paper_cartro">Paper i cartró</string>
+    <string name="envasos">Envasos</string>
+    <string name="roba">Roba</string>
+    <string name="organic">Orgànic</string>
+    <string name="rebuig">Rebuig</string>
+    <string name="paperera">Paperera</string>
+    <string name="localitzacio_contenidor">Localització del contenidor:</string>
+    <string name="informacio_mapa_contenidor">El mapa indica la posició on guardarà el contenidor. Si és incorrecte, prem cancelar i torna-ho a intentar.</string>
+
+    <string name="informacio_mapa_lavabo">El mapa indica la posició on guardarà el lavabo. Si és incorrecte, prem cancelar i torna-ho a intentar.</string>
+    <string name="localitzacio_lavabo">Localització del lavabo:</string>
+    <string name="si">Si</string>
+    <string name="no">No</string>
+    <string name="disposa_pica">Disposa de pica?</string>
+    <string name="disposa_paper">Disposa de paper higiènic?</string>
+    <string name="tipus_lavabo">Tipus de lavabo</string>
+    <string name="caracteristiques_lavabo">Escull les opcions de cada categoria segons com sigui la zona de lavabos.</string>
+    <string name="penja_imartge_lavabo_desc">Fes una imatge al lavabo on es vegi correctament. Procura fer-la des de la distància correcte, ni molt aprop ni molt lluny. I amb una bona il·luminació.</string>
+    <string name="afegir_lavabo">Afegir un lavabo</string>
+
+    <string name="afegir_picnic">Afegir una zona de pícnic</string>
+    <string name="informacio_mapa_picnic">El mapa indica la posició on guardarà la zona de pícnic. Si és incorrecte, prem cancelar i torna-ho a intentar.</string>
+    <string name="localitzacio_picnic">Localització de la zona de pícnic:</string>
+    <string name="penja_imatge_picnic_desc">Fes una imatge a la zona de pícnics on es vegi correctament, si ocupa una zona àmplia, fes la foto que representi millor la zona. Procura fer-la des de la distància correcte, ni molt aprop ni molt lluny. I amb una bona il·luminació.</string>
+    <string name="hiha_bancs_io_taules">Hi ha bancs i/o taules?</string>
+    <string name="bancs">Bancs</string>
+    <string name="taules">Taules</string>
+    <string name="bancs_i_taules">Bancs i taules</string>
+    <string name="que_hiha">Que hi ha?</string>
+
+    <string name="pagina_inici">Pagina inici</string>
+    <string name="pagina_configuracio">Pagina configuració</string>
+    <string name="pagina_perfil">Pagina perfil</string>
+
+    <string name="perfil">Perfil</string>
+    <string name="inici">Inici</string>
+    <string name="configuracio">Configuració</string>
+    <string name="descripcioImatgeAfegir">Imatge afegir al punt</string>
+    <string name="descripcioImatgeMapa">Imatge de la posicio del punt al mapa</string>
+
+
+    <!-- Preference Titles -->
+    <string name="els_teus_punts">Els teus punts publicats</string>
+    <string name="sync_header">Sync</string>
+
+    <!-- Messages Preferences -->
+    <string name="signature_title">Your signature</string>
+    <string name="reply_title">Default reply action</string>
+
+    <!-- Sync Preferences -->
+    <string name="sync_title">Sync email periodically</string>
+    <string name="attachment_title">Download incoming attachments</string>
+    <string name="attachment_summary_on">Automatically download attachments for incoming emails    </string>
+    <string name="attachment_summary_off">Only download attachments when manually requested</string>
+
 </resources>

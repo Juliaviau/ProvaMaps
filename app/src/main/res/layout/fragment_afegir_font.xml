@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,14 +7,10 @@
     tools:context=".AfegirFontFragment"
     android:background="@color/fons">
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
         <!-- LinearLayout global. -->
         <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
 
             <!-- LinearLayout de la capçalera. Conté títol i botó de cancelar. -->
@@ -26,12 +22,12 @@
 
                 <TextView
                     android:id="@+id/tv_TitolAfegirFont"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Afegir una font"
+                    android:text="@string/afegir_font"
                     android:textColor="@color/black"
-                    android:textSize="23dp"
+                    android:textSize="23sp"
                     android:layout_gravity="center"
                     android:padding="10dp"
                     android:textStyle="bold"/>
@@ -42,11 +38,11 @@
                     android:layout_height="45dp"
                     android:layout_margin="10dp"
                     android:backgroundTint="@color/cancelar2"
-                    android:text="Cancelar"
+                    android:text="@string/cancelar"
                     android:layout_gravity="center"
                     android:textAllCaps="false"
                     android:textColor="@color/white"
-                    android:textSize="12dp" />
+                    android:textSize="12sp" />
             </LinearLayout>
 
             <View
@@ -69,23 +65,24 @@
                     android:layout_marginStart="12dp"
                     android:textColor="@color/black"
                     android:textStyle="bold"
-                    android:textSize="16dp"
-                    android:text="Penja una imatge:" />
+                    android:textSize="16sp"
+                    android:text="@string/penja_una_imatge" />
 
                 <TextView
                     android:id="@+id/tv_descPenjaImatgeFont"
                     android:layout_marginHorizontal="12dp"
                     android:textStyle="italic"
-                    android:textSize="13dp"
+                    android:textSize="13sp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Fes una imatge a la font on es vegi correctament. Procura fer-la des de la distància correcte, ni molt aprop ni molt lluny. I amb una bona il·luminació." />
+                    android:text="@string/penja_imatge_font_desc" />
 
                 <ImageView
                     android:id="@+id/iv_imatgeAfegirFont"
                     android:layout_width="300dp"
                     android:layout_height="200dp"
+                    android:contentDescription="@string/descripcioImatgeAfegir"
                     android:src="@drawable/icona_imatge"
                     android:gravity="center"
                     android:scaleType="fitCenter"
@@ -103,7 +100,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginTop="5dp"
-                    android:text="Afegir imatge"
+                    android:text="@string/afegir_imatge"
                     android:layout_marginHorizontal="10dp"
                     android:textAllCaps="false"
                     android:textStyle="normal"
@@ -134,29 +131,28 @@
                 android:layout_marginTop="5dp"
                 android:textColor="@color/black"
                 android:textStyle="bold"
-                android:textSize="16dp"
-                android:text="Característiques:" />
+                android:textSize="16sp"
+                android:text="@string/caracteristiques" />
 
             <TextView
                 android:id="@+id/tv_descCaracteristiquesAfegirFont"
                 android:layout_marginHorizontal="12dp"
                 android:textStyle="italic"
-                android:textSize="13dp"
+                android:textSize="13sp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Escull una opció de cada categoria." />
+                android:text="@string/escull_una_opcio_categoria" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text= "Potable"
+                android:text= "@string/potable"
                 android:textStyle="bold"
                 android:textColor="@color/black"
                 android:gravity="center"
                 android:layout_marginTop="12dp"
-                android:paddingStart="20dp"
-                android:textSize="16dp"/>
+                android:textSize="16sp"/>
 
             <!-- ToggleGroup de potable -->
             <com.google.android.material.button.MaterialButtonToggleGroup
@@ -172,7 +168,7 @@
                     android:id="@+id/boto_tggb_fontPotable"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Potable"
+                    android:text="@string/potable"
                     style="?attr/materialButtonOutlinedStyle"
                     android:ellipsize="end"
                     android:maxLines="1"
@@ -183,7 +179,7 @@
                     android:id="@+id/boto_tggb_fontNoPotable"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="No Potable"
+                    android:text="@string/no_potable"
                     style="?attr/materialButtonOutlinedStyle"
                     android:ellipsize="end"
                     android:maxLines="1"
@@ -194,7 +190,7 @@
                     android:id="@+id/boto_tggb_noInformaciofontPotable"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Sense informació"
+                    android:text="@string/sense_informacio"
                     style="?attr/materialButtonOutlinedStyle"
                     android:ellipsize="end"
                     android:maxLines="1"
@@ -205,13 +201,12 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text= "Estat"
+                android:text= "@string/estat"
                 android:textStyle="bold"
                 android:textColor="@color/black"
                 android:gravity="center"
-                android:paddingStart="20dp"
                 android:layout_marginTop="12dp"
-                android:textSize="16dp"/>
+                android:textSize="16sp"/>
 
             <com.google.android.material.button.MaterialButtonToggleGroup
                 android:id="@+id/tggb_fontEstat"
@@ -226,7 +221,7 @@
                     android:id="@+id/boto_tggb_fontServei"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="En servei"
+                    android:text="@string/en_servei"
                     style="?attr/materialButtonOutlinedStyle"
                     android:ellipsize="end"
                     android:maxLines="1"
@@ -237,7 +232,7 @@
                     android:id="@+id/boto_tggb_fontNoServei"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Sense servei"
+                    android:text="@string/sense_servei"
                     style="?attr/materialButtonOutlinedStyle"
                     android:ellipsize="end"
                     android:maxLines="1"
@@ -259,22 +254,23 @@
                 android:textStyle="bold"
                 android:layout_marginTop="5dp"
                 android:layout_marginStart="12dp"
-                android:textSize="16dp"
-                android:text="Localització de la font:" />
+                android:textSize="16sp"
+                android:text="@string/localitzacio_font" />
 
             <TextView
                 android:id="@+id/tv_descLocalitzacioAfegirFont"
                 android:layout_marginHorizontal="12dp"
                 android:textStyle="italic"
-                android:textSize="13dp"
+                android:textSize="13sp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="El mapa indica la posició on guardarà la font. Si és incorrecte, prem cancelar i torna-ho a intentar." />
+                android:text="@string/informacio_mapa_font" />
 
             <ImageView
                 android:id="@+id/iv_mapaLocalitzacioAfegirFont"
                 android:src="@drawable/mapafont"
+                android:contentDescription="@string/descripcioImatgeMapa"
                 android:layout_width="320dp"
                 android:layout_marginTop="14dp"
                 android:layout_height="190dp"
@@ -288,7 +284,6 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|center_horizontal"
                 android:layout_marginVertical="20dp"
-                android:text="Afegir" />
+                android:text="@string/afegir" />
         </LinearLayout>
-    </ScrollView>
-</FrameLayout>
+</ScrollView>

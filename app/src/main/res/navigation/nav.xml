@@ -58,7 +58,11 @@
         android:label="Afegir Picnic"
         tools:layout="@layout/fragment_afegir_picnic" />
 
-
+    <fragment
+        android:id="@+id/pagina_configuracio"
+        android:name="com.example.provamaps.ConfiguracioFragment"
+        android:label="Configuració"
+        tools:layout="@xml/root_preferences" />
 
 
 </navigation>

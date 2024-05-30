@@ -3,15 +3,19 @@
 
     <item android:id="@+id/pagina_perfil"
         android:icon="@drawable/icona_perfil"
-        android:title="Perfil"/>
+        android:title="@string/perfil"/>
 
     <item android:id="@+id/pagina_inici"
         android:icon="@drawable/icona_inici_mapa"
-        android:title="Inici"/>
+        android:title="@string/inici"/>
 
     <item android:id="@+id/pagina_afegir"
         android:icon="@drawable/icona_afegir"
-        android:title="Afegir"/>
+        android:title="@string/afegir"/>
+
+    <item android:id="@+id/pagina_configuracio"
+        android:icon="@drawable/icona_configuracio"
+        android:title="@string/configuracio"/>
 
     <!--item android:id="@+id/mapFragment"
         android:icon="@drawable/icona_mapa2"

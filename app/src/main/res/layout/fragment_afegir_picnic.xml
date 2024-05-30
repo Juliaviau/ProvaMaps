@@ -27,7 +27,7 @@
                     android:autoSizeTextType="uniform"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Afegir una zona de pícnic"
+                    android:text="@string/afegir_picnic"
                     android:textColor="@color/black"
                     android:textSize="20sp"
                     android:layout_gravity="center"
@@ -40,7 +40,7 @@
                     android:layout_height="45dp"
                     android:layout_margin="10dp"
                     android:backgroundTint="@color/cancelar2"
-                    android:text="Cancelar"
+                    android:text="@string/cancelar"
                     android:layout_gravity="center"
                     android:textAllCaps="false"
                     android:textColor="@color/white"
@@ -68,7 +68,7 @@
                     android:textColor="@color/black"
                     android:textStyle="bold"
                     android:textSize="16sp"
-                    android:text="Penja una imatge:" />
+                    android:text="@string/penja_una_imatge" />
 
                 <TextView
                     android:id="@+id/tv_descPenjaImatgePicnic"
@@ -78,7 +78,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Fes una imatge a la zona de pícnics on es vegi correctament, si ocupa una zona àmplia, fes la foto que representi millor la zona. Procura fer-la des de la distància correcte, ni molt aprop ni molt lluny. I amb una bona il·luminació." />
+                    android:text="@string/penja_imatge_picnic_desc" />
 
                 <ImageView
                     android:id="@+id/iv_imatgeAfegirPicnic"
@@ -90,6 +90,7 @@
                     android:adjustViewBounds="true"
                     android:layout_marginTop="14dp"
                     android:background="@color/fons_titol"
+                    android:contentDescription="@string/descripcioImatgeAfegir"
                     android:layout_marginStart="10dp"
                     android:layout_gravity="center_horizontal"/>
 
@@ -102,7 +103,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginTop="5dp"
-                        android:text="Afegir imatge"
+                        android:text="@string/afegir_imatge"
                         android:layout_marginHorizontal="10dp"
                         android:textAllCaps="false"
                         android:textStyle="normal"
@@ -134,7 +135,7 @@
                 android:textColor="@color/black"
                 android:textStyle="bold"
                 android:textSize="16sp"
-                android:text="Característiques:" />
+                android:text="@string/caracteristiques" />
 
             <TextView
                 android:id="@+id/tv_descCaracteristiquesAfegirPicnic"
@@ -144,16 +145,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Escull una opció de cada categoria." />
+                android:text="@string/escull_una_opcio_categoria" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text= "Hi ha bancs i/o taules?"
+                android:text= "@string/hiha_bancs_io_taules"
                 android:textStyle="bold"
                 android:textColor="@color/black"
                 android:gravity="center"
-                android:paddingStart="20dp"
                 android:layout_marginTop="12dp"
                 android:textSize="16sp"/>
             <!-- ToggleGroup de potable -->
@@ -170,7 +170,7 @@
                     android:id="@+id/boto_tggb_bancs"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Bancs"
+                    android:text="@string/bancs"
                     style="?attr/materialButtonOutlinedStyle"
                     android:ellipsize="end"
                     android:maxLines="1"
@@ -181,7 +181,7 @@
                     android:id="@+id/boto_tggb_taules"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Taules"
+                    android:text="@string/taules"
                     style="?attr/materialButtonOutlinedStyle"
                     android:ellipsize="end"
                     android:maxLines="1"
@@ -192,7 +192,7 @@
                     android:id="@+id/boto_tggb_bancTaula"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Bancs i taules"
+                    android:text="@string/bancs_i_taules"
                     style="?attr/materialButtonOutlinedStyle"
                     android:ellipsize="end"
                     android:maxLines="1"
@@ -203,11 +203,10 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text= "Que hi ha?"
+                android:text= "@string/que_hiha"
                 android:textStyle="bold"
                 android:textColor="@color/black"
                 android:gravity="center"
-                android:paddingStart="20dp"
                 android:layout_marginTop="12dp"
                 android:textSize="16sp"/>
 
@@ -310,7 +309,7 @@
                 android:layout_marginTop="5dp"
                 android:layout_marginStart="12dp"
                 android:textSize="16sp"
-                android:text="Localització de la zona de pícnic:" />
+                android:text="@string/localitzacio_picnic" />
 
             <TextView
                 android:id="@+id/tv_descLocalitzacioAfegirPicnic"
@@ -320,7 +319,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="El mapa indica la posició on guardarà la zona de pícnic. Si és incorrecte, prem cancelar i torna-ho a intentar." />
+                android:text="@string/informacio_mapa_picnic" />
 
             <ImageView
                 android:id="@+id/iv_mapaLocalitzacioAfegirPicnic"
@@ -330,6 +329,7 @@
                 android:layout_height="190dp"
                 android:scaleType="centerCrop"
                 android:adjustViewBounds="true"
+                android:contentDescription="@string/descripcioImatgeMapa"
                 android:layout_gravity="center_horizontal"/>
 
             <Button
@@ -338,6 +338,6 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|center_horizontal"
                 android:layout_marginVertical="20dp"
-                android:text="Afegir" />
+                android:text="@string/afegir" />
         </LinearLayout>
 </ScrollView>
