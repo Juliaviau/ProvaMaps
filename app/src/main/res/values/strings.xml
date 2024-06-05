@@ -72,7 +72,7 @@
 
 
     <!-- Preference Titles -->
-    <string name="els_teus_punts">Els teus punts publicats</string>
+    <string name="els_teus_punts">Publicacions</string>
     <string name="sync_header">Sync</string>
 
     <!-- Messages Preferences -->
