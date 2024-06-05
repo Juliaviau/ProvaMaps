@@ -70,6 +70,7 @@
     <string name="descripcioImatgeAfegir">Imatge afegir al punt</string>
     <string name="descripcioImatgeMapa">Imatge de la posicio del punt al mapa</string>
 
+    <string name="buscar">Buscar:</string>
 
     <!-- Preference Titles -->
     <string name="els_teus_punts">Publicacions</string>

@@ -14,16 +14,23 @@ import androidx.appcompat.widget.AppCompatImageView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class ModelRecyclerView extends RecyclerView.Adapter<ModelRecyclerView.ViewHolder> {
 
     Context context;
     ArrayList<Model_ItemCardPerfil> arrayList = new ArrayList<>();
+    ArrayList<Model_ItemCardPerfil> llistaOriginal;
+
+
 
     public ModelRecyclerView(Context context, ArrayList<Model_ItemCardPerfil> arrayList) {
 
         this.context = context;
         this.arrayList = arrayList;
+        llistaOriginal = new ArrayList<>();
+        llistaOriginal.addAll(arrayList);
     }
 
     @NonNull
@@ -39,8 +46,6 @@ public class ModelRecyclerView extends RecyclerView.Adapter<ModelRecyclerView.Vi
         holder.tipus.setText(arrayList.get(position).getTipus());
         holder.adreca.setText(arrayList.get(position).getAdreca());
 
-
-
         if (arrayList.get(position).getTipus().equalsIgnoreCase("Font")) {
             holder.iv_foto_tipus.setImageResource(R.drawable.icona_font);
 
@@ -51,16 +56,10 @@ public class ModelRecyclerView extends RecyclerView.Adapter<ModelRecyclerView.Vi
             holder.iv_foto_tipus.setImageResource(R.drawable.icona_contenidor);
 
         } else {
-
-
             holder.iv_foto_tipus.setImageResource(R.drawable.icona_picnic);
-
-
         }
 
-
-
-
+        holder.itemView.startAnimation(AnimationUtils.loadAnimation(holder.itemView.getContext(), android.R.anim.slide_in_left));
     }
 
     @Override
@@ -80,7 +79,7 @@ public class ModelRecyclerView extends RecyclerView.Adapter<ModelRecyclerView.Vi
             tipus = itemView.findViewById(R.id.tv_cvi_perfil_tipus);
             adreca = itemView.findViewById(R.id.tv_cvi_perfil_subtitol);
             iv_foto_tipus = itemView.findViewById(R.id.iv_tipus_cv);
-            animar(itemView);
+          //  animar(itemView);
         }
     }
 
@@ -89,4 +88,24 @@ public class ModelRecyclerView extends RecyclerView.Adapter<ModelRecyclerView.Vi
         view.setAnimation(animation);
     }
 
+    public void filtrar (String textBuscar) {
+        int llargada = textBuscar.length();
+        if (llargada == 0){
+            arrayList.clear();
+            arrayList.addAll(llistaOriginal);
+        } else {
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+                List<Model_ItemCardPerfil> punts = arrayList.stream().filter(i -> i.getTipus().toLowerCase().contains(textBuscar.toLowerCase()) || i.getAdreca().toLowerCase().contains(textBuscar.toLowerCase()) ).collect(Collectors.toList());
+                arrayList.clear();
+                arrayList.addAll(punts);
+            } else {
+                for (Model_ItemCardPerfil m: arrayList) {
+                    if (m.getTipus().toLowerCase().contains(textBuscar.toLowerCase())) {
+                        arrayList.add(m);
+                    }
+                }
+            }
+        }
+        notifyDataSetChanged();
+    }
 }
