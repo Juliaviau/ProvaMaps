@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:background="@color/fons"
+    tools:context=".LoginActivity">
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="180dp"
+            android:layout_height="180dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="60dp"
+            app:srcCompat="@drawable/shape_cercle" />
+
+        <TextView
+            android:id="@+id/tv_resposta"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Benvingut"
+            android:textAlignment="center"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:textSize="32sp" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:id="@+id/editTextLayoutUsuari"
+            android:layout_marginTop="50dp"
+            android:layout_width="300dp"
+            android:layout_gravity="center"
+            android:layout_height="wrap_content"
+            android:hint="@string/usuari"
+            app:hintTextColor="@color/purple_500"
+            app:startIconDrawable="@drawable/icona_persona"
+            app:hintTextAppearance="@style/CustomHintTextAppearance.Default"
+           >
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editTextUsuari"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/shape_edit_texts"
+                android:inputType="textAutoComplete"
+                android:maxLength="20" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:id="@+id/editTextLayoutPassword"
+            android:layout_width="300dp"
+            android:layout_gravity="center"
+            android:layout_height="wrap_content"
+            android:hint="@string/contrasenya"
+            app:startIconDrawable="@drawable/icona_candau"
+            android:layout_marginTop="20dp"
+            app:hintTextAppearance="@style/CustomHintTextAppearance.Default"
+            app:hintTextColor="@color/purple_500"
+            app:endIconMode="password_toggle">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editTextPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword"
+                android:background="@drawable/shape_edit_texts"
+                android:maxLength="20" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="126dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="30dp"
+            android:backgroundTint="@color/purple_500"
+            android:text="@string/entrar" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginTop="40dp"
+            android:orientation="horizontal">
+
+            <View
+                android:layout_width="140dp"
+                android:layout_height="1dp"
+                android:background="@android:color/black"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:text="@string/enta_amb"/>
+            <View
+                android:layout_width="140dp"
+                android:layout_height="1dp"
+                android:background="@android:color/black"/>
+        </LinearLayout>
+
+        <!--Button
+            android:id="@+id/btnGofogle"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:text="Sign in with Google"
+            android:background="@color/common_google_signin_btn_text_light"
+            android:textColor="@android:color/white"
+            android:drawableLeft="@drawable/icona_persona" /-->
+
+
+        <com.google.android.gms.common.SignInButton
+            android:id="@+id/btnGoogle"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="25dp" />
+
+        <Button
+            android:id="@+id/buttoninv"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:backgroundTint="@color/purple_500"
+            android:text="@string/entrar_com_invitat" />
+
+        <!--TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:text="@string/entrar_com_invitat"
+            android:textAlignment="center"
+            android:textSize="14sp"
+            android:textStyle="normal" />
+        <Button
+           android:layout_width="110dp"
+           android:layout_height="wrap_content"
+           android:text="Signout"
+           android:layout_gravity="center"
+           android:id="@+id/signoutbutton"/-->
+    </LinearLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="purple_200">#78AEC1</color>
+    <color name="blau_clar">#78AEC1</color>
     <color name="purple_500">#3C6877</color>
     <color name="purple_700">#21414C</color>
     <color name="teal_200">#4A889E</color>
@@ -12,6 +12,7 @@
     <color name="teal_d200">#FF03DAC5</color>
     <color name="teal_d700">#FF018786</color-->
 
+    <!-- Colors contenidors -->
     <color name="contenidor_vidre">#1C7F28</color>
     <color name="contenidor_paper">#033E78</color>
     <color name="contenidor_envasos">#EDD221</color>
@@ -19,8 +20,6 @@
     <color name="contenidor_rebuig">#616169</color>
     <color name="contenidor_roba">#EF5425</color>
     <color name="contenidor_paperera">#515558</color>
-
-
 
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
@@ -30,9 +29,9 @@
 
     <color name="cancelar">#CC3C3C</color>
     <color name="cancelar2">#B84010</color>
-
     <color name="blau_pred">#21414C</color>
 
 
+    <color name="common_google_signin_btn_text_light">#000000</color>
 
 </resources>

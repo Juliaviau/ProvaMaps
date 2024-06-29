@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "951409498073",
+    "project_id": "appmapatfg",
+    "storage_bucket": "appmapatfg.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:951409498073:android:f9fe80c63136ad9ce8abc8",
+        "android_client_info": {
+          "package_name": "com.example.provamaps"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "951409498073-sicmv9fvbgchukjhs5rr1232mdd8q9cl.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.provamaps",
+            "certificate_hash": "3e6aeb8865a8a83956fef6c6cb36f501141cd36c"
+          }
+        },
+        {
+          "client_id": "951409498073-hnbv3r02tl93r3kq85rmeqkmlime2bq1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBMSjuvkt5LG2_bWxlZd10EM1K61wL2sNU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "951409498073-hnbv3r02tl93r3kq85rmeqkmlime2bq1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
