@@ -86,6 +86,8 @@
     <string name="attachment_summary_on">Automatically download attachments for incoming emails    </string>
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
     <string name="title_activity_login">LoginActivity</string>
+    <string name="title_activity_main">NomAPP</string> <!-- CANVIAR I POSAR EL NOM DE L'APLICACIO-->
+
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
     <string name="action_sign_in">Sign in or register</string>

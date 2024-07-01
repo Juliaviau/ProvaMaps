@@ -1,46 +1,37 @@
 package com.example.provamaps;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.location.Address;
-import android.location.Geocoder;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.location.Location;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.SearchView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.fragment.app.Fragment;
-import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 
 //import com.google.android.gms.location.FusedLocationProviderClient;
 //import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-
-import java.io.IOException;
-import java.util.List;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivity extends AppCompatActivity /*implements OnMapReadyCallback*/ {
+
+
+    private FirebaseAuth firebaseAuth;
+
+
 
     private GoogleMap mMap;
     private SearchView buscadorMapa;
@@ -48,10 +39,56 @@ public class MainActivity extends AppCompatActivity /*implements OnMapReadyCallb
     Location currentLocation;
     FusedLocationProviderClient fusedLocationProviderClient;
 
+    ImageButton creuDialog;
+    Button btn_inici_sessio, btn_tornar_mapa;
+    AlertDialog dialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        firebaseAuth = FirebaseAuth.getInstance();
+        if (firebaseAuth.getCurrentUser() == null) {
+            startLoginOptionsActivity();
+        }
+
+
+
+        View alertCustomDialog = LayoutInflater.from(MainActivity.this).inflate(R.layout.dialog_fragment,null);
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(MainActivity.this);
+        alertDialog.setView(alertCustomDialog);
+        creuDialog = (ImageButton) alertCustomDialog.findViewById(R.id.btn_creu_dialog);
+        btn_inici_sessio = (Button) alertCustomDialog.findViewById(R.id.btn_signup);
+        btn_tornar_mapa = (Button) alertCustomDialog.findViewById(R.id.btn_tornamapa);
+
+
+        dialog = alertDialog.create();
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.show();
+
+        creuDialog.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.cancel();
+            }
+        });
+
+        btn_inici_sessio.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.cancel();
+                startLoginOptionsActivity();
+            }
+        });
+
+        btn_tornar_mapa.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.cancel();
+                Toast.makeText(MainActivity.this,"taralaralà",Toast.LENGTH_SHORT).show();
+            }
+        });
 
         //buscadorMapa = findViewById(R.id.buscadorMapaView);
 
@@ -89,18 +126,47 @@ public class MainActivity extends AppCompatActivity /*implements OnMapReadyCallb
         getLastLocation();*/
 
         setupNavegacio();
-
-
-
     }
 
+    private void startLoginOptionsActivity() {
+        startActivity(new Intent(MainActivity.this,LoginActivity.class));
+    }
+
+
+
     private void setupNavegacio() {
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
+        NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_hostfragment);
+        NavigationUI.setupWithNavController(bottomNavigationView, navHostFragment.getNavController());
+
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                int itemId = item.getItemId();
+                if (itemId == R.id.pagina_perfil || itemId == R.id.pagina_afegir) { //Si al menu clica el perfil
+                    if (firebaseAuth.getCurrentUser() != null) { //I no hi ha cap usuari registrat
+
+                        //Toast.makeText(MainActivity.this, "Please sign in with Google first.", Toast.LENGTH_SHORT).show();
+                        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                        dialog.show();
+
+                        // startActivity(new Intent(MainActivity.this, SignInActivity.class));
+                        return false; // Prevent navigation to the Profile fragment
+                    }
+                }
+                return NavigationUI.onNavDestinationSelected(item, navHostFragment.getNavController());
+            }
+        });
+    }
+
+
+    /*private void setupNavegacio() {
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_hostfragment);
         NavigationUI.setupWithNavController(
                 bottomNavigationView, navHostFragment.getNavController()
         );
-    }
+    }*/
 
     public void amagarBottomMenu() {
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);

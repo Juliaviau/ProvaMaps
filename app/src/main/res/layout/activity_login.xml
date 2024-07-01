@@ -9,6 +9,20 @@
     android:background="@color/fons"
     tools:context=".LoginActivity">
 
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnContinuar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:text="Continuar"
+        android:layout_margin="15dp"
+        android:textColor="@color/purple_700"
+        android:textSize="16sp"
+        android:backgroundTint="@android:color/transparent"
+        app:strokeColor="@color/purple_700"
+        app:strokeWidth="1dp"
+        />
+
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
