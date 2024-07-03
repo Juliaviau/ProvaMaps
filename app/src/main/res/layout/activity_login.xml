@@ -137,6 +137,7 @@
             android:id="@+id/btnGoogle"
             android:layout_width="200dp"
             android:layout_height="50dp"
+            text
             android:layout_gravity="center"
             android:layout_marginTop="25dp" />
 

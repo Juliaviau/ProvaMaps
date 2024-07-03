@@ -90,6 +90,12 @@ public class LoginActivity extends AppCompatActivity {
         });
 
 
+        binding.buttoninv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         //signInButton = findViewById(R.id.btnGoogle);
         //textView = findViewById(R.id.tv_resposta);
         /*mAuth = FirebaseAuth.getInstance();

@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity /*implements OnMapReadyCallb
 
         dialog = alertDialog.create();
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        dialog.show();
+        dialog.show();//comentar. posa el alert dialog nomes d'iniciar el mapa
 
         creuDialog.setOnClickListener(new View.OnClickListener() {
             @Override
