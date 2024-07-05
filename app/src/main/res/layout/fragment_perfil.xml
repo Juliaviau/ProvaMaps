@@ -51,11 +51,21 @@
 
 
                     <ImageView
+                        android:id="@+id/iv_fotoPerfil"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:scaleType="fitXY"
                         android:src="@drawable/shape_cercle" />
 
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:layout_width="81dp"
+                        android:layout_height="81dp"
+                        android:id="@+id/porfileIv"
+                        android:src="@drawable/icona_persona_blanc"
+                        android:background="@color/purple_700"
+                        android:layout_gravity="center"
+                        app:shapeAppearanceOverlay="@style/ImageStyle_Cercle"
+                        android:layout_marginVertical="15dp"/>
 
                 </androidx.cardview.widget.CardView>
 
@@ -67,21 +77,20 @@
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="35dp"
                     android:text="Nom usuari"
-                    android:textSize="26sp"
-                    android:textStyle="bold"
+                    style="@style/TextAppearance.Material3.TitleLarge"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toEndOf="@+id/view"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/tv_correuusuari"
+                    android:id="@+id/tv_correuUsuari"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
                     android:text="nomusuari@gmail.com"
-                    android:textSize="17sp"
-                    android:textStyle="italic"
+
+                    style="@style/TextAppearance.Material3.TitleSmall"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"

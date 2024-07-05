@@ -53,8 +53,6 @@ public class MainActivity extends AppCompatActivity /*implements OnMapReadyCallb
             startLoginOptionsActivity();
         }
 
-
-
         View alertCustomDialog = LayoutInflater.from(MainActivity.this).inflate(R.layout.dialog_fragment,null);
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(MainActivity.this);
         alertDialog.setView(alertCustomDialog);
@@ -65,7 +63,7 @@ public class MainActivity extends AppCompatActivity /*implements OnMapReadyCallb
 
         dialog = alertDialog.create();
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        dialog.show();//comentar. posa el alert dialog nomes d'iniciar el mapa
+        //dialog.show();//comentar. posa el alert dialog nomes d'iniciar el mapa
 
         creuDialog.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -130,6 +128,7 @@ public class MainActivity extends AppCompatActivity /*implements OnMapReadyCallb
 
     private void startLoginOptionsActivity() {
         startActivity(new Intent(MainActivity.this,LoginActivity.class));
+        finish();//afegit
     }
 
 
@@ -143,8 +142,8 @@ public class MainActivity extends AppCompatActivity /*implements OnMapReadyCallb
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 int itemId = item.getItemId();
-                if (itemId == R.id.pagina_perfil || itemId == R.id.pagina_afegir) { //Si al menu clica el perfil
-                    if (firebaseAuth.getCurrentUser() != null) { //I no hi ha cap usuari registrat
+                if (itemId == R.id.pagina_perfil || itemId == R.id.pagina_afegir) { //Si al menu clica el perfil o la pagina per afegir
+                    if (firebaseAuth.getCurrentUser() == null) { //I no hi ha cap usuari registrat
 
                         //Toast.makeText(MainActivity.this, "Please sign in with Google first.", Toast.LENGTH_SHORT).show();
                         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));

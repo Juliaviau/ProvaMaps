@@ -181,13 +181,13 @@ public class LoginActivity extends AppCompatActivity {
         String name = firebaseAuth.getCurrentUser().getDisplayName();
 
         HashMap<String, Object> hashMap = new HashMap<>();
-        hashMap.put("uid", registeredUserID);
+        hashMap.put("uid", registeredUserID);//treure
         hashMap.put("email", registeredUserEmail);
         hashMap.put("name",name);
-        hashMap.put("timestamp",timestamp);
+        hashMap.put("timestamp",timestamp);//treure
         hashMap.put("profileImageUrl","");
-        hashMap.put("dob","");
-        hashMap.put("userType",MyUtils.USER_TYPE_GOOGLE);
+        hashMap.put("dob","");//treure
+        hashMap.put("userType",MyUtils.USER_TYPE_GOOGLE);//treure
         hashMap.put("token","");
 
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users");

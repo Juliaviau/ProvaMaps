@@ -6,4 +6,9 @@
         <item name="android:textColor">@color/cancelar</item>
     </style>
 
+    <style name="ImageStyle_Cercle">
+        <item name="cornerSize">50%</item>
+        <item name="cornerFamily">rounded</item>
+    </style>
+
 </resources>
