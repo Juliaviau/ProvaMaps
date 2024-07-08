@@ -106,21 +106,21 @@ public class PerfilFragment extends Fragment implements SearchView.OnQueryTextLi
         progressDialog = new ProgressDialog(mContext);
         progressDialog.setTitle("Please wait");
         progressDialog.setCanceledOnTouchOutside(false);
+
         firebaseAuth = FirebaseAuth.getInstance();
 
-        loadMyInfo();
-        //binding.
+
 
         // usersRecycler.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
         // Inicializa el RecyclerView
-        recyclerView = view.findViewById(R.id.recyclerView);
-        searchView = view.findViewById(R.id.searchviewa);
-        recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+        binding.recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         // Configura el adaptador del RecyclerView
         modelRecyclerView = new ModelRecyclerView(requireContext(), arrayList);
-        recyclerView.setAdapter(modelRecyclerView);
+        binding.recyclerView.setAdapter(modelRecyclerView);
 
-        searchView.setOnQueryTextListener(this);
+        binding.searchviewa.setOnQueryTextListener(this);
+
+        loadMyInfo();
     }
 
     @Override
@@ -142,7 +142,7 @@ public class PerfilFragment extends Fragment implements SearchView.OnQueryTextLi
     }
 
     private void loadMyInfo () {
-        Toast.makeText(mContext, "entra a loadmyinfo  sdf", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(mContext, "entra a loadmyinfo  sdf", Toast.LENGTH_SHORT).show();
 
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users");
         ref.child(""+firebaseAuth.getUid())
@@ -153,13 +153,14 @@ public class PerfilFragment extends Fragment implements SearchView.OnQueryTextLi
                         //Les dades que treu de la base de dades
                         String email = ""+dataSnapshot.child("email").getValue();
                         String name = ""+dataSnapshot.child("name").getValue();
-                        String profileImageUrl = ""+dataSnapshot.child("profileImageUrl").getValue();
+                        //String profileImageUrl = ""+dataSnapshot.child("profileImageUrl").getValue();
+                        String profileImageUrl = firebaseAuth.getCurrentUser().getPhotoUrl().toString();
 
                         //pasar les dades a al UI
                         binding.tvCorreuUsuari.setText(email);
                         binding.tvNomUsuari.setText(name);
 
-                        Toast.makeText(mContext, "entra a loadmyinfo", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(mContext,profileImageUrl, Toast.LENGTH_SHORT).show();
 
                         //Foto perfil
                         try {
@@ -174,7 +175,8 @@ public class PerfilFragment extends Fragment implements SearchView.OnQueryTextLi
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                        Log.e(TAG, "onCancelled: " + databaseError.getMessage());
+                        //MyUtils.toast(mContext, "Error: " + databaseError.getMessage());
                     }
                 });
     }

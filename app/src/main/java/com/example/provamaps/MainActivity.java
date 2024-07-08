@@ -21,6 +21,7 @@ import androidx.navigation.ui.NavigationUI;
 
 //import com.google.android.gms.location.FusedLocationProviderClient;
 //import com.google.android.gms.location.LocationServices;
+import com.example.provamaps.databinding.ActivityMainBinding;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -31,7 +32,7 @@ public class MainActivity extends AppCompatActivity /*implements OnMapReadyCallb
 
     private FirebaseAuth firebaseAuth;
 
-
+    private ActivityMainBinding binding;
 
     private GoogleMap mMap;
     private SearchView buscadorMapa;
@@ -49,6 +50,7 @@ public class MainActivity extends AppCompatActivity /*implements OnMapReadyCallb
         setContentView(R.layout.activity_main);
 
         firebaseAuth = FirebaseAuth.getInstance();
+        //Si quan entra al MainActivity, no s'ha registrat va a la pagina de login
         if (firebaseAuth.getCurrentUser() == null) {
             startLoginOptionsActivity();
         }
@@ -127,8 +129,9 @@ public class MainActivity extends AppCompatActivity /*implements OnMapReadyCallb
     }
 
     private void startLoginOptionsActivity() {
+        //va al login, i deixa aquesta de fons per si fa un finish
         startActivity(new Intent(MainActivity.this,LoginActivity.class));
-        finish();//afegit
+        //finish();//afegit
     }
 
 
