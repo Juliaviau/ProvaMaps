@@ -54,21 +54,9 @@ private ProgressDialog progressDialog;
 
         binding = FragmentConfiguracioBinding.inflate(inflater, container,false);
 
-
-
-
-
-
         // Inflate the layout for this fragment
        // View rootView = inflater.inflate(R.layout.fragment_configuracio, container, false);
-        mAuth = FirebaseAuth.getInstance();
-       // button = rootView.findViewById(R.id.btntancarsessio);
-        /*binding.btntancarsessio.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                logout();
-            }
-        });*/
+
         return binding.getRoot();
     }
 
@@ -81,37 +69,72 @@ private ProgressDialog progressDialog;
 
         mAuth = FirebaseAuth.getInstance();
 
+        comprovarUsuariRegistrat();
+
         //botons tancar sessio i eliminar compte
         binding.mcbTancarSessio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mAuth.signOut();
-                startActivity(new Intent(mContext,MainActivity.class));
-                //getActivity().finishAffinity();
+
+
+                if (mAuth.getCurrentUser() == null) {
+                    MyUtils.toast(mContext, "No estas registrat");
+                } else {
+
+                    mAuth.signOut();
+                    startActivity(new Intent(mContext, MainActivity.class));
+                    //getActivity().finishAffinity();
+                }
+            }
+        });
+
+        binding.mcbEliminarCompte.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mAuth.getCurrentUser() == null) {
+                    MyUtils.toast(mContext, "No estas registrat");
+                } else {
+                    //mAuth.signOut();
+                    //startActivity(new Intent(mContext,MainActivity.class));
+                    //getActivity().finishAffinity();
+                }
+
             }
         });
 
     }
+    private void comprovarUsuariRegistrat() {
+        if (mAuth.getCurrentUser() == null) {
+            // Usuari no registrat, desactivar tancar i eliminar sessio
+            binding.mcbTancarSessio.setEnabled(false);
+            binding.mcbEliminarCompte.setEnabled(false);
+        } else {
+            // Usuari registrat, activar tancar i eliminar sessio
+            binding.mcbTancarSessio.setEnabled(true);
+            binding.mcbEliminarCompte.setEnabled(true);
+        }
+    }
+
 
     private void logout() {
         mAuth.signOut();
-        irMain();
+        anarMain();
     }
 
-    private void irMain() {
+    private void anarMain() {
         Intent intent = new Intent(getActivity(), ConfiguracioFragment.class);
         startActivity(intent);
         getActivity().finish();
     }
 
-    @Override
+   /* @Override
     public void onStart() {
         super.onStart();
         FirebaseUser user = mAuth.getCurrentUser();
         if (user == null) {
-            irMain();
+            anarMain();
         }
-    }
+    }*/
 }
 /*
 public class ConfiguracioFragment extends PreferenceFragmentCompat {
