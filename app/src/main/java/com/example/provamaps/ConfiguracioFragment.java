@@ -24,6 +24,7 @@ public class ConfiguracioFragment extends Fragment {
     private FragmentConfiguracioBinding binding;
     private static final String TAG = "CONFIGURACIO_TAG";
     private Context mContext;
+    private boolean modeClar = true;
 private ProgressDialog progressDialog;
 
     @Override
@@ -102,7 +103,32 @@ private ProgressDialog progressDialog;
             }
         });
 
+        binding.mcbCanviModeColor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                modeClar = !modeClar;
+
+                // Update the button based on the new state
+                canviMode();
+
+            }
+
+
+        });
+
     }
+
+    private void canviMode() {
+        //Mirar segons com estigui lapp, no a partir de la variable. Canvair al posar els colors
+        if (modeClar) {
+            binding.tvModeApp.setText("Canviar a mode fosc");
+            binding.tvModeApp.setCompoundDrawablesWithIntrinsicBounds(R.drawable.icona_mode_clar, 0, 0, 0);
+        } else {
+            binding.tvModeApp.setText("Canviar a mode clar");
+            binding.tvModeApp.setCompoundDrawablesWithIntrinsicBounds(R.drawable.icona_mode_fosc, 0, 0, 0);
+        }
+    }
+
     private void comprovarUsuariRegistrat() {
         if (mAuth.getCurrentUser() == null) {
             // Usuari no registrat, desactivar tancar i eliminar sessio

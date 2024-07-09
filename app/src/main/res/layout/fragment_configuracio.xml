@@ -13,41 +13,79 @@
     android:gravity="center"
     android:orientation="vertical">
 
+
+
+
+
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="20dp" />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="adadsd"
+        android:text="Aparença"
         android:textColor="@color/black"
-        android:textSize="26dp"
-        android:layout_marginBottom="30dp"/>
-
-    <Button
-        android:id="@+id/btntancarsessio"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="Tancar sessio"/>
+        style="@style/TextAppearance.Material3.TitleMedium"
+        android:textSize="20dp"
+        android:layout_marginBottom="10dp"/>
 
     <com.google.android.material.card.MaterialCardView
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_margin="2dp"
         app:cardCornerRadius="8dp"
+        android:id="@+id/mcb_canvi_mode_color"
         app:contentPadding="15dp">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Tancar sessió"
+            android:id="@+id/tv_mode_app"
+            android:text="Canviar a mode fosc"
+            android:textSize="16dp"
             android:gravity="center_vertical"
-            android:drawableStart="@drawable/icona_tancar_sessio"
+            android:drawableStart="@drawable/icona_mode_clar"
+            android:drawablePadding="10dp"/>
+    </com.google.android.material.card.MaterialCardView>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="6dp" />
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="2dp"
+        app:cardCornerRadius="8dp"
+        android:id="@+id/mcb_canvi_idioma"
+        app:contentPadding="15dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Canviar l'idioma"
+            android:textSize="16dp"
+            android:gravity="center_vertical"
+            android:drawableStart="@drawable/icona_idioma"
             android:drawableEnd="@drawable/icona_seguent"
             android:drawablePadding="10dp"/>
     </com.google.android.material.card.MaterialCardView>
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="16dp" />
+        android:layout_height="50dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sessió de Google"
+        android:textColor="@color/black"
+        style="@style/TextAppearance.Material3.TitleMedium"
+        android:textSize="20dp"
+        android:layout_marginBottom="10dp"/>
 
     <com.google.android.material.card.MaterialCardView
         android:layout_width="300dp"
@@ -62,6 +100,7 @@
             android:layout_height="wrap_content"
             android:text="Tancar sessió"
             android:gravity="center_vertical"
+            android:textSize="16dp"
             android:drawableStart="@drawable/icona_tancar_sessio"
             android:drawableEnd="@drawable/icona_seguent"
             android:drawablePadding="10dp"/>
@@ -82,12 +121,47 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textSize="16dp"
             android:text="Eliminar compte"
             android:gravity="center_vertical"
             android:drawableStart="@drawable/icona_prohibit"
             android:drawableEnd="@drawable/icona_seguent"
             android:drawablePadding="10dp"/>
     </com.google.android.material.card.MaterialCardView>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="50dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Altres"
+        android:textColor="@color/black"
+        style="@style/TextAppearance.Material3.TitleMedium"
+        android:textSize="20dp"
+        android:layout_marginBottom="10dp"/>
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="2dp"
+        app:cardCornerRadius="8dp"
+        android:id="@+id/mcb_faqs"
+        app:contentPadding="15dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="FAQ's"
+            android:gravity="center_vertical"
+            android:textSize="16dp"
+            android:drawableStart="@drawable/icona_informacio"
+            android:drawableEnd="@drawable/icona_seguent"
+            android:drawablePadding="10dp"/>
+    </com.google.android.material.card.MaterialCardView>
+
+
 
 
 </LinearLayout>
