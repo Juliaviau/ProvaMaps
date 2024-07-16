@@ -7,14 +7,14 @@
     android:layout_height="match_parent">
 
     <!-- Fragmento del mapa -->
-    <androidx.fragment.app.FragmentContainerView
+    <!--androidx.fragment.app.FragmentContainerView
         android:id="@+id/mapFragment"
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
         app:layout_constraintTop_toTopOf="parent"
-        tools:layout="@layout/support_simple_spinner_dropdown_item" />
+        tools:layout="@layout/support_simple_spinner_dropdown_item" /-->
 
     <!-- Fragment on es mostraran els fragments -->
     <androidx.fragment.app.FragmentContainerView
@@ -40,4 +40,3 @@
         app:menu="@menu/menu_bottom" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
-

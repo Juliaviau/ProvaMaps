@@ -1,61 +1,52 @@
 package com.example.provamaps;
 
 import android.content.pm.PackageManager;
-import android.location.Location;
+import android.graphics.Rect;
+import android.icu.number.Scale;
+import android.location.GpsStatus;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.navigation.fragment.NavHostFragment;
-import androidx.navigation.ui.NavigationUI;
 
-//import com.google.android.gms.location.FusedLocationProviderClient;
-//import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapView;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.example.provamaps.databinding.FragmentIniciBinding;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.SearchView;
-import android.widget.Toast;
+import org.osmdroid.api.IMapController;
+import org.osmdroid.config.Configuration;
+import org.osmdroid.events.MapListener;
+import org.osmdroid.events.ScrollEvent;
+import org.osmdroid.events.ZoomEvent;
+import org.osmdroid.tileprovider.tilesource.ITileSource;
+import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
+import org.osmdroid.tileprovider.tilesource.XYTileSource;
+import org.osmdroid.util.GeoPoint;
+import org.osmdroid.views.MapView;
+import org.osmdroid.views.overlay.Overlay;
+import org.osmdroid.views.overlay.ScaleBarOverlay;
+import org.osmdroid.views.overlay.compass.CompassOverlay;
+import org.osmdroid.views.overlay.gestures.RotationGestureOverlay;
+import org.osmdroid.views.overlay.gridlines.LatLonGridlineOverlay2;
+import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider;
+import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 
-public class IniciFragment extends Fragment /*implements OnMapReadyCallback*/{
+public class IniciFragment extends Fragment implements MapListener, GpsStatus.Listener {
 
-    /*private MapView mapView;
-    private GoogleMap googleMap;*/
+    private MapView mMap;
+    private IMapController controller;
+    private MyLocationNewOverlay mMyLocationOverlay;
+    private FragmentIniciBinding binding;
+    private static final String TAG = "INICI_TAG";
+    private ScaleBarOverlay mScaleBarOverlay;
 
-   /* private GoogleMap mMap;
-    private SearchView buscadorMapa;
-    private final int FINE_PERMISSION_CODE = 1;
-    Location currentLocation;
-    FusedLocationProviderClient fusedLocationProviderClient;*/
-
-    public IniciFragment() {
-        // Required empty public constructor
-    }
+    public IniciFragment() {}
 
     public static IniciFragment newInstance(String param1, String param2) {
         IniciFragment fragment = new IniciFragment();
-
         return fragment;
     }
 
@@ -63,138 +54,113 @@ public class IniciFragment extends Fragment /*implements OnMapReadyCallback*/{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            /*fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(requireActivity());
-            getLastLocation();*/
-
+            // Handle arguments if any
         }
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_inici, container, false);
-    }
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        binding = FragmentIniciBinding.inflate(inflater, container, false);
+        View view = binding.getRoot();
 
-/*
-    private void getLastLocation() {
-        if (ActivityCompat.checkSelfPermission(requireActivity(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(requireActivity(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            ActivityCompat.requestPermissions(requireActivity(), new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, FINE_PERMISSION_CODE);
-            return;
-        }
-        Task<Location> task = fusedLocationProviderClient.getLastLocation();
-        task.addOnSuccessListener(new OnSuccessListener<Location>() {
-                                      @Override
-                                      public void onSuccess(Location location) {
-                                          if (location != null) {
-                                              currentLocation = location;
-                                              // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-                                              SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.mapFragment);//deia map
-                                              mapFragment.getMapAsync((OnMapReadyCallback) requireActivity());
-                                          }
-                                      }
-                                  }
-
+        Configuration.getInstance().load(
+                getActivity().getApplicationContext(),
+                getActivity().getSharedPreferences(getString(R.string.app_name), getActivity().MODE_PRIVATE)
         );
-    }
 
-    /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     *
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
-     */
-   /* @Override
-    public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
-        LatLng posicioActual = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(posicioActual,18));
-        MarkerOptions options = new MarkerOptions().position(posicioActual).title("La meva posició");
-        options.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));//color del marcador
-        mMap.addMarker(options);
+        mMap = binding.osmmap;
+        mMap.setTileSource(TileSourceFactory.MAPNIK);
+        mMap.setMultiTouchControls(true);
+        mMap.getLocalVisibleRect(new Rect());
 
-        mMap.getUiSettings().setZoomControlsEnabled(true);
-        mMap.getUiSettings().setCompassEnabled(true);
-        mMap.getUiSettings().setMyLocationButtonEnabled(true);
+        mMyLocationOverlay = new MyLocationNewOverlay(new GpsMyLocationProvider(getActivity()), mMap);
+        controller = mMap.getController();
 
-    }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == FINE_PERMISSION_CODE){
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
-                getLastLocation();
-            } else {
-                Toast.makeText(requireActivity(), "No hi ha permisos de localització, siusplau activa-les.",Toast.LENGTH_SHORT).show();
+        //Brújula a dalt a lesquerra
+        CompassOverlay compassOverlay = new CompassOverlay(getActivity(), mMap);
+        compassOverlay.enableCompass();
+        mMap.getOverlays().add(compassOverlay);
+
+
+        //Rotacio del mapa
+        RotationGestureOverlay mRotationGestureOverlay = new RotationGestureOverlay(getActivity(), mMap);
+        mRotationGestureOverlay.setEnabled(true);
+        mMap.getOverlays().add(mRotationGestureOverlay);
+
+
+
+        final DisplayMetrics dm = getActivity().getResources().getDisplayMetrics();
+        mScaleBarOverlay = new ScaleBarOverlay(mMap);
+        mScaleBarOverlay.setCentred(true);
+        mScaleBarOverlay.setScaleBarOffset(dm.widthPixels / 2, 80);
+        mMap.getOverlays().add(this.mScaleBarOverlay);
+        mMap.setTileSource(TileSourceFactory.USGS_SAT);
+
+
+
+
+
+
+
+        GeoPoint startPoint = new GeoPoint(41.964109, 2.829905); // Default to Eiffel Tower
+        controller.setCenter(startPoint);
+
+        mMyLocationOverlay.enableMyLocation();
+        mMyLocationOverlay.enableFollowLocation();
+        mMyLocationOverlay.setDrawAccuracyEnabled(true);
+
+        mMyLocationOverlay.runOnFirstFix(new Runnable() {
+            @Override
+            public void run() {
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        controller.setCenter(mMyLocationOverlay.getMyLocation());
+                        controller.animateTo(mMyLocationOverlay.getMyLocation());
+                    }
+                });
             }
-        }
-    }
-*/
+        });
 
+        controller.setZoom(20.0);
 
-    /*@Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+        Log.e(TAG, "onCreate:in " + controller.zoomIn());
+        Log.e(TAG, "onCreate: out  " + controller.zoomOut());
 
-        View rootView = inflater.inflate(R.layout.fragment_inici, container, false);
+        mMap.getOverlays().add(mMyLocationOverlay);
+        mMap.addMapListener(this);
 
-        mapView = rootView.findViewById(R.id.mapView);
-        mapView.onCreate(savedInstanceState);
-        mapView.onResume(); // needed to get the map to display immediately
-        mapView.getMapAsync(this);
-
-        return rootView;
-
-
-        // Inflate the layout for this fragment
-        //return inflater.inflate(R.layout.fragment_perfil, container, false);
+        return view;
     }
 
     @Override
-    public void onMapReady(GoogleMap map) {
-        googleMap = map;
-
-        // Añadir un marcador en una ubicación específica
-        LatLng sydney = new LatLng(-34.0, 151.0);
-        googleMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-
-        // Mover la cámara al marcador
-        googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+    public boolean onScroll(ScrollEvent event) {
+        Log.e(TAG, "onCreate:la " + (event.getSource().getMapCenter() != null ? event.getSource().getMapCenter().getLatitude() : "null"));
+        Log.e(TAG, "onCreate:lo " + (event.getSource().getMapCenter() != null ? event.getSource().getMapCenter().getLongitude() : "null"));
+        return true;
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        mapView.onResume();
+    public boolean onZoom(ZoomEvent event) {
+        Log.e(TAG, "onZoom zoom level: " + (event != null ? event.getZoomLevel() : "null") + "   source:  " + event.getSource());
+        return false;
     }
 
     @Override
-    public void onPause() {
+    public void onGpsStatusChanged(int event) {
+        // TODO: Implement GPS status changes
+    }
+
+    @Override
+    public void onPause () {
         super.onPause();
-        mapView.onPause();
+        mMap.onPause();
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-        mapView.onDestroy();
+    public void onResume () {
+        super.onResume();
+        mMap.onResume();
     }
-
-    @Override
-    public void onLowMemory() {
-        super.onLowMemory();
-        mapView.onLowMemory();
-    }*/
 }

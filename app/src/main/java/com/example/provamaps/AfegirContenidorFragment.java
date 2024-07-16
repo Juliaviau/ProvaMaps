@@ -25,7 +25,6 @@ public class AfegirContenidorFragment extends Fragment {
     Uri uriImatge;
     ImageView imatgeContenidor;
 
-
     ActivityResultLauncher<Uri> contract = registerForActivityResult(new ActivityResultContracts.TakePicture(), result -> {
         imatgeContenidor.setImageURI(null);
         imatgeContenidor.setImageURI(uriImatge);

@@ -140,6 +140,34 @@
     </string>
 
     <string name="usuari">Usuari</string>
+
+    <string name="nom_usuari">Nom usuari</string>
+    <string name="correu_usuari">nomusuari@gmail.com</string>
+    <string name="continuar">Continuar</string>
+    <string name="benvingut">Benvingut</string>
+    <string name="aparenca">Aparença</string>
+    <string name="canvi_idioma">Canviar l\'idioma</string>
+    <string name="sessio_google">Sessió de Google</string>
+    <string name="tancar_sessio">Tancar sessió</string>
+    <string name="eliminar_compte">Eliminar compte</string>
+    <string name="canvi_mode_fosc">Canviar a mode fosc</string>
+
+
+    <string name="altres">Altres</string>
+    <string name="faqs">FAQ\'s</string>
+    <string name="a">Aparença</string>
+    <string name="ap">Aparença</string>
+    <string name="apa">Aparença</string>
+    <string name="apar">Aparença</string>
+    <string name="apare">Aparença</string>
+    <string name="aparen">Aparença</string>
+
+
+
+
+
+
+
     <string name="contrasenya">Contrasenya</string>
 
     <string name="entrar">Entrar</string>

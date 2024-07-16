@@ -13,12 +13,6 @@
     android:gravity="center"
     android:orientation="vertical">
 
-
-
-
-
-
-
     <View
         android:layout_width="match_parent"
         android:layout_height="20dp" />
@@ -26,7 +20,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Aparença"
+        android:text="@string/aparenca"
         android:textColor="@color/black"
         style="@style/TextAppearance.Material3.TitleMedium"
         android:textSize="20dp"
@@ -44,7 +38,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/tv_mode_app"
-            android:text="Canviar a mode fosc"
+            android:text="@string/canvi_mode_fosc"
             android:textSize="16dp"
             android:gravity="center_vertical"
             android:drawableStart="@drawable/icona_mode_clar"
@@ -66,7 +60,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Canviar l'idioma"
+            android:text="@string/canvi_idioma"
             android:textSize="16dp"
             android:gravity="center_vertical"
             android:drawableStart="@drawable/icona_idioma"
@@ -81,7 +75,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Sessió de Google"
+        android:text="@string/sessio_google"
         android:textColor="@color/black"
         style="@style/TextAppearance.Material3.TitleMedium"
         android:textSize="20dp"
@@ -98,7 +92,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Tancar sessió"
+            android:text="@string/tancar_sessio"
             android:gravity="center_vertical"
             android:textSize="16dp"
             android:drawableStart="@drawable/icona_tancar_sessio"
@@ -122,7 +116,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="16dp"
-            android:text="Eliminar compte"
+            android:text="@string/eliminar_compte"
             android:gravity="center_vertical"
             android:drawableStart="@drawable/icona_prohibit"
             android:drawableEnd="@drawable/icona_seguent"
@@ -136,7 +130,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Altres"
+        android:text="@string/altres"
         android:textColor="@color/black"
         style="@style/TextAppearance.Material3.TitleMedium"
         android:textSize="20dp"
@@ -153,7 +147,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="FAQ's"
+            android:text="@string/faqs"
             android:gravity="center_vertical"
             android:textSize="16dp"
             android:drawableStart="@drawable/icona_informacio"
@@ -161,10 +155,5 @@
             android:drawablePadding="10dp"/>
     </com.google.android.material.card.MaterialCardView>
 
-
-
-
 </LinearLayout>
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>
