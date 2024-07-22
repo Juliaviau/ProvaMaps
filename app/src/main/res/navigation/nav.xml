@@ -38,7 +38,14 @@
         android:id="@+id/pagina_afegir_font"
         android:name="com.example.provamaps.AfegirFontFragment"
         android:label="Afegir Font"
-        tools:layout="@layout/fragment_afegir_font" />
+        tools:layout="@layout/fragment_afegir_font" >
+        <argument
+            android:name="latitud"
+            app:argType="float" />
+        <argument
+            android:name="longitud"
+            app:argType="float" />
+    </fragment>
 
     <fragment
         android:id="@+id/pagina_afegir_contenidor"

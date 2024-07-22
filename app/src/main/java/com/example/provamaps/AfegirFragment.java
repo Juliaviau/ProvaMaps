@@ -1,15 +1,32 @@
 package com.example.provamaps;
 
 import android.app.Dialog;
+import android.content.pm.PackageManager;
+import android.location.Location;
 import android.os.Bundle;
 
 import androidx.cardview.widget.CardView;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.example.provamaps.databinding.FragmentAfegirBinding;
+import com.example.provamaps.databinding.FragmentIniciBinding;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+
+import org.checkerframework.checker.nullness.qual.NonNull;
+
+import android.Manifest;
+
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -18,7 +35,12 @@ import android.view.ViewGroup;
  */
 public class AfegirFragment extends Fragment {
 
+    private FragmentAfegirBinding binding;
+    double latitud = 10.5, longitud;
     Dialog dialog;
+    private FusedLocationProviderClient fusedLocationClient;
+    private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
+
 
     public AfegirFragment() {
         // Required empty public constructor
@@ -44,34 +66,54 @@ public class AfegirFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_afegir, container, false);
 
-        CardView cardViewFont = rootView.findViewById(R.id.cardview_font);
-        cardViewFont.setOnClickListener(new View.OnClickListener() {
+
+        binding = FragmentAfegirBinding.inflate(inflater, container, false);
+        View view = binding.getRoot();
+
+
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(getActivity());
+
+        obtenirPosicio();
+        
+        //CardView cardViewFont = view.findViewById(R.id.cardview_font);
+        binding.cardviewFont.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Navigation.findNavController(v).navigate(R.id.pagina_afegir_font);
+
+
+                Bundle bundle = new Bundle();
+                MyUtils.toast(getActivity(),"lat a afegir: " + (float) latitud);
+                bundle.putFloat("latitud", (float) latitud);
+                bundle.putFloat("longitud", (float) longitud);
+                Navigation.findNavController(v).navigate(R.id.pagina_afegir_font,bundle);
+
+               // bundle.putString("lat", "aaaa");
+               // bundle.putString("lon", "bbbb");
+              //  getParentFragmentManager().setFragmentResult("clau",bundle);
+
+
             }
         });
 
-        CardView cardViewContenidor = rootView.findViewById(R.id.cardview_contenidor);
-        cardViewContenidor.setOnClickListener(new View.OnClickListener() {
+        //CardView cardViewContenidor = view.findViewById(R.id.cardview_contenidor);
+        binding.cardviewContenidor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Navigation.findNavController(v).navigate(R.id.pagina_afegir_contenidor);
             }
         });
 
-        CardView cardViewLavabo = rootView.findViewById(R.id.cardview_lavabo);
-        cardViewLavabo.setOnClickListener(new View.OnClickListener() {
+        //CardView cardViewLavabo = view.findViewById(R.id.cardview_lavabo);
+        binding.cardviewLavabo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Navigation.findNavController(v).navigate(R.id.pagina_afegir_lavabo);
             }
         });
 
-        CardView cardViewPicnic = rootView.findViewById(R.id.cardview_picnic);
-        cardViewPicnic.setOnClickListener(new View.OnClickListener() {
+        //CardView cardViewPicnic = view.findViewById(R.id.cardview_picnic);
+        binding.cardviewPicnic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Navegar al nuevo fragmento al hacer clic en el CardView
@@ -79,6 +121,44 @@ public class AfegirFragment extends Fragment {
             }
         });
 
-        return rootView;
+        return view;
     }
+
+    private void obtenirPosicio() {
+
+        if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            fusedLocationClient.getLastLocation()
+                    .addOnCompleteListener(new OnCompleteListener<Location>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Location> task) {
+                            if (task.isSuccessful() && task.getResult() != null) {
+                                Location location = task.getResult();
+                                latitud = location.getLatitude();
+                                longitud = location.getLongitude();
+                                String mensaje = "Latitud: " + latitud + "                   Longitud: " + longitud;
+                                binding.textCoordenadesAfegir.setText(mensaje);
+                            } else {
+                                binding.textCoordenadesAfegir.setText("Ubicació no disponible");
+                            }
+                        }
+                    });
+        } else {
+            //demana permisos
+            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+        }
+    }
+
+
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                obtenirPosicio();
+            } else {
+                MyUtils.toast(getActivity(),"No s'ha donat permis d'ubicació");
+            }
+        }
+    }
+
+
 }

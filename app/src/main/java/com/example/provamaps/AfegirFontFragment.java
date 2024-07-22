@@ -7,6 +7,8 @@ import android.os.Bundle;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.PickVisualMediaRequest;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -21,6 +23,10 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.activity.result.contract.ActivityResultContracts.*;
+import androidx.fragment.app.FragmentResultListener;
+
+import com.example.provamaps.databinding.FragmentAfegirFontBinding;
+import com.example.provamaps.databinding.FragmentIniciBinding;
 
 import java.io.File;
 import java.net.URI;
@@ -29,6 +35,7 @@ public class AfegirFontFragment extends Fragment {
 
     Uri uriImatge;
     ImageView imatgeFont;
+    private FragmentAfegirFontBinding binding;
 
     ActivityResultLauncher<Uri> contract = registerForActivityResult(new ActivityResultContracts.TakePicture(), result -> {
         imatgeFont.setImageURI(null);
@@ -54,16 +61,20 @@ public class AfegirFontFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-        }
+
+
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View rootView = inflater.inflate(R.layout.fragment_afegir_font, container, false);
-        Button closeButton = rootView.findViewById(R.id.boto_tancar_afegir_font);
+        binding = FragmentAfegirFontBinding.inflate(inflater, container, false);
+        View view = binding.getRoot();
+
+
+        Button closeButton = view.findViewById(R.id.boto_tancar_afegir_font);
         closeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -71,12 +82,24 @@ public class AfegirFontFragment extends Fragment {
             }
         });
 
+
+        /*if (getArguments() != null) {
+            //Float lat = getArguments().getFloat("latitud");
+            binding.textLatitud.setText(getArguments().getFloat("latitud") + " adada ");
+            MyUtils.toast(getActivity(), String.valueOf(getArguments().getFloat("latitud")));
+        } else {
+            binding.textLatitud.setText(" nope ");
+
+        }*/
+
+
+
         Context context = requireContext();
         uriImatge = createImageUri(context);
 
-        imatgeFont = rootView.findViewById(R.id.iv_imatgeAfegirFont);
+        imatgeFont = view.findViewById(R.id.iv_imatgeAfegirFont);
 
-        Button botoFerFoto = rootView.findViewById(R.id.boto_ferFotoFont);
+        Button botoFerFoto = view.findViewById(R.id.boto_ferFotoFont);
         botoFerFoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -88,7 +111,7 @@ public class AfegirFontFragment extends Fragment {
             }
         });
 
-        Button botoAfegirImatge = rootView.findViewById(R.id.boto_afegirImatgeFont);
+        Button botoAfegirImatge = view.findViewById(R.id.boto_afegirImatgeFont);
         botoAfegirImatge.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view)             {
@@ -98,7 +121,10 @@ public class AfegirFontFragment extends Fragment {
             }
         });
 
-        return rootView;
+
+
+
+        return view;
     }
 
     ActivityResultLauncher<PickVisualMediaRequest> escullImatgeGaleria =
@@ -133,6 +159,22 @@ public class AfegirFontFragment extends Fragment {
         if (getActivity() instanceof MainActivity) {
             MainActivity mainActivity = (MainActivity) getActivity();
             mainActivity.mostrarBottomMenu();
+        }
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        if (getArguments() != null) {
+            float latitud = getArguments().getFloat("latitud", 0.0f);
+            float longitud = getArguments().getFloat("longitud", 0.0f);
+
+            binding.textLatitud.setText(latitud + " adada ");
+            MyUtils.toast(getActivity(), latitud + " latit");
+            MyUtils.toast(getActivity(), longitud + " long");
+        } else {
+            binding.textLatitud.setText("nope");
         }
     }
 }

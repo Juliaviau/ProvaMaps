@@ -1,8 +1,6 @@
 package com.example.provamaps;
 
-import android.content.pm.PackageManager;
 import android.graphics.Rect;
-import android.icu.number.Scale;
 import android.location.GpsStatus;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -10,27 +8,19 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
-
 import com.example.provamaps.databinding.FragmentIniciBinding;
-
 import org.osmdroid.api.IMapController;
 import org.osmdroid.config.Configuration;
 import org.osmdroid.events.MapListener;
 import org.osmdroid.events.ScrollEvent;
 import org.osmdroid.events.ZoomEvent;
-import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
-import org.osmdroid.tileprovider.tilesource.XYTileSource;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
-import org.osmdroid.views.overlay.Overlay;
 import org.osmdroid.views.overlay.ScaleBarOverlay;
 import org.osmdroid.views.overlay.compass.CompassOverlay;
 import org.osmdroid.views.overlay.gestures.RotationGestureOverlay;
-import org.osmdroid.views.overlay.gridlines.LatLonGridlineOverlay2;
 import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider;
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 
@@ -68,42 +58,36 @@ public class IniciFragment extends Fragment implements MapListener, GpsStatus.Li
                 getActivity().getSharedPreferences(getString(R.string.app_name), getActivity().MODE_PRIVATE)
         );
 
+        //TODO: pregunti per ubicacio,si no hi ha, que comenci a unes cordenades en concret
+
         mMap = binding.osmmap;
         mMap.setTileSource(TileSourceFactory.MAPNIK);
         mMap.setMultiTouchControls(true);
         mMap.getLocalVisibleRect(new Rect());
 
+        //Posicio actual
         mMyLocationOverlay = new MyLocationNewOverlay(new GpsMyLocationProvider(getActivity()), mMap);
         controller = mMap.getController();
-
 
         //Brújula a dalt a lesquerra
         CompassOverlay compassOverlay = new CompassOverlay(getActivity(), mMap);
         compassOverlay.enableCompass();
         mMap.getOverlays().add(compassOverlay);
 
-
         //Rotacio del mapa
         RotationGestureOverlay mRotationGestureOverlay = new RotationGestureOverlay(getActivity(), mMap);
         mRotationGestureOverlay.setEnabled(true);
         mMap.getOverlays().add(mRotationGestureOverlay);
 
-
-
+        //Linia d'escala del mapa
         final DisplayMetrics dm = getActivity().getResources().getDisplayMetrics();
         mScaleBarOverlay = new ScaleBarOverlay(mMap);
         mScaleBarOverlay.setCentred(true);
         mScaleBarOverlay.setScaleBarOffset(dm.widthPixels / 2, 80);
         mMap.getOverlays().add(this.mScaleBarOverlay);
-        mMap.setTileSource(TileSourceFactory.USGS_SAT);
+       // mMap.setTileSource(TileSourceFactory.USGS_SAT);
 
-
-
-
-
-
-
-        GeoPoint startPoint = new GeoPoint(41.964109, 2.829905); // Default to Eiffel Tower
+        GeoPoint startPoint = new GeoPoint(41.964109, 2.829905);
         controller.setCenter(startPoint);
 
         mMyLocationOverlay.enableMyLocation();
@@ -123,27 +107,28 @@ public class IniciFragment extends Fragment implements MapListener, GpsStatus.Li
             }
         });
 
-        controller.setZoom(20.0);
+        controller.setZoom(18.0);
 
-        Log.e(TAG, "onCreate:in " + controller.zoomIn());
-        Log.e(TAG, "onCreate: out  " + controller.zoomOut());
+        Log.e(TAG, "Al fer zoom in " + controller.zoomIn());
+        Log.e(TAG, "Al fer zoom out  " + controller.zoomOut());
 
         mMap.getOverlays().add(mMyLocationOverlay);
         mMap.addMapListener(this);
+
 
         return view;
     }
 
     @Override
     public boolean onScroll(ScrollEvent event) {
-        Log.e(TAG, "onCreate:la " + (event.getSource().getMapCenter() != null ? event.getSource().getMapCenter().getLatitude() : "null"));
-        Log.e(TAG, "onCreate:lo " + (event.getSource().getMapCenter() != null ? event.getSource().getMapCenter().getLongitude() : "null"));
+        Log.e(TAG, "onScroll:la " + (event.getSource().getMapCenter() != null ? event.getSource().getMapCenter().getLatitude() : "null"));
+        Log.e(TAG, "onScroll:lo " + (event.getSource().getMapCenter() != null ? event.getSource().getMapCenter().getLongitude() : "null"));
         return true;
     }
 
     @Override
     public boolean onZoom(ZoomEvent event) {
-        Log.e(TAG, "onZoom zoom level: " + (event != null ? event.getZoomLevel() : "null") + "   source:  " + event.getSource());
+        Log.e(TAG, "onZoom: " + (event != null ? event.getZoomLevel() : "null") + "   source:  " + event.getSource());
         return false;
     }
 
@@ -164,3 +149,4 @@ public class IniciFragment extends Fragment implements MapListener, GpsStatus.Li
         mMap.onResume();
     }
 }
+
