@@ -1,16 +1,22 @@
 package com.example.provamaps;
 
 import android.content.Context;
+import android.location.Address;
+import android.location.Geocoder;
 import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.PickVisualMediaRequest;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,11 +25,22 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.example.provamaps.databinding.FragmentAfegirContenidorBinding;
+import com.example.provamaps.databinding.FragmentAfegirFontBinding;
+import com.squareup.picasso.Picasso;
+
 import java.io.File;
+import java.io.IOException;
+import java.util.List;
+import java.util.Locale;
 
 public class AfegirContenidorFragment extends Fragment {
     Uri uriImatge;
     ImageView imatgeContenidor;
+    private FragmentAfegirContenidorBinding binding;
+    private float latitud, longitud;
+    private Geocoder geocoder;
+    private List<Address> adreca;
 
     ActivityResultLauncher<Uri> contract = registerForActivityResult(new ActivityResultContracts.TakePicture(), result -> {
         imatgeContenidor.setImageURI(null);
@@ -58,8 +75,11 @@ public class AfegirContenidorFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_afegir_contenidor, container, false);
-        Button closeButton = rootView.findViewById(R.id.boto_tancar_afegir_contenidor);
+
+        binding = FragmentAfegirContenidorBinding.inflate(inflater, container, false);
+        View view = binding.getRoot();
+
+        Button closeButton = view.findViewById(R.id.boto_tancar_afegir_contenidor);
         closeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -70,9 +90,9 @@ public class AfegirContenidorFragment extends Fragment {
         Context context = requireContext();
         uriImatge = createImageUri(context);
 
-        imatgeContenidor = rootView.findViewById(R.id.iv_imatgeAfegirContenidor);
+        imatgeContenidor = view.findViewById(R.id.iv_imatgeAfegirContenidor);
 
-        Button botoFerFoto = rootView.findViewById(R.id.boto_ferFotoContenidor);
+        Button botoFerFoto = view.findViewById(R.id.boto_ferFotoContenidor);
         botoFerFoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -84,7 +104,7 @@ public class AfegirContenidorFragment extends Fragment {
             }
         });
 
-        Button botoAfegirImatge = rootView.findViewById(R.id.boto_afegirImatgeContenidor);
+        Button botoAfegirImatge = view.findViewById(R.id.boto_afegirImatgeContenidor);
         botoAfegirImatge.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view)             {
@@ -94,7 +114,7 @@ public class AfegirContenidorFragment extends Fragment {
             }
         });
 
-        return rootView;
+        return view;
     }
 
     ActivityResultLauncher<PickVisualMediaRequest> escullImatgeGaleria =
@@ -106,11 +126,6 @@ public class AfegirContenidorFragment extends Fragment {
                     Log.d("TriaImatge", "No s'ha seleccionat cap imatge");
                 }
             });
-
-
-
-
-
 
     private void tancarFragment() {
         FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
@@ -135,5 +150,82 @@ public class AfegirContenidorFragment extends Fragment {
             MainActivity mainActivity = (MainActivity) getActivity();
             mainActivity.mostrarBottomMenu();
         }
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        geocoder = new Geocoder(getActivity(), Locale.getDefault());
+
+        if (getArguments() != null) {
+            latitud = getArguments().getFloat("latitud", 0.0f);
+            longitud = getArguments().getFloat("longitud", 0.0f);
+
+            binding.textLatitudContenidor.setText(latitud+"");
+            binding.textLongitudContenidor.setText(longitud+"");
+
+            obtenirAdreca();
+
+        }
+
+        binding.textLongitudContenidor.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(binding.textLongitudContenidor.getText().length() >= 0) {
+                    obtenirAdreca();
+                }
+            }
+        });
+
+        binding.textLatitudContenidor.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (binding.textLatitudContenidor.getText().length() >= 0){     obtenirAdreca();
+                }
+            }
+        });
+
+    }
+
+    private void obtenirAdreca () {
+
+        double lat = Double.parseDouble(binding.textLatitudContenidor.getText().toString());
+        double lon = Double.parseDouble(binding.textLongitudContenidor.getText().toString());
+        try {
+            adreca = geocoder.getFromLocation(lat, lon, 1); // 1 representa la cantidad de resultados a obtener
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        String poblacio = adreca.get(0).getLocality();
+        String provincia = adreca.get(0).getAdminArea();
+        String pais = adreca.get(0).getCountryName();
+        String numero = adreca.get(0).getFeatureName();
+        String comarca = adreca.get(0).getSubAdminArea();
+        String carrer = adreca.get(0).getThoroughfare();
+
+        binding.textAdrecaContenidor.setText(carrer + ", " + numero + ", " + poblacio + ", " + comarca + ", " + provincia + ", " + pais);
+
+        //Foto del mapa
+        //Mapa normal
+        //String url = "https://static-maps.yandex.ru/1.x/?lang=en-US&ll=" + longitud + "," + latitud + "&z=" + 16 + "&size=" + width + "," + height + "&l=map&pt=" + longitud + "," + latitud + ",pm2rdl";
+
+        //Mapa satelit
+        String url = "https://static-maps.yandex.ru/1.x/?lang=en-US&ll=" + lon + "," + lat + "&z=" + 18 + "&size=" + 440 + "," + 310 + "&l=sat&pt=" + lon + "," + lat + ",pm2rdl";
+
+        Picasso.get().load(url).into(binding.ivMapaLocalitzacioAfegirContenidor);
     }
 }

@@ -26,6 +26,15 @@
         <action
             android:id="@+id/pagina_afegir_a_pagina_afegir_font"
             app:destination="@id/pagina_afegir_font" />
+        <action
+            android:id="@+id/pagina_afegir_a_pagina_afegir_contenidor"
+            app:destination="@id/pagina_afegir_contenidor" />
+        <action
+            android:id="@+id/pagina_afegir_a_pagina_afegir_lavabo"
+            app:destination="@id/pagina_afegir_lavabo" />
+        <action
+            android:id="@+id/pagina_afegir_a_pagina_afegir_picnic"
+            app:destination="@id/pagina_afegir_picnic" />
     </fragment>
 
     <!--fragment
@@ -51,19 +60,40 @@
         android:id="@+id/pagina_afegir_contenidor"
         android:name="com.example.provamaps.AfegirContenidorFragment"
         android:label="Afegir Contenidor"
-        tools:layout="@layout/fragment_afegir_contenidor" />
+        tools:layout="@layout/fragment_afegir_contenidor">
+        <argument
+            android:name="longitud"
+            app:argType="float" />
+        <argument
+            android:name="latitud"
+            app:argType="float" />
+    </fragment>
 
     <fragment
         android:id="@+id/pagina_afegir_lavabo"
         android:name="com.example.provamaps.AfegirLavaboFragment"
         android:label="Afegir Lavabo"
-        tools:layout="@layout/fragment_afegir_lavabo" />
+        tools:layout="@layout/fragment_afegir_lavabo">
+        <argument
+            android:name="longitud"
+            app:argType="float" />
+        <argument
+            android:name="latitud"
+            app:argType="float" />
+    </fragment>
 
     <fragment
         android:id="@+id/pagina_afegir_picnic"
         android:name="com.example.provamaps.AfegirPicnicFragment"
         android:label="Afegir Picnic"
-        tools:layout="@layout/fragment_afegir_picnic" />
+        tools:layout="@layout/fragment_afegir_picnic">
+        <argument
+            android:name="longitud"
+            app:argType="float" />
+        <argument
+            android:name="latitud"
+            app:argType="float" />
+    </fragment>
 
     <fragment
         android:id="@+id/pagina_configuracio"

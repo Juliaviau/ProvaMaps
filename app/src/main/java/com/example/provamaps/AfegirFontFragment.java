@@ -1,6 +1,8 @@
 package com.example.provamaps;
 
 import android.content.Context;
+import android.location.Address;
+import android.location.Geocoder;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -14,6 +16,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import android.os.Environment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,16 +31,22 @@ import androidx.fragment.app.FragmentResultListener;
 
 import com.example.provamaps.databinding.FragmentAfegirFontBinding;
 import com.example.provamaps.databinding.FragmentIniciBinding;
+import com.squareup.picasso.Picasso;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URI;
+import java.util.List;
+import java.util.Locale;
 
 public class AfegirFontFragment extends Fragment {
 
     Uri uriImatge;
     ImageView imatgeFont;
     private FragmentAfegirFontBinding binding;
-
+    private float latitud, longitud;
+    private Geocoder geocoder;
+    private List<Address> adreca;
     ActivityResultLauncher<Uri> contract = registerForActivityResult(new ActivityResultContracts.TakePicture(), result -> {
         imatgeFont.setImageURI(null);
         imatgeFont.setImageURI(uriImatge);
@@ -61,9 +71,6 @@ public class AfegirFontFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
-
     }
 
     @Override
@@ -81,18 +88,6 @@ public class AfegirFontFragment extends Fragment {
                 tancarFragment();
             }
         });
-
-
-        /*if (getArguments() != null) {
-            //Float lat = getArguments().getFloat("latitud");
-            binding.textLatitud.setText(getArguments().getFloat("latitud") + " adada ");
-            MyUtils.toast(getActivity(), String.valueOf(getArguments().getFloat("latitud")));
-        } else {
-            binding.textLatitud.setText(" nope ");
-
-        }*/
-
-
 
         Context context = requireContext();
         uriImatge = createImageUri(context);
@@ -120,9 +115,6 @@ public class AfegirFontFragment extends Fragment {
                         .build());
             }
         });
-
-
-
 
         return view;
     }
@@ -166,15 +158,81 @@ public class AfegirFontFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        if (getArguments() != null) {
-            float latitud = getArguments().getFloat("latitud", 0.0f);
-            float longitud = getArguments().getFloat("longitud", 0.0f);
+        geocoder = new Geocoder(getActivity(), Locale.getDefault());
 
-            binding.textLatitud.setText(latitud + " adada ");
-            MyUtils.toast(getActivity(), latitud + " latit");
-            MyUtils.toast(getActivity(), longitud + " long");
-        } else {
-            binding.textLatitud.setText("nope");
+        if (getArguments() != null) {
+            latitud = getArguments().getFloat("latitud", 0.0f);
+            longitud = getArguments().getFloat("longitud", 0.0f);
+
+            binding.textLatitudFont.setText(latitud+"");
+            binding.textLongitudFont.setText(longitud+"");
+
+            obtenirAdreca();
+
         }
+
+        binding.textLongitudFont.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(binding.textLongitudFont.getText().length() >= 0) {
+                    obtenirAdreca();
+                }
+            }
+        });
+
+        binding.textLatitudFont.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (binding.textLatitudFont.getText().length() >= 0){     obtenirAdreca();
+                }
+            }
+        });
+
+    }
+
+    private void obtenirAdreca () {
+
+        double lat = Double.parseDouble(binding.textLatitudFont.getText().toString());
+        double lon = Double.parseDouble(binding.textLongitudFont.getText().toString());
+        try {
+            adreca = geocoder.getFromLocation(lat, lon, 1); // 1 representa la cantidad de resultados a obtener
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        String poblacio = adreca.get(0).getLocality();
+        String provincia = adreca.get(0).getAdminArea();
+        String pais = adreca.get(0).getCountryName();
+        String numero = adreca.get(0).getFeatureName();
+        String comarca = adreca.get(0).getSubAdminArea();
+        String carrer = adreca.get(0).getThoroughfare();
+
+        binding.textAdrecaFont.setText(carrer + ", " + numero + ", " + poblacio + ", " + comarca + ", " + provincia + ", " + pais);
+
+        //Foto del mapa
+        //String url = "https://static-maps.yandex.ru/1.x/?lang=en-US&ll=" + longitud + "," + latitud + "&z=" + zoom + "&size=" + width + "," + height + "&l=sat&pt=" + longitud + "," + latitud + ",pm2rdl";
+        //String url = "https://static-maps.yandex.ru/1.x/?lang=es-ES&ll=" + longitud + "," + latitud + "&z=" + zoom + "&size=" + width + "," + height + "&l=sat&pt=" + longitud + "," + latitud + ",pm2rdl";
+        // String url = "https://staticmap.openstreetmap.de/staticmap.php?center=" + latitud + "," + longitud + "&zoom=" + zoom + "&size=" + width + "x" + height + "&maptype=mapnik&markers=" + latitud + "," + longitud + ",red-pushpin";
+        // String url = "https://staticmap.openstreetmap.de/staticmap.php?center=" + latitud + "," + longitud + "&zoom=" + zoom + "&size=" + width + "x" + height + "&maptype=mapnik&markers=" + latitud + "," + longitud + ",red-pushpin";
+
+        //Mapa normal
+        //String url = "https://static-maps.yandex.ru/1.x/?lang=en-US&ll=" + longitud + "," + latitud + "&z=" + 16 + "&size=" + width + "," + height + "&l=map&pt=" + longitud + "," + latitud + ",pm2rdl";
+
+        //Mapa satelit
+        String url = "https://static-maps.yandex.ru/1.x/?lang=en-US&ll=" + lon + "," + lat + "&z=" + 18 + "&size=" + 440 + "," + 310 + "&l=sat&pt=" + lon + "," + lat + ",pm2rdl";
+
+        Picasso.get().load(url).into(binding.ivMapaLocalitzacioAfegirFont);
     }
 }

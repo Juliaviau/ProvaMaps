@@ -71,7 +71,6 @@ public class AfegirFragment extends Fragment {
         binding = FragmentAfegirBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
 
-
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(getActivity());
 
         obtenirPosicio();
@@ -81,18 +80,10 @@ public class AfegirFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-
                 Bundle bundle = new Bundle();
-                MyUtils.toast(getActivity(),"lat a afegir: " + (float) latitud);
                 bundle.putFloat("latitud", (float) latitud);
                 bundle.putFloat("longitud", (float) longitud);
                 Navigation.findNavController(v).navigate(R.id.pagina_afegir_font,bundle);
-
-               // bundle.putString("lat", "aaaa");
-               // bundle.putString("lon", "bbbb");
-              //  getParentFragmentManager().setFragmentResult("clau",bundle);
-
-
             }
         });
 
@@ -100,7 +91,10 @@ public class AfegirFragment extends Fragment {
         binding.cardviewContenidor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Navigation.findNavController(v).navigate(R.id.pagina_afegir_contenidor);
+                Bundle bundle = new Bundle();
+                bundle.putFloat("latitud", (float) latitud);
+                bundle.putFloat("longitud", (float) longitud);
+                Navigation.findNavController(v).navigate(R.id.pagina_afegir_contenidor,bundle);
             }
         });
 
@@ -108,7 +102,10 @@ public class AfegirFragment extends Fragment {
         binding.cardviewLavabo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Navigation.findNavController(v).navigate(R.id.pagina_afegir_lavabo);
+                Bundle bundle = new Bundle();
+                bundle.putFloat("latitud", (float) latitud);
+                bundle.putFloat("longitud", (float) longitud);
+                Navigation.findNavController(v).navigate(R.id.pagina_afegir_lavabo,bundle);
             }
         });
 
@@ -116,8 +113,10 @@ public class AfegirFragment extends Fragment {
         binding.cardviewPicnic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Navegar al nuevo fragmento al hacer clic en el CardView
-                Navigation.findNavController(v).navigate(R.id.pagina_afegir_picnic);
+                Bundle bundle = new Bundle();
+                bundle.putFloat("latitud", (float) latitud);
+                bundle.putFloat("longitud", (float) longitud);
+                Navigation.findNavController(v).navigate(R.id.pagina_afegir_picnic,bundle);
             }
         });
 
@@ -135,10 +134,6 @@ public class AfegirFragment extends Fragment {
                                 Location location = task.getResult();
                                 latitud = location.getLatitude();
                                 longitud = location.getLongitude();
-                                String mensaje = "Latitud: " + latitud + "                   Longitud: " + longitud;
-                                binding.textCoordenadesAfegir.setText(mensaje);
-                            } else {
-                                binding.textCoordenadesAfegir.setText("Ubicació no disponible");
                             }
                         }
                     });

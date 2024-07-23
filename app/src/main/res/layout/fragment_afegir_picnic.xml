@@ -332,6 +332,51 @@
                 android:contentDescription="@string/descripcioImatgeMapa"
                 android:layout_gravity="center_horizontal"/>
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="5dp"
+                android:textStyle="italic"
+                android:textAlignment="center"
+                android:layout_gravity="center"
+                android:paddingHorizontal="15sp"
+                android:text="Adreça no disponible"
+                android:id="@+id/textAdrecaPicnic"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Latitud: " />
+
+                <EditText
+                    android:id="@+id/textLatitudPicnic"
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:inputType="numberDecimal" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:text="Longitud:" />
+
+                <EditText
+                    android:id="@+id/textLongitudPicnic"
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:inputType="numberDecimal" />
+
+            </LinearLayout>
+
+
             <Button
                 android:id="@+id/boto_afegir_afegirPicnic"
                 android:layout_width="wrap_content"

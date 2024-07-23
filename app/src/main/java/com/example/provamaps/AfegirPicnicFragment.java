@@ -1,16 +1,22 @@
 package com.example.provamaps;
 
 import android.content.Context;
+import android.location.Address;
+import android.location.Geocoder;
 import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.PickVisualMediaRequest;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,12 +25,25 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.example.provamaps.databinding.FragmentAfegirContenidorBinding;
+import com.example.provamaps.databinding.FragmentAfegirFontBinding;
+import com.example.provamaps.databinding.FragmentAfegirPicnicBinding;
+import com.squareup.picasso.Picasso;
+
 import java.io.File;
+import java.io.IOException;
+import java.util.List;
+import java.util.Locale;
 
 public class AfegirPicnicFragment extends Fragment {
 
     Uri uriImatge;
     ImageView imatgePicnic;
+
+    private FragmentAfegirPicnicBinding binding;
+    private float latitud, longitud;
+    private Geocoder geocoder;
+    private List<Address> adreca;
 
     ActivityResultLauncher<Uri> contract = registerForActivityResult(new ActivityResultContracts.TakePicture(), result -> {
         imatgePicnic.setImageURI(null);
@@ -58,8 +77,10 @@ public class AfegirPicnicFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_afegir_picnic, container, false);
-        Button closeButton = rootView.findViewById(R.id.boto_tancar_afegir_picnic);
+        binding = FragmentAfegirPicnicBinding.inflate(inflater, container, false);
+        View view = binding.getRoot();
+
+        Button closeButton = view.findViewById(R.id.boto_tancar_afegir_picnic);
         closeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -70,9 +91,9 @@ public class AfegirPicnicFragment extends Fragment {
         Context context = requireContext();
         uriImatge = createImageUri(context);
 
-        imatgePicnic = rootView.findViewById(R.id.iv_imatgeAfegirPicnic);
+        imatgePicnic = view.findViewById(R.id.iv_imatgeAfegirPicnic);
 
-        Button botoFerFoto = rootView.findViewById(R.id.boto_ferFotoPicnic);
+        Button botoFerFoto = view.findViewById(R.id.boto_ferFotoPicnic);
         botoFerFoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -84,7 +105,7 @@ public class AfegirPicnicFragment extends Fragment {
             }
         });
 
-        Button botoAfegirImatge = rootView.findViewById(R.id.boto_afegirImatgePicnic);
+        Button botoAfegirImatge = view.findViewById(R.id.boto_afegirImatgePicnic);
         botoAfegirImatge.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view)             {
@@ -94,7 +115,7 @@ public class AfegirPicnicFragment extends Fragment {
             }
         });
 
-        return rootView;
+        return view;
     }
 
     ActivityResultLauncher<PickVisualMediaRequest> escullImatgeGaleria =
@@ -130,5 +151,87 @@ public class AfegirPicnicFragment extends Fragment {
             MainActivity mainActivity = (MainActivity) getActivity();
             mainActivity.mostrarBottomMenu();
         }
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        geocoder = new Geocoder(getActivity(), Locale.getDefault());
+
+        if (getArguments() != null) {
+            latitud = getArguments().getFloat("latitud", 0.0f);
+            longitud = getArguments().getFloat("longitud", 0.0f);
+
+            binding.textLatitudPicnic.setText(latitud+"");
+            binding.textLongitudPicnic.setText(longitud+"");
+
+            obtenirAdreca();
+
+        }
+
+        binding.textLongitudPicnic.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(binding.textLongitudPicnic.getText().length() >= 0) {
+                    obtenirAdreca();
+                }
+            }
+        });
+
+        binding.textLatitudPicnic.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (binding.textLatitudPicnic.getText().length() >= 0){     obtenirAdreca();
+                }
+            }
+        });
+
+    }
+
+    private void obtenirAdreca () {
+
+        double lat = Double.parseDouble(binding.textLatitudPicnic.getText().toString());
+        double lon = Double.parseDouble(binding.textLongitudPicnic.getText().toString());
+        try {
+            adreca = geocoder.getFromLocation(lat, lon, 1); // 1 representa la cantidad de resultados a obtener
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        String poblacio = adreca.get(0).getLocality();
+        String provincia = adreca.get(0).getAdminArea();
+        String pais = adreca.get(0).getCountryName();
+        String numero = adreca.get(0).getFeatureName();
+        String comarca = adreca.get(0).getSubAdminArea();
+        String carrer = adreca.get(0).getThoroughfare();
+
+        binding.textAdrecaPicnic.setText(carrer + ", " + numero + ", " + poblacio + ", " + comarca + ", " + provincia + ", " + pais);
+
+        //Foto del mapa
+        //String url = "https://static-maps.yandex.ru/1.x/?lang=en-US&ll=" + longitud + "," + latitud + "&z=" + zoom + "&size=" + width + "," + height + "&l=sat&pt=" + longitud + "," + latitud + ",pm2rdl";
+        //String url = "https://static-maps.yandex.ru/1.x/?lang=es-ES&ll=" + longitud + "," + latitud + "&z=" + zoom + "&size=" + width + "," + height + "&l=sat&pt=" + longitud + "," + latitud + ",pm2rdl";
+        // String url = "https://staticmap.openstreetmap.de/staticmap.php?center=" + latitud + "," + longitud + "&zoom=" + zoom + "&size=" + width + "x" + height + "&maptype=mapnik&markers=" + latitud + "," + longitud + ",red-pushpin";
+        // String url = "https://staticmap.openstreetmap.de/staticmap.php?center=" + latitud + "," + longitud + "&zoom=" + zoom + "&size=" + width + "x" + height + "&maptype=mapnik&markers=" + latitud + "," + longitud + ",red-pushpin";
+
+        //Mapa normal
+        //String url = "https://static-maps.yandex.ru/1.x/?lang=en-US&ll=" + longitud + "," + latitud + "&z=" + 16 + "&size=" + width + "," + height + "&l=map&pt=" + longitud + "," + latitud + ",pm2rdl";
+
+        //Mapa satelit
+        String url = "https://static-maps.yandex.ru/1.x/?lang=en-US&ll=" + lon + "," + lat + "&z=" + 18 + "&size=" + 440 + "," + 310 + "&l=sat&pt=" + lon + "," + lat + ",pm2rdl";
+
+        Picasso.get().load(url).into(binding.ivMapaLocalitzacioAfegirPicnic);
     }
 }

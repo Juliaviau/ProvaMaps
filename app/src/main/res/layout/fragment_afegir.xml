@@ -23,12 +23,7 @@
             android:text="@string/afegir_zona_mapa"
             android:textSize="26sp"
             android:textStyle="bold" />
-        <TextView
-            android:id="@+id/textCoordenadesAfegir"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="coordenades" />
+
         <LinearLayout
             android:id="@+id/cardview_fontcontenidor"
             android:layout_width="match_parent"
