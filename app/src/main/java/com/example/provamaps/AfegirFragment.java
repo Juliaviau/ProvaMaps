@@ -5,7 +5,6 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
 
-import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
@@ -16,7 +15,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.provamaps.databinding.FragmentAfegirBinding;
-import com.example.provamaps.databinding.FragmentIniciBinding;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -26,13 +24,6 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 
 import android.Manifest;
 
-
-
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link AfegirFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class AfegirFragment extends Fragment {
 
     private FragmentAfegirBinding binding;
@@ -41,11 +32,9 @@ public class AfegirFragment extends Fragment {
     private FusedLocationProviderClient fusedLocationClient;
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
 
-
     public AfegirFragment() {
         // Required empty public constructor
     }
-
 
     public static AfegirFragment newInstance(String param1, String param2) {
         AfegirFragment fragment = new AfegirFragment();
@@ -61,12 +50,9 @@ public class AfegirFragment extends Fragment {
         }
     }
 
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
 
         binding = FragmentAfegirBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
@@ -143,7 +129,6 @@ public class AfegirFragment extends Fragment {
         }
     }
 
-
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION) {
@@ -154,6 +139,4 @@ public class AfegirFragment extends Fragment {
             }
         }
     }
-
-
 }

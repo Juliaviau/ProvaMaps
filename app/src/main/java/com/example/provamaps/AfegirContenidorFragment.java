@@ -26,7 +26,6 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.provamaps.databinding.FragmentAfegirContenidorBinding;
-import com.example.provamaps.databinding.FragmentAfegirFontBinding;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
@@ -52,11 +51,9 @@ public class AfegirContenidorFragment extends Fragment {
         return FileProvider.getUriForFile(context, "com.example.provamaps.FileProvider", image);
     }
 
-
     public AfegirContenidorFragment() {
         // Required empty public constructor
     }
-
 
     public static AfegirContenidorFragment newInstance(String param1, String param2) {
         AfegirContenidorFragment fragment = new AfegirContenidorFragment();
@@ -166,7 +163,6 @@ public class AfegirContenidorFragment extends Fragment {
             binding.textLongitudContenidor.setText(longitud+"");
 
             obtenirAdreca();
-
         }
 
         binding.textLongitudContenidor.addTextChangedListener(new TextWatcher() {

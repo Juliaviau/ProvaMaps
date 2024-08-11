@@ -25,8 +25,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.example.provamaps.databinding.FragmentAfegirContenidorBinding;
-import com.example.provamaps.databinding.FragmentAfegirFontBinding;
 import com.example.provamaps.databinding.FragmentAfegirPicnicBinding;
 import com.squareup.picasso.Picasso;
 

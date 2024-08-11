@@ -25,8 +25,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.example.provamaps.databinding.FragmentAfegirContenidorBinding;
-import com.example.provamaps.databinding.FragmentAfegirFontBinding;
 import com.example.provamaps.databinding.FragmentAfegirLavaboBinding;
 import com.squareup.picasso.Picasso;
 
@@ -62,7 +60,6 @@ public class AfegirLavaboFragment extends Fragment {
     public AfegirLavaboFragment() {
         // Required empty public constructor
     }
-
 
     public static AfegirLavaboFragment newInstance(String param1, String param2) {
         AfegirLavaboFragment fragment = new AfegirLavaboFragment();
@@ -172,7 +169,6 @@ public class AfegirLavaboFragment extends Fragment {
             binding.textLongitudLavabo.setText(longitud+"");
 
             obtenirAdreca();
-
         }
 
         binding.textLongitudLavabo.addTextChangedListener(new TextWatcher() {
@@ -203,7 +199,6 @@ public class AfegirLavaboFragment extends Fragment {
                 }
             }
         });
-
     }
 
     private void obtenirAdreca () {

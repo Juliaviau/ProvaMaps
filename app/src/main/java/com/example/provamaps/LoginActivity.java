@@ -164,7 +164,7 @@ public class LoginActivity extends AppCompatActivity {
                 } else {
                     //Si usuari ja existia
                     Log.d(TAG, "onSucces: Logged in...");
-                    MyUtils.toast(LoginActivity.this, "start activity firebaseauth"); //entra per aqio. juspalia
+                    //MyUtils.toast(LoginActivity.this, "start activity firebaseauth"); //entra per aqio. juspalia
 
                     //Si ja existeix, obre un nou MainActivity i tanca els que tenia oberts
                     startActivity(new Intent(LoginActivity.this, MainActivity.class));
@@ -193,7 +193,7 @@ public class LoginActivity extends AppCompatActivity {
         hashMap.put("email", registeredUserEmail);
         hashMap.put("name", name);
         hashMap.put("profileImageUrl", "");
-        hashMap.put("token", "");
+        //hashMap.put("token", "");
 
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users");
         ref.child(registeredUserID).setValue(hashMap)

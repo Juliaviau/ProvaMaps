@@ -27,6 +27,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class PerfilFragment extends Fragment implements SearchView.OnQueryTextListener {
 
@@ -36,9 +37,10 @@ public class PerfilFragment extends Fragment implements SearchView.OnQueryTextLi
     private FirebaseAuth firebaseAuth;
     private ProgressDialog progressDialog;
     RecyclerView recyclerView;
-    ArrayList<Model_ItemCardPerfil> arrayList = new ArrayList<>();
+    ArrayList<Model_ItemCardPerfil> arrayListFonts = new ArrayList<>();
     SearchView searchView;
     ModelRecyclerView modelRecyclerView;
+    private RealtimeManager realtimeManager;
 
     public PerfilFragment() {
         // Required empty public constructor
@@ -53,37 +55,45 @@ public class PerfilFragment extends Fragment implements SearchView.OnQueryTextLi
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Inicializa la lista de items aquí si es necesario
-        arrayList.add(new Model_ItemCardPerfil(R.drawable.mapafont,"Font","Jardins de Vicenç Albert Ballester i Camps"));
-        arrayList.add(new Model_ItemCardPerfil(R.drawable.font3,"Font","Jardins de Vicenç Albert Ballester i Camps"));
-        arrayList.add(new Model_ItemCardPerfil(R.drawable.font1,"Lavabo","Jadsdrdins de Vicenç Albert Ballester i Camps"));
-        arrayList.add(new Model_ItemCardPerfil(R.drawable.mapafont,"Picnic","font mco laboris nisi ut aliquip ex ea commodo consequat. "));
-        arrayList.add(new Model_ItemCardPerfil(R.drawable.font4,"Font","Jardins de Vicenç Albert Ballester i Camps"));
-        arrayList.add(new Model_ItemCardPerfil(R.drawable.font2,"Contenidor","Jaaaardins de Vicenç Albert Ballester i Camps"));
-        arrayList.add(new Model_ItemCardPerfil(R.drawable.mapafont,"Font","Jardins de Vicenç Albert Ballester i Camps"));
-        arrayList.add(new Model_ItemCardPerfil(R.drawable.font3,"Font","Jardins de Vicenç Albert Ballester i Camps"));
-        arrayList.add(new Model_ItemCardPerfil(R.drawable.font1,"Lavabo","Jadsdrdins de Vicenç Albert Ballester i Camps"));
-        arrayList.add(new Model_ItemCardPerfil(R.drawable.mapafont,"Picnic","font mco laboris nisi ut aliquip ex ea commodo consequat. "));
-        arrayList.add(new Model_ItemCardPerfil(R.drawable.font4,"Font","Jardins de Vicenç Albert Ballester i Camps"));
-        arrayList.add(new Model_ItemCardPerfil(R.drawable.font2,"Contenidor","Jaaaardins de Vicenç Albert Ballester i Camps"));
-        arrayList.add(new Model_ItemCardPerfil(R.drawable.mapafont,"Font","Jardins de Vicenç Albert Ballester i Camps"));
-        arrayList.add(new Model_ItemCardPerfil(R.drawable.font3,"Font","Jardins de Vicenç Albert Ballester i Camps"));
-        arrayList.add(new Model_ItemCardPerfil(R.drawable.font1,"Lavabo","Jadsdrdins de Vicenç Albert Ballester i Camps"));
-        arrayList.add(new Model_ItemCardPerfil(R.drawable.mapafont,"Picnic","font mco laboris nisi ut aliquip ex ea commodo consequat. "));
-        arrayList.add(new Model_ItemCardPerfil(R.drawable.font4,"Font","Jardins de Vicenç Albert Ballester i Camps"));
-        arrayList.add(new Model_ItemCardPerfil(R.drawable.font2,"Contenidor","Jaaaardins de Vicenç Albert Ballester i Camps"));
-        arrayList.add(new Model_ItemCardPerfil(R.drawable.mapafont,"Font","Jardins de Vicenç Albert Ballester i Camps"));
-        arrayList.add(new Model_ItemCardPerfil(R.drawable.font3,"Font","Jardins de Vicenç Albert Ballester i Camps"));
-        arrayList.add(new Model_ItemCardPerfil(R.drawable.font1,"Lavabo","Jadsdrdins de Vicenç Albert Ballester i Camps"));
-        arrayList.add(new Model_ItemCardPerfil(R.drawable.mapafont,"Picnic","font mco laboris nisi ut aliquip ex ea commodo consequat. "));
-        arrayList.add(new Model_ItemCardPerfil(R.drawable.font4,"Font","Jardins de Vicenç Albert Ballester i Camps"));
-        arrayList.add(new Model_ItemCardPerfil(R.drawable.font2,"Contenidor","Jaaaardins de Vicenç Albert Ballester i Camps"));
-        arrayList.add(new Model_ItemCardPerfil(R.drawable.mapafont,"Font","Jardins de Vicenç Albert Ballester i Camps"));
-        arrayList.add(new Model_ItemCardPerfil(R.drawable.font3,"Font","Jardins de Vicenç Albert Ballester i Camps"));
-        arrayList.add(new Model_ItemCardPerfil(R.drawable.font1,"Lavabo","Jadsdrdins de Vicenç Albert Ballester i Camps"));
-        arrayList.add(new Model_ItemCardPerfil(R.drawable.mapafont,"Picnic","font mco laboris nisi ut aliquip ex ea commodo consequat. "));
-        arrayList.add(new Model_ItemCardPerfil(R.drawable.font4,"Font","Jardins de Vicenç Albert Ballester i Camps"));
-        arrayList.add(new Model_ItemCardPerfil(R.drawable.font2,"Contenidor","Jaaaardins de Vicenç Albert Ballester i Camps"));
+        // Inicializa la llista d'items per defecte
+        /*arrayListFonts.add(new Model_ItemCardPerfil(R.drawable.mapafont,"Font","Jardins de Vicenç Albert Ballester i Camps"));
+        arrayListFonts.add(new Model_ItemCardPerfil(R.drawable.font3,"Font","Jardins de Vicenç Albert Ballester i Camps"));
+        arrayListFonts.add(new Model_ItemCardPerfil(R.drawable.font1,"Lavabo","Jadsdrdins de Vicenç Albert Ballester i Camps"));
+        arrayListFonts.add(new Model_ItemCardPerfil(R.drawable.mapafont,"Picnic","font mco laboris nisi ut aliquip ex ea commodo consequat. "));
+        arrayListFonts.add(new Model_ItemCardPerfil(R.drawable.font4,"Font","Jardins de Vicenç Albert Ballester i Camps"));
+        arrayListFonts.add(new Model_ItemCardPerfil(R.drawable.font2,"Contenidor","Jaaaardins de Vicenç Albert Ballester i Camps"));
+        arrayListFonts.add(new Model_ItemCardPerfil(R.drawable.mapafont,"Font","Jardins de Vicenç Albert Ballester i Camps"));
+        arrayListFonts.add(new Model_ItemCardPerfil(R.drawable.font3,"Font","Jardins de Vicenç Albert Ballester i Camps"));
+        arrayListFonts.add(new Model_ItemCardPerfil(R.drawable.font1,"Lavabo","Jadsdrdins de Vicenç Albert Ballester i Camps"));
+        arrayListFonts.add(new Model_ItemCardPerfil(R.drawable.mapafont,"Picnic","font mco laboris nisi ut aliquip ex ea commodo consequat. "));
+        arrayListFonts.add(new Model_ItemCardPerfil(R.drawable.font4,"Font","Jardins de Vicenç Albert Ballester i Camps"));
+        arrayListFonts.add(new Model_ItemCardPerfil(R.drawable.font2,"Contenidor","Jaaaardins de Vicenç Albert Ballester i Camps"));
+        arrayListFonts.add(new Model_ItemCardPerfil(R.drawable.mapafont,"Font","Jardins de Vicenç Albert Ballester i Camps"));
+        arrayListFonts.add(new Model_ItemCardPerfil(R.drawable.font3,"Font","Jardins de Vicenç Albert Ballester i Camps"));
+        arrayListFonts.add(new Model_ItemCardPerfil(R.drawable.font1,"Lavabo","Jadsdrdins de Vicenç Albert Ballester i Camps"));
+        arrayListFonts.add(new Model_ItemCardPerfil(R.drawable.mapafont,"Picnic","font mco laboris nisi ut aliquip ex ea commodo consequat. "));
+        arrayListFonts.add(new Model_ItemCardPerfil(R.drawable.font4,"Font","Jardins de Vicenç Albert Ballester i Camps"));
+        arrayListFonts.add(new Model_ItemCardPerfil(R.drawable.font2,"Contenidor","Jaaaardins de Vicenç Albert Ballester i Camps"));
+        arrayListFonts.add(new Model_ItemCardPerfil(R.drawable.mapafont,"Font","Jardins de Vicenç Albert Ballester i Camps"));
+        arrayListFonts.add(new Model_ItemCardPerfil(R.drawable.font3,"Font","Jardins de Vicenç Albert Ballester i Camps"));
+        arrayListFonts.add(new Model_ItemCardPerfil(R.drawable.font1,"Lavabo","Jadsdrdins de Vicenç Albert Ballester i Camps"));
+        arrayListFonts.add(new Model_ItemCardPerfil(R.drawable.mapafont,"Picnic","font mco laboris nisi ut aliquip ex ea commodo consequat. "));
+        arrayListFonts.add(new Model_ItemCardPerfil(R.drawable.font4,"Font","Jardins de Vicenç Albert Ballester i Camps"));
+        arrayListFonts.add(new Model_ItemCardPerfil(R.drawable.font2,"Contenidor","Jaaaardins de Vicenç Albert Ballester i Camps"));
+        arrayListFonts.add(new Model_ItemCardPerfil(R.drawable.mapafont,"Font","Jardins de Vicenç Albert Ballester i Camps"));
+        arrayListFonts.add(new Model_ItemCardPerfil(R.drawable.font3,"Font","Jardins de Vicenç Albert Ballester i Camps"));
+        arrayListFonts.add(new Model_ItemCardPerfil(R.drawable.font1,"Lavabo","Jadsdrdins de Vicenç Albert Ballester i Camps"));
+        arrayListFonts.add(new Model_ItemCardPerfil(R.drawable.mapafont,"Picnic","font mco laboris nisi ut aliquip ex ea commodo consequat. "));
+        arrayListFonts.add(new Model_ItemCardPerfil(R.drawable.font4,"Font","Jardins de Vicenç Albert Ballester i Camps"));
+        arrayListFonts.add(new Model_ItemCardPerfil(R.drawable.font2,"Contenidor","Jaaaardins de Vicenç Albert Ballester i Camps"));*/
+
+        //Obté les dades de la base de dades
+
+        //inicialitza el singleton realtimemanager
+        realtimeManager = RealtimeManager.getInstance();
+
+        // Obté les dades de la base de dades
+        obtenirFonts();
 
         // Maneja los argumentos si es necesario
         if (getArguments() != null) {
@@ -91,31 +101,82 @@ public class PerfilFragment extends Fragment implements SearchView.OnQueryTextLi
         }
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        binding = FragmentPerfilBinding.inflate(inflater,container,false);
-        // Infla el diseño del fragmento
-        //return inflater.inflate(R.layout.fragment_perfil, container, false);
-        return binding.getRoot();
+
+    private void obtenirFonts() {
+        // Segons les dades del LiveData de RealtimeManager actualitza la UI quan canviin les dades
+        realtimeManager.obtenirFontsUsuari().observe(this, fonts -> {
+            if (fonts != null && !fonts.isEmpty()) {
+                // Actualitza l'ArrayList de l'adapter i notifica els canvis
+                arrayListFonts.clear();
+                for (Font font : fonts) {
+
+                    // Obté les dades de l'objecte Font
+                    String tipus = font.getTipus();
+                    String lat = font.getLatitud();
+                    String lon = font.getLongitud();
+                    int urlFoto = Integer.parseInt(font.getUrlfoto());//TODO: mirar com van les fotos.
+
+
+                    // Crea el Model_ItemCardPerfil
+                    Model_ItemCardPerfil itemCardPerfil = new Model_ItemCardPerfil(
+                            urlFoto,
+                            tipus,
+                            lat,
+                            lon
+                    );
+
+                    // Añade el objeto a la lista que maneja el Adapter
+                    arrayListFonts.add(itemCardPerfil);
+                }
+                modelRecyclerView.notifyDataSetChanged();
+            }
+        });
     }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        // Setup any handles to view objects here
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        binding = FragmentPerfilBinding.inflate(inflater,container,false);
+        //return inflater.inflate(R.layout.fragment_perfil, container, false);
+        
+        //obtenirFonts();
+        return binding.getRoot();
+    }
 
+    /*private void obtenirFonts() {
+        // Obtén el LiveData desde RealtimeManager y obsérvalo
+        realtimeManager.obtenirFontsUsuari().observe(getViewLifecycleOwner(), fonts -> {
+            // Aquí obtienes la lista de contactos en 'fonts'
+            if (fonts != null && !fonts.isEmpty()) {
+                // Realiza las operaciones necesarias con los contactos
+                // Por ejemplo, actualizar un RecyclerView o UI
+                updateUIWithContacts(fonts);
+            }
+        });
+    }
+
+    private void updateUIWithContacts(List<Font> fonts) {
+        // actualizar UI amb les fonts
+    }*/
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+
+        //Missatge d'espera
         progressDialog = new ProgressDialog(mContext);
-        progressDialog.setTitle("Please wait");
+        progressDialog.setTitle("Carregant...");
         progressDialog.setCanceledOnTouchOutside(false);
 
         firebaseAuth = FirebaseAuth.getInstance();
 
 
-
         // usersRecycler.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
-        // Inicializa el RecyclerView
+
+        // Inicializa el RecyclerView on hi haurà la llista de punts que hagi afegir l'usuari en questio
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
-        // Configura el adaptador del RecyclerView
-        modelRecyclerView = new ModelRecyclerView(requireContext(), arrayList);
+
+        // Aporta els elements de l'arraylist al recycleview
+        //TODO: falta fer que quan no hi hagi res a l abd, posar el que mostra
+        modelRecyclerView = new ModelRecyclerView(requireContext(), arrayListFonts);
         binding.recyclerView.setAdapter(modelRecyclerView);
 
         binding.searchviewa.setOnQueryTextListener(this);
@@ -169,7 +230,7 @@ public class PerfilFragment extends Fragment implements SearchView.OnQueryTextLi
                                     .placeholder(R.drawable.icona_persona_blanc)
                                     .into(binding.porfileIv);
                         } catch (Exception e) {
-                            Log.e(TAG, "onCreateChange ", e);
+                            Log.e(TAG, "onDataChange ", e);
                         }
                     }
 

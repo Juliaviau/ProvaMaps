@@ -15,7 +15,6 @@ import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
-import android.os.Environment;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -27,15 +26,12 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.activity.result.contract.ActivityResultContracts.*;
-import androidx.fragment.app.FragmentResultListener;
 
 import com.example.provamaps.databinding.FragmentAfegirFontBinding;
-import com.example.provamaps.databinding.FragmentIniciBinding;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URI;
 import java.util.List;
 import java.util.Locale;
 
@@ -61,11 +57,8 @@ public class AfegirFontFragment extends Fragment {
         // Required empty public constructor
     }
 
-
     public static AfegirFontFragment newInstance(String param1, String param2) {
-        AfegirFontFragment fragment = new AfegirFontFragment();
-
-        return fragment;
+        return new AfegirFontFragment();
     }
 
     @Override
@@ -79,7 +72,6 @@ public class AfegirFontFragment extends Fragment {
 
         binding = FragmentAfegirFontBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
-
 
         Button closeButton = view.findViewById(R.id.boto_tancar_afegir_font);
         closeButton.setOnClickListener(new View.OnClickListener() {
@@ -100,6 +92,7 @@ public class AfegirFontFragment extends Fragment {
             public void onClick(View view) {
                 if (uriImatge != null) {
                     contract.launch(uriImatge);
+                    //Guardar la uriImatge a la base de dades
                 } else {
                     Toast.makeText(context, "Error en fer la foto", Toast.LENGTH_SHORT).show();
                 }
@@ -116,6 +109,18 @@ public class AfegirFontFragment extends Fragment {
             }
         });
 
+
+        Button botoAfegirFont = view.findViewById(R.id.boto_afegir_afegirFont);
+        botoAfegirImatge.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view)             {
+                //Errors als ttoggle buttons
+                /*if (binding.tggbFontPotable.getCheckedButtonId() == -1) {
+                    binding.tggbFontPotable.error
+                }*/
+            }
+        });
+
         return view;
     }
 
@@ -124,6 +129,7 @@ public class AfegirFontFragment extends Fragment {
                 if (uri != null) {
                     Log.d("TriaImatge", "URI de l'imatge seleccionada: " + uri);
                     imatgeFont.setImageURI(uri);
+                    //Guardar la uri a la base de dades
                 } else {
                     Log.d("TriaImatge", "No s'ha seleccionat cap imatge");
                 }
@@ -168,7 +174,6 @@ public class AfegirFontFragment extends Fragment {
             binding.textLongitudFont.setText(longitud+"");
 
             obtenirAdreca();
-
         }
 
         binding.textLongitudFont.addTextChangedListener(new TextWatcher() {
@@ -199,7 +204,6 @@ public class AfegirFontFragment extends Fragment {
                 }
             }
         });
-
     }
 
     private void obtenirAdreca () {

@@ -4,12 +4,18 @@ public class Model_ItemCardPerfil {
 
     int img;
 
-    String tipus, adreca;
+    String tipus;
 
-    public Model_ItemCardPerfil(int img, String tipus, String adreca) {
+
+
+    String lat;
+    String lon;
+
+    public Model_ItemCardPerfil(int img, String tipus, String lat,  String lon) {
         this.img = img;
         this.tipus = tipus;
-        this.adreca = adreca;
+        this.lat = lat;
+        this.lon = lon;
     }
 
     public int getImg() {
@@ -27,14 +33,17 @@ public class Model_ItemCardPerfil {
     public void setTipus(String tipus) {
         this.tipus = tipus;
     }
+    public String getLat() {
+        return lat;
+    }
+
+    public String getLon() {
+        return lon;
+    }
 
     public String getAdreca() {
-        return adreca;
+        //TODO: Obtenir aqui l'adreca segons la lat i lon
+        return lon;
     }
-
-    public void setAdreca(String adreca) {
-        this.adreca = adreca;
-    }
-
 
 }

@@ -65,7 +65,7 @@ private ProgressDialog progressDialog;
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         progressDialog = new ProgressDialog(mContext);
-        progressDialog.setTitle("Please wait");
+        progressDialog.setTitle("...");
         progressDialog.setCanceledOnTouchOutside(false);
 
         mAuth = FirebaseAuth.getInstance();

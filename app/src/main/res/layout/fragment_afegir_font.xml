@@ -164,7 +164,7 @@
                 app:checkedButton="@id/boto_tggb_noInformaciofontPotable"
                 app:singleSelection="true">
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/boto_tggb_fontPotable"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -174,19 +174,19 @@
                     android:maxLines="1"
                     app:iconGravity="textStart"
                     app:iconPadding="8dp" />
-
-                <Button
+                <!--android:backgroundTint="@drawable/selector_botons"-->
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/boto_tggb_fontNoPotable"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/no_potable"
                     style="?attr/materialButtonOutlinedStyle"
+                    android:text="@string/no_potable"
                     android:ellipsize="end"
                     android:maxLines="1"
                     app:iconGravity="textStart"
                     app:iconPadding="8dp" />
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/boto_tggb_noInformaciofontPotable"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -197,6 +197,7 @@
                     app:iconGravity="textStart"
                     app:iconPadding="8dp" />
             </com.google.android.material.button.MaterialButtonToggleGroup>
+
 
             <TextView
                 android:layout_width="match_parent"
