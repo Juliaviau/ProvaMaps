@@ -3,19 +3,17 @@ package com.example.provamaps;
 public class Model_ItemCardPerfil {
 
     int img;
-
+    String urlfoto;
     String tipus;
-
-
-
     String lat;
     String lon;
 
-    public Model_ItemCardPerfil(int img, String tipus, String lat,  String lon) {
-        this.img = img;
+    public Model_ItemCardPerfil(/*int img, */String tipus, String lat,  String lon, String urlfoto) {
+        //this.img = img;
         this.tipus = tipus;
         this.lat = lat;
         this.lon = lon;
+        this.urlfoto = urlfoto;
     }
 
     public int getImg() {
@@ -29,7 +27,9 @@ public class Model_ItemCardPerfil {
     public String getTipus() {
         return tipus;
     }
-
+    public String getUrlfoto() {
+        return urlfoto;
+    }
     public void setTipus(String tipus) {
         this.tipus = tipus;
     }

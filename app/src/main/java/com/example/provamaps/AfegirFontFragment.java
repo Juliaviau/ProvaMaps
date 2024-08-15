@@ -28,6 +28,9 @@ import android.widget.Toast;
 import androidx.activity.result.contract.ActivityResultContracts.*;
 
 import com.example.provamaps.databinding.FragmentAfegirFontBinding;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.button.MaterialButtonToggleGroup;
+import com.google.android.material.snackbar.Snackbar;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
@@ -43,9 +46,15 @@ public class AfegirFontFragment extends Fragment {
     private float latitud, longitud;
     private Geocoder geocoder;
     private List<Address> adreca;
+    private int seleccioPotable = View.NO_ID;
+    private int seleccioEstat = View.NO_ID;
+
+    private boolean hiHaFoto = false;
+
     ActivityResultLauncher<Uri> contract = registerForActivityResult(new ActivityResultContracts.TakePicture(), result -> {
         imatgeFont.setImageURI(null);
         imatgeFont.setImageURI(uriImatge);
+        hiHaFoto = true;
     });
 
     private Uri createImageUri(Context context) {
@@ -99,6 +108,7 @@ public class AfegirFontFragment extends Fragment {
             }
         });
 
+        //Afegir imatge des de la galeria
         Button botoAfegirImatge = view.findViewById(R.id.boto_afegirImatgeFont);
         botoAfegirImatge.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -111,9 +121,36 @@ public class AfegirFontFragment extends Fragment {
 
 
         Button botoAfegirFont = view.findViewById(R.id.boto_afegir_afegirFont);
-        botoAfegirImatge.setOnClickListener(new View.OnClickListener() {
+        botoAfegirFont.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view)             {
+            public void onClick(View view){
+
+                //Mirar que hi hagi els togglebuttons seleccionats
+                if (seleccioPotable != View.NO_ID) {
+                    MaterialButton selectedButton = binding.getRoot().findViewById(seleccioPotable);
+                    //selectedButton.getText()
+                } else {
+                    //No s'ha seleccionat cap
+                }
+
+                if (seleccioEstat != View.NO_ID) {
+                    MaterialButton selectedButton = binding.getRoot().findViewById(seleccioEstat);
+                    //selectedButton.getText()
+                } else {
+                    //No s'ha seleccionat cap
+                }
+
+                //Que hi hagi coordenades
+                if (binding.textLatitudFont.getText() != null && binding.textLongitudFont.getText() != null) {
+
+                } else {
+                    //No hi ha coordenades
+                }
+
+                //Foto opcional?
+
+                //Obtenir valors i crear l'objecte font
+
                 //Errors als ttoggle buttons
                 /*if (binding.tggbFontPotable.getCheckedButtonId() == -1) {
                     binding.tggbFontPotable.error
@@ -121,14 +158,44 @@ public class AfegirFontFragment extends Fragment {
             }
         });
 
+
+        //Cada vegada que es canvia de boto canvia la variable que diu quin esta seleccionat
+        binding.tggbFontPotable.addOnButtonCheckedListener(new MaterialButtonToggleGroup.OnButtonCheckedListener() {
+            @Override
+            public void onButtonChecked(MaterialButtonToggleGroup grup, int idSeleccionat, boolean estaSeleccionat) {
+                if (estaSeleccionat) {
+                    seleccioPotable = idSeleccionat;
+                } else if (seleccioPotable == idSeleccionat) {
+                    //No esta seleccionat, posar error
+                    seleccioPotable = View.NO_ID;
+                    Snackbar.make(binding.getRoot(), "Error: S'ha de seleccionar una opció", Snackbar.LENGTH_LONG).show();
+                }
+            }
+        });
+
+        binding.tggbFontEstat.addOnButtonCheckedListener(new MaterialButtonToggleGroup.OnButtonCheckedListener() {
+            @Override
+            public void onButtonChecked(MaterialButtonToggleGroup grup, int idSeleccionat, boolean estaSeleccionat) {
+                if (estaSeleccionat) {
+                    seleccioEstat = idSeleccionat;
+                } else if (seleccioEstat == idSeleccionat) {
+                    seleccioEstat = View.NO_ID;
+                    Snackbar.make(binding.getRoot(), "Error: S'ha de seleccionar una opció", Snackbar.LENGTH_LONG).show();
+                }
+            }
+        });
+
+
         return view;
     }
 
+    //Escull una imatge de la galeria i la posa al imageview de la font
     ActivityResultLauncher<PickVisualMediaRequest> escullImatgeGaleria =
             registerForActivityResult(new PickVisualMedia(), uri -> {
                 if (uri != null) {
                     Log.d("TriaImatge", "URI de l'imatge seleccionada: " + uri);
                     imatgeFont.setImageURI(uri);
+                    hiHaFoto = true;
                     //Guardar la uri a la base de dades
                 } else {
                     Log.d("TriaImatge", "No s'ha seleccionat cap imatge");
@@ -166,6 +233,7 @@ public class AfegirFontFragment extends Fragment {
 
         geocoder = new Geocoder(getActivity(), Locale.getDefault());
 
+        //Comprova si se li han passat les coordenades des del mainactivity
         if (getArguments() != null) {
             latitud = getArguments().getFloat("latitud", 0.0f);
             longitud = getArguments().getFloat("longitud", 0.0f);
@@ -185,8 +253,11 @@ public class AfegirFontFragment extends Fragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if(binding.textLongitudFont.getText().length() >= 0) {
+                //Comprovar que sigui correcte
+                if(binding.textLongitudFont.getText().length() >= 0 && binding.textLongitudFont.getText().length() <= 180) {
                     obtenirAdreca();
+                } else {
+                    binding.textLongitudFont.setError("Longitud incorrecte");
                 }
             }
         });
@@ -200,7 +271,9 @@ public class AfegirFontFragment extends Fragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (binding.textLatitudFont.getText().length() >= 0){     obtenirAdreca();
+                if (binding.textLatitudFont.getText().length() >= 0 && binding.textLatitudFont.getText().length() <= 90){     obtenirAdreca();
+                } else {
+                    binding.textLatitudFont.setError("Latitud incorrecte");
                 }
             }
         });
@@ -210,6 +283,7 @@ public class AfegirFontFragment extends Fragment {
 
         double lat = Double.parseDouble(binding.textLatitudFont.getText().toString());
         double lon = Double.parseDouble(binding.textLongitudFont.getText().toString());
+
         try {
             adreca = geocoder.getFromLocation(lat, lon, 1); // 1 representa la cantidad de resultados a obtener
         } catch (IOException e) {

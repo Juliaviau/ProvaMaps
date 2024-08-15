@@ -114,15 +114,16 @@ public class PerfilFragment extends Fragment implements SearchView.OnQueryTextLi
                     String tipus = font.getTipus();
                     String lat = font.getLatitud();
                     String lon = font.getLongitud();
-                    int urlFoto = Integer.parseInt(font.getUrlfoto());//TODO: mirar com van les fotos.
+                    String urlFoto = font.getUrlfoto();//TODO: mirar com van les fotos.
 
 
                     // Crea el Model_ItemCardPerfil
                     Model_ItemCardPerfil itemCardPerfil = new Model_ItemCardPerfil(
-                            urlFoto,
+                            /*urlFoto,*/
                             tipus,
                             lat,
-                            lon
+                            lon,
+                            urlFoto
                     );
 
                     // Añade el objeto a la lista que maneja el Adapter
