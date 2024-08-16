@@ -1,6 +1,8 @@
 package com.example.provamaps;
 
 import android.content.Context;
+import android.location.Address;
+import android.location.Geocoder;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,8 +15,13 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.squareup.picasso.Picasso;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 public class ModelRecyclerView extends RecyclerView.Adapter<ModelRecyclerView.ViewHolder> {
@@ -22,6 +29,7 @@ public class ModelRecyclerView extends RecyclerView.Adapter<ModelRecyclerView.Vi
     Context context;
     ArrayList<Model_ItemCardPerfil> arrayList = new ArrayList<>();
     ArrayList<Model_ItemCardPerfil> llistaOriginal;
+    private Geocoder geocoder;
 
     public ModelRecyclerView(Context context, ArrayList<Model_ItemCardPerfil> arrayList) {
 
@@ -36,6 +44,8 @@ public class ModelRecyclerView extends RecyclerView.Adapter<ModelRecyclerView.Vi
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         //Crea per a cada un com es mostra
         View view = LayoutInflater.from(context).inflate(R.layout.card_item_perfil,parent,false);
+        geocoder = new Geocoder(context, Locale.getDefault());
+
         return new ViewHolder(view);
     }
 
@@ -44,9 +54,48 @@ public class ModelRecyclerView extends RecyclerView.Adapter<ModelRecyclerView.Vi
 
         //Obte l'imatge del punt, el tipus i l'adreca del punt de la posicio especificada
         holder.imageView.setImageResource(arrayList.get(posicio).getImg());
+
+        Model_ItemCardPerfil item = arrayList.get(posicio);
+
+        Glide.with(context)
+                .load(item.getUrlfoto())
+                .placeholder(R.drawable.icona_fer_foto)  // Imagen de carga (opcional)
+                .error(R.drawable.icona_imatge)  // Imagen en caso de error (opcional)
+                .into(holder.imageView);  // Imagen en el ImageView
+
+
+
         holder.tipus.setText(arrayList.get(posicio).getTipus());
-        //TODO: obtenir aixi l'adreca o a partir de lat i lon
-        holder.adreca.setText(arrayList.get(posicio).getAdreca());
+
+        try {
+            double lat = Double.parseDouble(item.getLat());
+            double lon = Double.parseDouble(item.getLon());
+
+            List<Address> adreca = geocoder.getFromLocation(lat, lon, 1);
+
+            if (adreca != null && !adreca.isEmpty()) {
+                Address address = adreca.get(0);
+
+                String poblacio = address.getLocality();
+                String provincia = address.getAdminArea();
+                String pais = address.getCountryName();
+                String numero = address.getFeatureName();
+                String comarca = address.getSubAdminArea();
+                String carrer = address.getThoroughfare();
+
+                holder.adreca.setText(carrer + ", " + numero + ", " + poblacio + ", " + comarca + ", " + provincia + ", " + pais);
+
+            } else {
+                // Si no se encuentra una dirección, muestra un mensaje o realiza alguna acción
+                holder.adreca.setText("Adreça no trobada");
+            }
+        } catch (IOException | NumberFormatException e) {
+            e.printStackTrace();
+            holder.adreca.setText("Error en obtenir l'adreça");
+        }
+
+
+       // holder.adreca.setText(arrayList.get(posicio).getAdreca());
 
         //Segons el tipus que sigui, hi posa un icona o altre
         if (arrayList.get(posicio).getTipus().equalsIgnoreCase("Font")) {
@@ -93,6 +142,7 @@ public class ModelRecyclerView extends RecyclerView.Adapter<ModelRecyclerView.Vi
     }
 
     public void filtrar (String textBuscar) {
+        //todo no funciona
         int llargada = textBuscar.length();
         if (llargada == 0){
             arrayList.clear();

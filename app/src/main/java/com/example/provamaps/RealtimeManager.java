@@ -1,29 +1,19 @@
 package com.example.provamaps;
 
-import static kotlinx.coroutines.channels.ProduceKt.awaitClose;
-
-import android.content.Context;
-import android.net.Uri;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
-import androidx.databinding.Observable;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-import kotlinx.coroutines.flow.Flow;
 
 public class RealtimeManager {
 
@@ -53,7 +43,7 @@ public class RealtimeManager {
 
     //FONTS
 
-    public void afegirFont(String latitud, String longitud, String potable, String estat, Uri imagenUri, PenjarImatges.OnImageUploadListener listener) {
+    public void afegirFont(String latitud, String longitud, String potable, String estat, byte[] imageData, PenjarImatges.OnImageUploadListener listener) {
 
         String fontId = databaseReferenceFonts.push().getKey();
         if (fontId == null) {
@@ -64,9 +54,9 @@ public class RealtimeManager {
         Font font = new Font(fontId, latitud, longitud, potable, estat, null); //Sense imatge de moment
 
 
-        if (imagenUri != null) {
+        if (imageData != null) {
             // Si hi ha foto, s'afegeix al storage manager
-            penjarImatges.penjarFotos(imagenUri, fontId, new PenjarImatges.OnImageUploadListener() {
+            penjarImatges.penjarFotos(imageData, fontId, new PenjarImatges.OnImageUploadListener() {
                 @Override
                 public void onUploadSuccess(String imagenUri) {
                     font.setImageUrl(imagenUri);
@@ -110,6 +100,7 @@ public class RealtimeManager {
     }*/
     void eliminarFont(String fontId) {
         databaseReferenceFonts.child(fontId).removeValue();
+        //TODO: Eliminar tambe la foto
     }
 
     void actualitzarFont(String fontId, Font font) {

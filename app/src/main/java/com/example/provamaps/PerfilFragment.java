@@ -40,7 +40,7 @@ public class PerfilFragment extends Fragment implements SearchView.OnQueryTextLi
     ArrayList<Model_ItemCardPerfil> arrayListFonts = new ArrayList<>();
     SearchView searchView;
     ModelRecyclerView modelRecyclerView;
-    //private RealtimeManager realtimeManager;
+    private RealtimeManager realtimeManager;
 
     public PerfilFragment() {
         // Required empty public constructor
@@ -90,7 +90,7 @@ public class PerfilFragment extends Fragment implements SearchView.OnQueryTextLi
         //Obté les dades de la base de dades
 
         //inicialitza el singleton realtimemanager
-        //realtimeManager = RealtimeManager.getInstance();
+        realtimeManager = RealtimeManager.getInstance();
 
         // Obté les dades de la base de dades
         //obtenirFonts();
@@ -102,12 +102,12 @@ public class PerfilFragment extends Fragment implements SearchView.OnQueryTextLi
     }
 
 
-    /*private void obtenirFonts() {
+    private void obtenirFonts() {
         // Segons les dades del LiveData de RealtimeManager actualitza la UI quan canviin les dades
         realtimeManager.obtenirFontsUsuari().observe(this, fonts -> {
             if (fonts != null && !fonts.isEmpty()) {
                 // Actualitza l'ArrayList de l'adapter i notifica els canvis
-                arrayListFonts.clear();
+                //arrayListFonts.clear();
                 for (Font font : fonts) {
 
                     // Obté les dades de l'objecte Font
@@ -120,7 +120,7 @@ public class PerfilFragment extends Fragment implements SearchView.OnQueryTextLi
                     // Crea el Model_ItemCardPerfil
                     Model_ItemCardPerfil itemCardPerfil = new Model_ItemCardPerfil(
                             /*urlFoto,*/
-                            /*tipus,
+                            tipus,
                             lat,
                             lon,
                             urlFoto
@@ -130,9 +130,13 @@ public class PerfilFragment extends Fragment implements SearchView.OnQueryTextLi
                     arrayListFonts.add(itemCardPerfil);
                 }
                 modelRecyclerView.notifyDataSetChanged();
+            } else {
+                //Notificar que no hi ha res guardat
+                Toast.makeText(getContext(), "No hi ha guardats", Toast.LENGTH_SHORT).show();
+
             }
         });
-    }*/
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -174,7 +178,7 @@ public class PerfilFragment extends Fragment implements SearchView.OnQueryTextLi
 
         // Inicializa el RecyclerView on hi haurà la llista de punts que hagi afegir l'usuari en questio
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
-
+        arrayListFonts = new ArrayList<>();
         // Aporta els elements de l'arraylist al recycleview
         //TODO: falta fer que quan no hi hagi res a l abd, posar el que mostra
         modelRecyclerView = new ModelRecyclerView(requireContext(), arrayListFonts);
@@ -182,6 +186,7 @@ public class PerfilFragment extends Fragment implements SearchView.OnQueryTextLi
 
         binding.searchviewa.setOnQueryTextListener(this);
 
+        obtenirFonts();
         loadMyInfo();
     }
 

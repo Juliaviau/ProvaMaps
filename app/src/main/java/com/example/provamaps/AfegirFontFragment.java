@@ -1,6 +1,7 @@
 package com.example.provamaps;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.location.Address;
 import android.location.Geocoder;
 import android.net.Uri;
@@ -15,6 +16,7 @@ import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -37,6 +39,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
@@ -186,11 +189,45 @@ public class AfegirFontFragment extends Fragment {
 
                 //Foto opcional?
 
-                if (hiHaFoto) {
-                   // Uri imagenUri = obtenerUriDeLaImagenSeleccionada(); // Implementa este método para obtener la URI de la imagen seleccionada
-                    if (uriImatge != null) {
+                if (hiHaFoto && uriImatge != null) {
+
+                    try {
+                        // Comprime la imagen antes de subirla
+                        byte[] compressedImage = compressImage(getContext(), uriImatge);
+
+                        // Llama al método que sube la imagen comprimida
+                        realtimeManager.afegirFont(binding.textLatitudFont.getText().toString(),
+                                binding.textLongitudFont.getText().toString(),
+                                potable, estat, compressedImage, new PenjarImatges.OnImageUploadListener() {
+                                    @Override
+                                    public void onUploadSuccess(String imageUrl) {
+                                        Toast.makeText(getContext(), "Font afegida amb èxit!", Toast.LENGTH_SHORT).show();
+                                        // Aquí puedes realizar alguna acción después de la subida exitosa
+                                    }
+
+                                    @Override
+                                    public void onUploadFailed(String errorMessage) {
+                                        Toast.makeText(getContext(), "Error al afegir la font: " + errorMessage, Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        Toast.makeText(getContext(), "Error al comprimir la imatge", Toast.LENGTH_SHORT).show();
+                    }
+
+
+
+
+
+
+
+
+
+
+
+
                         // Subir la imagen y luego crear la fuente
-                        realtimeManager.afegirFont(binding.textLatitudFont.getText().toString(), binding.textLongitudFont.getText().toString(), potable, estat, uriImatge, new PenjarImatges.OnImageUploadListener() {
+                        /*realtimeManager.afegirFont(binding.textLatitudFont.getText().toString(), binding.textLongitudFont.getText().toString(), potable, estat, uriImatge, new PenjarImatges.OnImageUploadListener() {
                             @Override
                             public void onUploadSuccess(String imageUrl) {
                                 Toast.makeText(getContext(), "Font afegida amb èxit!", Toast.LENGTH_SHORT).show();
@@ -202,8 +239,8 @@ public class AfegirFontFragment extends Fragment {
                                 Toast.makeText(getContext(), "Error al afegir la font: " + errorMessage, Toast.LENGTH_SHORT).show();
 
                             }
-                        });
-                    }
+                        });*/
+
                 } else {
                     // Crear la Font sin foto
                     realtimeManager.afegirFont(binding.textLatitudFont.getText().toString(), binding.textLongitudFont.getText().toString(), potable, estat, null, new PenjarImatges.OnImageUploadListener() {
@@ -283,6 +320,42 @@ public class AfegirFontFragment extends Fragment {
                     Log.d("TriaImatge", "No s'ha seleccionat cap imatge");
                 }
             });
+
+
+    private byte[] compressImage(Context context, Uri imageUri) throws IOException {
+        // Convierte el URI de la imagen a un Bitmap
+        Bitmap bitmap = MediaStore.Images.Media.getBitmap(context.getContentResolver(), imageUri);
+
+        // Redimensiona la imagen si es necesario (opcional)
+        int maxWidth = 1024;
+        int maxHeight = 1024;
+        bitmap = resizeBitmap(bitmap, maxWidth, maxHeight);
+
+        // Comprime el Bitmap en un ByteArrayOutputStream
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 75, baos); // Ajusta la calidad (50 es un buen punto de partida)
+
+        return baos.toByteArray();
+    }
+
+    // Método para redimensionar el Bitmap (opcional)
+    private Bitmap resizeBitmap(Bitmap bitmap, int maxWidth, int maxHeight) {
+        int width = bitmap.getWidth();
+        int height = bitmap.getHeight();
+
+        float ratioBitmap = (float) width / (float) height;
+        float ratioMax = (float) maxWidth / (float) maxHeight;
+
+        int finalWidth = maxWidth;
+        int finalHeight = maxHeight;
+        if (ratioMax > ratioBitmap) {
+            finalWidth = (int) ((float)maxHeight * ratioBitmap);
+        } else {
+            finalHeight = (int) ((float)maxWidth / ratioBitmap);
+        }
+        return Bitmap.createScaledBitmap(bitmap, finalWidth, finalHeight, true);
+    }
+
 
     private void tancarFragment() {
         FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
