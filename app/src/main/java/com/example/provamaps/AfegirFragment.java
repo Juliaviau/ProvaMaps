@@ -27,7 +27,7 @@ import android.Manifest;
 public class AfegirFragment extends Fragment {
 
     private FragmentAfegirBinding binding;
-    double latitud = 10.5, longitud;
+    double latitud = 41.964109, longitud = 2.829905;
     Dialog dialog;
     private FusedLocationProviderClient fusedLocationClient;
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;

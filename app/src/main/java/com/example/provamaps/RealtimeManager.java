@@ -4,6 +4,7 @@ import static kotlinx.coroutines.channels.ProduceKt.awaitClose;
 
 import android.content.Context;
 import android.net.Uri;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.Observable;
@@ -28,12 +29,11 @@ public class RealtimeManager {
 
     // Instancia unica de la classe Singleton
     private static RealtimeManager instancia;
-
-
     private DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();//.getInstance().reference.child("nombd");
-    private DatabaseReference databaseReferenceFonts =  mDatabase.child("fonts");
-    private AuthManager authManager = new AuthManager();
-    private StorageReference storageReference = FirebaseStorage.getInstance().getReference();
+    private DatabaseReference databaseReferenceFonts =  mDatabase.child("Fonts");
+    private AuthManager authManager = AuthManager.getInstance();/* = new AuthManager();*/
+    private PenjarImatges penjarImatges = new PenjarImatges();
+
 
     // Constructor privat per evitar que es faci new des de fora
     private RealtimeManager() {}
@@ -48,35 +48,12 @@ public class RealtimeManager {
 
     //IMATGES
 
-    public void penjarFotos(Uri uriImatge, String fontId, OnImageUploadListener listener) {
 
-        if (uriImatge == null) {
-            listener.onUploadFailed("No hi ha imatge");
-            return;
-        }
-
-        //Guardar la imatge a imatges/idImatge.jpg
-        StorageReference imageRef = storageReference.child("imatges/" + fontId + ".jpg");
-
-        // Penjar imatge
-        imageRef.putFile(uriImatge)
-                .addOnSuccessListener(taskSnapshot -> {
-                    imageRef.getDownloadUrl().addOnSuccessListener(uri -> {
-                        listener.onUploadSuccess(uri.toString()); // Retorna la URL per descarregar
-                    }).addOnFailureListener(e -> listener.onUploadFailed(e.getMessage()));
-                })
-                .addOnFailureListener(e -> listener.onUploadFailed(e.getMessage()));
-    }
-
-    public interface OnImageUploadListener {
-        void onUploadSuccess(String imageUrl);
-        void onUploadFailed(String errorMessage);
-    }
 
 
     //FONTS
 
-    public void afegirFont(String latitud, String longitud, String potable, String estat, Uri imagenUri, OnImageUploadListener listener) {
+    public void afegirFont(String latitud, String longitud, String potable, String estat, Uri imagenUri, PenjarImatges.OnImageUploadListener listener) {
 
         String fontId = databaseReferenceFonts.push().getKey();
         if (fontId == null) {
@@ -89,12 +66,12 @@ public class RealtimeManager {
 
         if (imagenUri != null) {
             // Si hi ha foto, s'afegeix al storage manager
-            penjarFotos(imagenUri, fontId, new OnImageUploadListener() {
+            penjarImatges.penjarFotos(imagenUri, fontId, new PenjarImatges.OnImageUploadListener() {
                 @Override
-                public void onUploadSuccess(String imageUrl) {
-                    font.setImageUrl(imageUrl);
+                public void onUploadSuccess(String imagenUri) {
+                    font.setImageUrl(imagenUri);
                     guardarFont(font);
-                    listener.onUploadSuccess(imageUrl);
+                    listener.onUploadSuccess(imagenUri);
                 }
 
                 @Override
@@ -114,9 +91,13 @@ public class RealtimeManager {
         databaseReferenceFonts.child(font.getKey()).setValue(font)
                 .addOnSuccessListener(aVoid -> {
                     // Éxito
+                    Log.d("RealtimeManager", "Font guardada exitosamente");
+
                 })
                 .addOnFailureListener(e -> {
                     // Manejar error
+                    Log.e("RealtimeManager", "Error al guardar la font: " + e.getMessage());
+
                 });
     }
 
@@ -163,22 +144,4 @@ public class RealtimeManager {
 
         return liveData;
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }

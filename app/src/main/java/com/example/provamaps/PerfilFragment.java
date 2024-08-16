@@ -40,7 +40,7 @@ public class PerfilFragment extends Fragment implements SearchView.OnQueryTextLi
     ArrayList<Model_ItemCardPerfil> arrayListFonts = new ArrayList<>();
     SearchView searchView;
     ModelRecyclerView modelRecyclerView;
-    private RealtimeManager realtimeManager;
+    //private RealtimeManager realtimeManager;
 
     public PerfilFragment() {
         // Required empty public constructor
@@ -90,10 +90,10 @@ public class PerfilFragment extends Fragment implements SearchView.OnQueryTextLi
         //Obté les dades de la base de dades
 
         //inicialitza el singleton realtimemanager
-        realtimeManager = RealtimeManager.getInstance();
+        //realtimeManager = RealtimeManager.getInstance();
 
         // Obté les dades de la base de dades
-        obtenirFonts();
+        //obtenirFonts();
 
         // Maneja los argumentos si es necesario
         if (getArguments() != null) {
@@ -102,7 +102,7 @@ public class PerfilFragment extends Fragment implements SearchView.OnQueryTextLi
     }
 
 
-    private void obtenirFonts() {
+    /*private void obtenirFonts() {
         // Segons les dades del LiveData de RealtimeManager actualitza la UI quan canviin les dades
         realtimeManager.obtenirFontsUsuari().observe(this, fonts -> {
             if (fonts != null && !fonts.isEmpty()) {
@@ -120,7 +120,7 @@ public class PerfilFragment extends Fragment implements SearchView.OnQueryTextLi
                     // Crea el Model_ItemCardPerfil
                     Model_ItemCardPerfil itemCardPerfil = new Model_ItemCardPerfil(
                             /*urlFoto,*/
-                            tipus,
+                            /*tipus,
                             lat,
                             lon,
                             urlFoto
@@ -132,7 +132,7 @@ public class PerfilFragment extends Fragment implements SearchView.OnQueryTextLi
                 modelRecyclerView.notifyDataSetChanged();
             }
         });
-    }
+    }*/
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

@@ -64,7 +64,7 @@ public class AfegirFontFragment extends Fragment {
 
     private Uri createImageUri(Context context) {
         //File imatgeNom = new File(context.getFilesDir(), "camera_fotos.png");
-        String imatgeNom = "camera_fotos_" + System.currentTimeMillis() + ".png";
+        String imatgeNom = "camera_fotos_" + System.currentTimeMillis() + ".jpg";
         File imatge = new File(context.getFilesDir(), imatgeNom);
         return FileProvider.getUriForFile(context, "com.example.provamaps.FileProvider", imatge);
     }
@@ -143,7 +143,6 @@ public class AfegirFontFragment extends Fragment {
                     //selectedButton.getText()
                 } else {
                     //No s'ha seleccionat cap
-
                     MyUtils.toast(getContext(),"Selecciona si la font és potable.");
                     return;
                 }
@@ -173,9 +172,11 @@ public class AfegirFontFragment extends Fragment {
                 try {
                     if (lat < -90 || lat > 90) {
                         binding.textLatitudFont.setError("Latitud incorrecta");
+                        return;
                     }
                     if (lon < -180 || lon > 180) {
                         binding.textLongitudFont.setError("Longitud incorrecta");
+                        return;
                     }
                 } catch (NumberFormatException e) {
                     binding.textLatitudFont.setError("Latitud incorrecta");
@@ -189,31 +190,35 @@ public class AfegirFontFragment extends Fragment {
                    // Uri imagenUri = obtenerUriDeLaImagenSeleccionada(); // Implementa este método para obtener la URI de la imagen seleccionada
                     if (uriImatge != null) {
                         // Subir la imagen y luego crear la fuente
-                        realtimeManager.afegirFont(binding.textLatitudFont.getText().toString(), binding.textLongitudFont.getText().toString(), potable, estat, uriImatge, new RealtimeManager.OnImageUploadListener() {
+                        realtimeManager.afegirFont(binding.textLatitudFont.getText().toString(), binding.textLongitudFont.getText().toString(), potable, estat, uriImatge, new PenjarImatges.OnImageUploadListener() {
                             @Override
                             public void onUploadSuccess(String imageUrl) {
                                 Toast.makeText(getContext(), "Font afegida amb èxit!", Toast.LENGTH_SHORT).show();
+                                //Tornar al mapa
                             }
 
                             @Override
                             public void onUploadFailed(String errorMessage) {
                                 Toast.makeText(getContext(), "Error al afegir la font: " + errorMessage, Toast.LENGTH_SHORT).show();
+
                             }
                         });
                     }
                 } else {
                     // Crear la Font sin foto
-                    realtimeManager.afegirFont(binding.textLatitudFont.getText().toString(), binding.textLongitudFont.getText().toString(), potable, estat, null, new RealtimeManager.OnImageUploadListener() {
-                        @Override
-                        public void onUploadSuccess(String imageUrl) {
-                            Toast.makeText(getContext(), "Font afegida sense foto amb èxit!", Toast.LENGTH_SHORT).show();
-                        }
+                    realtimeManager.afegirFont(binding.textLatitudFont.getText().toString(), binding.textLongitudFont.getText().toString(), potable, estat, null, new PenjarImatges.OnImageUploadListener() {
+                                @Override
+                                public void onUploadSuccess(String imageUrl) {
+                                    Toast.makeText(getContext(), "Font afegida sense foto amb èxit!", Toast.LENGTH_SHORT).show();
+                                    //Tornar al mapa
+                                }
 
-                        @Override
-                        public void onUploadFailed(String errorMessage) {
-                            Toast.makeText(getContext(), "Error al afegir la font amb foto: " + errorMessage, Toast.LENGTH_SHORT).show();
-                        }
-                    });
+                                @Override
+                                public void onUploadFailed(String errorMessage) {
+                                    Toast.makeText(getContext(), "Error al afegir la font amb foto: " + errorMessage, Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                    );
                 }
 
 
@@ -226,10 +231,6 @@ public class AfegirFontFragment extends Fragment {
                     crearFont(latitud, longitud, potable, estat, null);
                 }*/
 
-
-
-
-
                 //Obtenir valors i crear l'objecte font
 
                 //Errors als ttoggle buttons
@@ -238,9 +239,6 @@ public class AfegirFontFragment extends Fragment {
                 }*/
             }
         });
-
-
-
 
         //Cada vegada que es canvia de boto canvia la variable que diu quin esta seleccionat
         binding.tggbFontPotable.addOnButtonCheckedListener(new MaterialButtonToggleGroup.OnButtonCheckedListener() {
@@ -365,6 +363,42 @@ public class AfegirFontFragment extends Fragment {
 
     private void obtenirAdreca () {
 
+        try {
+            double lat = Double.parseDouble(binding.textLatitudFont.getText().toString());
+            double lon = Double.parseDouble(binding.textLongitudFont.getText().toString());
+
+            // Obtenemos la lista de direcciones con el geocoder
+            adreca = geocoder.getFromLocation(lat, lon, 1);
+
+            // Verifica si la lista tiene algún elemento antes de acceder
+            if (adreca != null && !adreca.isEmpty()) {
+                Address address = adreca.get(0);
+
+                String poblacio = address.getLocality();
+                String provincia = address.getAdminArea();
+                String pais = address.getCountryName();
+                String numero = address.getFeatureName();
+                String comarca = address.getSubAdminArea();
+                String carrer = address.getThoroughfare();
+
+                binding.textAdrecaFont.setText(carrer + ", " + numero + ", " + poblacio + ", " + comarca + ", " + provincia + ", " + pais);
+
+                // Actualiza la imagen del mapa
+                String url = "https://static-maps.yandex.ru/1.x/?lang=en-US&ll=" + lon + "," + lat + "&z=18&size=440,310&l=sat&pt=" + lon + "," + lat + ",pm2rdl";
+                Picasso.get().load(url).into(binding.ivMapaLocalitzacioAfegirFont);
+            } else {
+                // Si no se encuentra una dirección, muestra un mensaje o realiza alguna acción
+                binding.textAdrecaFont.setText("Adreça no trobada");
+            }
+        } catch (IOException | NumberFormatException e) {
+            e.printStackTrace();
+            binding.textAdrecaFont.setText("Error en obtenir l'adreça");
+        }
+
+
+
+
+/*
         double lat = Double.parseDouble(binding.textLatitudFont.getText().toString());
         double lon = Double.parseDouble(binding.textLongitudFont.getText().toString());
 
@@ -395,6 +429,6 @@ public class AfegirFontFragment extends Fragment {
         //Mapa satelit
         String url = "https://static-maps.yandex.ru/1.x/?lang=en-US&ll=" + lon + "," + lat + "&z=" + 18 + "&size=" + 440 + "," + 310 + "&l=sat&pt=" + lon + "," + lat + ",pm2rdl";
 
-        Picasso.get().load(url).into(binding.ivMapaLocalitzacioAfegirFont);
+        Picasso.get().load(url).into(binding.ivMapaLocalitzacioAfegirFont);*/
     }
 }
