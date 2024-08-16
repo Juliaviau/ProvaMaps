@@ -31,6 +31,9 @@ public class Font {
         this.key = key;
     }
 
+    public Font(String fontId, String latitud, String longitud, String potable, String estat, String imageUrl) {
+    }
+
     public void setKey(String key) {
         this.key = key;
     }
@@ -47,5 +50,13 @@ public class Font {
     }
     public String getUrlfoto() {
         return urlfoto;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.urlfoto = imageUrl;
+    }
+
+    public String getKey() {
+        return key;
     }
 }

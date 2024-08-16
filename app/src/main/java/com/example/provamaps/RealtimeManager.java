@@ -3,6 +3,7 @@ package com.example.provamaps;
 import static kotlinx.coroutines.channels.ProduceKt.awaitClose;
 
 import android.content.Context;
+import android.net.Uri;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.Observable;
@@ -15,6 +16,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +33,7 @@ public class RealtimeManager {
     private DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();//.getInstance().reference.child("nombd");
     private DatabaseReference databaseReferenceFonts =  mDatabase.child("fonts");
     private AuthManager authManager = new AuthManager();
+    private StorageReference storageReference = FirebaseStorage.getInstance().getReference();
 
     // Constructor privat per evitar que es faci new des de fora
     private RealtimeManager() {}
@@ -42,15 +46,87 @@ public class RealtimeManager {
         return instancia;
     }
 
+    //IMATGES
+
+    public void penjarFotos(Uri uriImatge, String fontId, OnImageUploadListener listener) {
+
+        if (uriImatge == null) {
+            listener.onUploadFailed("No hi ha imatge");
+            return;
+        }
+
+        //Guardar la imatge a imatges/idImatge.jpg
+        StorageReference imageRef = storageReference.child("imatges/" + fontId + ".jpg");
+
+        // Penjar imatge
+        imageRef.putFile(uriImatge)
+                .addOnSuccessListener(taskSnapshot -> {
+                    imageRef.getDownloadUrl().addOnSuccessListener(uri -> {
+                        listener.onUploadSuccess(uri.toString()); // Retorna la URL per descarregar
+                    }).addOnFailureListener(e -> listener.onUploadFailed(e.getMessage()));
+                })
+                .addOnFailureListener(e -> listener.onUploadFailed(e.getMessage()));
+    }
+
+    public interface OnImageUploadListener {
+        void onUploadSuccess(String imageUrl);
+        void onUploadFailed(String errorMessage);
+    }
+
+
     //FONTS
 
-    void afegirFont(Font font) {
+    public void afegirFont(String latitud, String longitud, String potable, String estat, Uri imagenUri, OnImageUploadListener listener) {
+
+        String fontId = databaseReferenceFonts.push().getKey();
+        if (fontId == null) {
+            listener.onUploadFailed("Error al generar la clau de la font");
+            return;
+        }
+
+        Font font = new Font(fontId, latitud, longitud, potable, estat, null); //Sense imatge de moment
+
+
+        if (imagenUri != null) {
+            // Si hi ha foto, s'afegeix al storage manager
+            penjarFotos(imagenUri, fontId, new OnImageUploadListener() {
+                @Override
+                public void onUploadSuccess(String imageUrl) {
+                    font.setImageUrl(imageUrl);
+                    guardarFont(font);
+                    listener.onUploadSuccess(imageUrl);
+                }
+
+                @Override
+                public void onUploadFailed(String errorMessage) {
+                    listener.onUploadFailed(errorMessage);
+                }
+            });
+        } else {
+            // Si no hi ha imatge
+            guardarFont(font);
+            listener.onUploadSuccess(null);
+        }
+    }
+
+
+    private void guardarFont(Font font) {
+        databaseReferenceFonts.child(font.getKey()).setValue(font)
+                .addOnSuccessListener(aVoid -> {
+                    // Éxito
+                })
+                .addOnFailureListener(e -> {
+                    // Manejar error
+                });
+    }
+
+    /*void afegirFont(Font font) {
         //identificador unic per la font
         String key = databaseReferenceFonts.push().getKey();
         if (key != null) {
             databaseReferenceFonts.child(key).setValue(font);
         }
-    }
+    }*/
     void eliminarFont(String fontId) {
         databaseReferenceFonts.child(fontId).removeValue();
     }

@@ -31,6 +31,10 @@ import com.example.provamaps.databinding.FragmentAfegirFontBinding;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.button.MaterialButtonToggleGroup;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
@@ -50,6 +54,7 @@ public class AfegirFontFragment extends Fragment {
     private int seleccioEstat = View.NO_ID;
 
     private boolean hiHaFoto = false;
+    private RealtimeManager realtimeManager;
 
     ActivityResultLauncher<Uri> contract = registerForActivityResult(new ActivityResultContracts.TakePicture(), result -> {
         imatgeFont.setImageURI(null);
@@ -58,8 +63,10 @@ public class AfegirFontFragment extends Fragment {
     });
 
     private Uri createImageUri(Context context) {
-        File image = new File(context.getFilesDir(), "camera_fotos.png");
-        return FileProvider.getUriForFile(context, "com.example.provamaps.FileProvider", image);
+        //File imatgeNom = new File(context.getFilesDir(), "camera_fotos.png");
+        String imatgeNom = "camera_fotos_" + System.currentTimeMillis() + ".png";
+        File imatge = new File(context.getFilesDir(), imatgeNom);
+        return FileProvider.getUriForFile(context, "com.example.provamaps.FileProvider", imatge);
     }
 
     public AfegirFontFragment() {
@@ -72,6 +79,7 @@ public class AfegirFontFragment extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        realtimeManager = RealtimeManager.getInstance();
         super.onCreate(savedInstanceState);
     }
 
@@ -126,28 +134,101 @@ public class AfegirFontFragment extends Fragment {
             public void onClick(View view){
 
                 //Mirar que hi hagi els togglebuttons seleccionats
+                String potable = null;
+                String estat = null;
+
                 if (seleccioPotable != View.NO_ID) {
                     MaterialButton selectedButton = binding.getRoot().findViewById(seleccioPotable);
+                    potable = selectedButton.getText().toString();
                     //selectedButton.getText()
                 } else {
                     //No s'ha seleccionat cap
+
+                    MyUtils.toast(getContext(),"Selecciona si la font és potable.");
+                    return;
                 }
 
                 if (seleccioEstat != View.NO_ID) {
                     MaterialButton selectedButton = binding.getRoot().findViewById(seleccioEstat);
+                    estat = selectedButton.getText().toString();
                     //selectedButton.getText()
                 } else {
                     //No s'ha seleccionat cap
+                    MyUtils.toast(getContext(),"Selecciona si la font esta en servei.");
+                    return;
                 }
 
                 //Que hi hagi coordenades
-                if (binding.textLatitudFont.getText() != null && binding.textLongitudFont.getText() != null) {
+                /*String latitud = binding.textLatitudFont.getText().toString();
+                String longitud = binding.textLongitudFont.getText().toString();
 
-                } else {
-                    //No hi ha coordenades
+                if (latitud.isEmpty() || longitud.isEmpty()) {
+                    Toast.makeText(getContext(), "Cal introduir coordenades vàlides.", Toast.LENGTH_SHORT).show();
+                    return;
+                }*/
+
+                double lat = Double.parseDouble(binding.textLatitudFont.getText().toString());
+                double lon = Double.parseDouble(binding.textLongitudFont.getText().toString());
+
+                try {
+                    if (lat < -90 || lat > 90) {
+                        binding.textLatitudFont.setError("Latitud incorrecta");
+                    }
+                    if (lon < -180 || lon > 180) {
+                        binding.textLongitudFont.setError("Longitud incorrecta");
+                    }
+                } catch (NumberFormatException e) {
+                    binding.textLatitudFont.setError("Latitud incorrecta");
+                    binding.textLongitudFont.setError("Longitud incorrecta");
                 }
 
+
                 //Foto opcional?
+
+                if (hiHaFoto) {
+                   // Uri imagenUri = obtenerUriDeLaImagenSeleccionada(); // Implementa este método para obtener la URI de la imagen seleccionada
+                    if (uriImatge != null) {
+                        // Subir la imagen y luego crear la fuente
+                        realtimeManager.afegirFont(binding.textLatitudFont.getText().toString(), binding.textLongitudFont.getText().toString(), potable, estat, uriImatge, new RealtimeManager.OnImageUploadListener() {
+                            @Override
+                            public void onUploadSuccess(String imageUrl) {
+                                Toast.makeText(getContext(), "Font afegida amb èxit!", Toast.LENGTH_SHORT).show();
+                            }
+
+                            @Override
+                            public void onUploadFailed(String errorMessage) {
+                                Toast.makeText(getContext(), "Error al afegir la font: " + errorMessage, Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                } else {
+                    // Crear la Font sin foto
+                    realtimeManager.afegirFont(binding.textLatitudFont.getText().toString(), binding.textLongitudFont.getText().toString(), potable, estat, null, new RealtimeManager.OnImageUploadListener() {
+                        @Override
+                        public void onUploadSuccess(String imageUrl) {
+                            Toast.makeText(getContext(), "Font afegida sense foto amb èxit!", Toast.LENGTH_SHORT).show();
+                        }
+
+                        @Override
+                        public void onUploadFailed(String errorMessage) {
+                            Toast.makeText(getContext(), "Error al afegir la font amb foto: " + errorMessage, Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+
+
+                /*if (hiHaFoto) {
+                    //Afegir la foto
+                    // Aquí deberías subir la foto a Firebase Storage antes de crear el objeto Font
+                    subirImagenYCrearFont(latitud, longitud, potable, estat);
+                } else {
+                    // Crear la Font sin foto
+                    crearFont(latitud, longitud, potable, estat, null);
+                }*/
+
+
+
+
 
                 //Obtenir valors i crear l'objecte font
 
@@ -157,6 +238,8 @@ public class AfegirFontFragment extends Fragment {
                 }*/
             }
         });
+
+
 
 
         //Cada vegada que es canvia de boto canvia la variable que diu quin esta seleccionat
@@ -194,6 +277,7 @@ public class AfegirFontFragment extends Fragment {
             registerForActivityResult(new PickVisualMedia(), uri -> {
                 if (uri != null) {
                     Log.d("TriaImatge", "URI de l'imatge seleccionada: " + uri);
+                    uriImatge = uri;
                     imatgeFont.setImageURI(uri);
                     hiHaFoto = true;
                     //Guardar la uri a la base de dades
