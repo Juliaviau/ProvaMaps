@@ -1,5 +1,6 @@
 package com.example.provamaps;
 
+import android.content.pm.PackageManager;
 import android.graphics.Rect;
 import android.location.GpsStatus;
 import android.os.Bundle;
@@ -8,6 +9,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.Manifest;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import com.example.provamaps.databinding.FragmentIniciBinding;
 import org.osmdroid.api.IMapController;
@@ -32,6 +35,7 @@ public class IniciFragment extends Fragment implements MapListener, GpsStatus.Li
     private FragmentIniciBinding binding;
     private static final String TAG = "INICI_TAG";
     private ScaleBarOverlay mScaleBarOverlay;
+    private GeoPoint startPoint = new GeoPoint(41.964109, 2.829905);//posicio universitat
 
     public IniciFragment() {}
 
@@ -50,6 +54,7 @@ public class IniciFragment extends Fragment implements MapListener, GpsStatus.Li
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
         binding = FragmentIniciBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
 
@@ -66,8 +71,9 @@ public class IniciFragment extends Fragment implements MapListener, GpsStatus.Li
         mMap.getLocalVisibleRect(new Rect());
 
         //Posicio actual
-        mMyLocationOverlay = new MyLocationNewOverlay(new GpsMyLocationProvider(getActivity()), mMap);
+        //mMyLocationOverlay = new MyLocationNewOverlay(new GpsMyLocationProvider(getActivity()), mMap);
         controller = mMap.getController();
+        controller.setZoom(18.0);
 
         //Brújula a dalt a lesquerra
         CompassOverlay compassOverlay = new CompassOverlay(getActivity(), mMap);
@@ -85,12 +91,39 @@ public class IniciFragment extends Fragment implements MapListener, GpsStatus.Li
         mScaleBarOverlay.setCentred(true);
         mScaleBarOverlay.setScaleBarOffset(dm.widthPixels / 2, 80);
         mMap.getOverlays().add(this.mScaleBarOverlay);
-       // mMap.setTileSource(TileSourceFactory.USGS_SAT);
 
-        GeoPoint startPoint = new GeoPoint(41.964109, 2.829905);
+
+        binding.btnCentrarMapa.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mMyLocationOverlay.getMyLocation() != null) {
+                    /*GeoPoint myLocation = mMyLocationOverlay.getMyLocation();
+                    controller.setCenter(myLocation);
+                    controller.animateTo(myLocation);*/
+                    mMyLocationOverlay.enableFollowLocation();
+                } else {
+                    // Si la ubicació no esta disponible
+                    controller.setCenter(startPoint);
+                    controller.animateTo(startPoint);
+                }
+            }
+        });
+
+
+
         controller.setCenter(startPoint);
 
-        mMyLocationOverlay.enableMyLocation();
+
+        // Mirar si hi ha permisos d'ubicació
+        if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            mostrarUbicacio();
+        } else {
+            MyUtils.toast(getContext(), "Permiso de ubicación no otorgado, centrando el mapa en el punto predeterminado.");
+        }
+
+        mMap.addMapListener(this);
+
+        /*mMyLocationOverlay.enableMyLocation();
         mMyLocationOverlay.enableFollowLocation();
         mMyLocationOverlay.setDrawAccuracyEnabled(true);
 
@@ -107,16 +140,41 @@ public class IniciFragment extends Fragment implements MapListener, GpsStatus.Li
             }
         });
 
-        controller.setZoom(18.0);
-
         Log.e(TAG, "Al fer zoom in " + controller.zoomIn());
         Log.e(TAG, "Al fer zoom out  " + controller.zoomOut());
 
         mMap.getOverlays().add(mMyLocationOverlay);
-        mMap.addMapListener(this);
-
+        mMap.addMapListener(this);*/
 
         return view;
+    }
+
+    private void mostrarUbicacio() {
+        // Configurar la capa de ubicación
+        mMyLocationOverlay = new MyLocationNewOverlay(new GpsMyLocationProvider(getActivity()), mMap);
+        mMyLocationOverlay.enableMyLocation();
+        mMyLocationOverlay.enableFollowLocation();
+        mMyLocationOverlay.setDrawAccuracyEnabled(true);
+
+        mMyLocationOverlay.runOnFirstFix(new Runnable() {
+            @Override
+            public void run() {
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (mMyLocationOverlay.getMyLocation() != null) {
+                            controller.setCenter(mMyLocationOverlay.getMyLocation());
+                            controller.animateTo(mMyLocationOverlay.getMyLocation());
+                        } else {
+                            // Si no se obtiene la ubicación, centrar en el punto predeterminado
+                            controller.setCenter(startPoint);
+                        }
+                    }
+                });
+            }
+        });
+
+        mMap.getOverlays().add(mMyLocationOverlay);
     }
 
     @Override
