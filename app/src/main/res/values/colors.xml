@@ -13,13 +13,22 @@
     <color name="teal_d700">#FF018786</color-->
 
     <!-- Colors contenidors -->
-    <color name="contenidor_vidre">#1C7F28</color>
-    <color name="contenidor_paper">#033E78</color>
-    <color name="contenidor_envasos">#EDD221</color>
-    <color name="contenidor_organic">#83573B</color>
-    <color name="contenidor_rebuig">#616169</color>
-    <color name="contenidor_roba">#EF5425</color>
-    <color name="contenidor_paperera">#515558</color>
+    <color name="contenidor_vidre_seleccionat">#1C7F28</color>
+    <color name="contenidor_paper_seleccionat">#033E78</color>
+    <color name="contenidor_envasos_seleccionat">#EDD221</color>
+    <color name="contenidor_organic_seleccionat">#83573B</color>
+    <color name="contenidor_rebuig_seleccionat">#616169</color>
+    <color name="contenidor_roba_seleccionat">#EF5425</color>
+    <color name="contenidor_paperera_seleccionat">#515558</color>
+
+    <color name="contenidor_vidre">#E4D7D7</color>
+    <color name="contenidor_paper">#E4D7D7</color>
+    <color name="contenidor_envasos">#E4D7D7</color>
+    <color name="contenidor_organic">#E4D7D7</color>
+    <color name="contenidor_rebuig">#E4D7D7</color>
+    <color name="contenidor_roba">#E4D7D7</color>
+    <color name="contenidor_paperera">#E4D7D7</color>
+
 
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
@@ -33,8 +42,5 @@
 
     <color name="blau_boto_dialog">#417C91</color>
 
-
-
     <color name="common_google_signin_btn_text_light">#000000</color>
-
 </resources>

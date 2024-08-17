@@ -258,9 +258,6 @@
                 android:textSize="16sp"
                 android:text="@string/localitzacio_font" />
 
-
-
-
             <TextView
                 android:id="@+id/tv_descLocalitzacioAfegirFont"
                 android:layout_marginHorizontal="12dp"

@@ -185,7 +185,7 @@ public class PerfilFragment extends Fragment implements SearchView.OnQueryTextLi
         binding.recyclerView.setAdapter(modelRecyclerView);
 
         binding.searchviewa.setOnQueryTextListener(this);
-
+        //TODO: afegir tambe les altres bd
         obtenirFonts();
         loadMyInfo();
     }

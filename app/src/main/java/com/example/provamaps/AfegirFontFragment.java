@@ -112,7 +112,6 @@ public class AfegirFontFragment extends Fragment {
             public void onClick(View view) {
                 if (uriImatge != null) {
                     contract.launch(uriImatge);
-                    //Guardar la uriImatge a la base de dades
                 } else {
                     Toast.makeText(context, "Error en fer la foto", Toast.LENGTH_SHORT).show();
                 }
@@ -315,7 +314,6 @@ public class AfegirFontFragment extends Fragment {
                     uriImatge = uri;
                     imatgeFont.setImageURI(uri);
                     hiHaFoto = true;
-                    //Guardar la uri a la base de dades
                 } else {
                     Log.d("TriaImatge", "No s'ha seleccionat cap imatge");
                 }
