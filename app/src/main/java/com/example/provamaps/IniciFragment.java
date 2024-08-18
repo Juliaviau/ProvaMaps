@@ -49,9 +49,22 @@ public class IniciFragment extends Fragment implements MapListener, GpsStatus.Li
     private static final String TAG = "INICI_TAG";
     private ScaleBarOverlay mScaleBarOverlay;
     private GeoPoint startPoint = new GeoPoint(41.964109, 2.829905);//posicio universitat
+    //Fonts
     private List<Marker> fontMarkers = new ArrayList<>();
     private boolean areFontMarkersVisible = true;
     private List<Font> llistaFonts = new ArrayList<>();
+    //Lavabos
+    private List<Marker> lavabosMarkers = new ArrayList<>();
+    private boolean areLavabosMarkersVisible = true;
+    private List<Lavabo> llistaLavabos = new ArrayList<>();
+    //Picnics
+    private List<Marker> picnicsMarkers = new ArrayList<>();
+    private boolean arePicnicsMarkersVisible = true;
+    private List<Picnic> llistaPicnics = new ArrayList<>();
+    //Contenidors
+    private List<Marker> contenidorsMarkers = new ArrayList<>();
+    private boolean areContenidorsMarkersVisible = true;
+    private List<Contenidor> llistaContenidors = new ArrayList<>();
     public IniciFragment() {}
 
     public static IniciFragment newInstance(String param1, String param2) {
@@ -125,14 +138,10 @@ public class IniciFragment extends Fragment implements MapListener, GpsStatus.Li
         });
 
         Font font = new Font("iddd","41.964488", "3.029476","Potable","En servei",null);
-        Font font2 = new Font("iddd","41.964288", "3.029876","Potable","En servei",null);
+        Font font2 = new Font("iddd","41.964288", "3.029876","Potable","Sense servei",null);
 
         llistaFonts.add(font2);
         llistaFonts.add(font);
-
-        Lavabo lavabo = new Lavabo("iddd","41.944488", "3.029176", Arrays.asList(3, 1, 4),"Si","Si", null);
-        Picnic picnic = new Picnic("iddd","41.972909", "3.029476","Bancs",Arrays.asList(0,1),null);
-        Contenidor contenidor = new Contenidor("iddd","41.964118", "3.029476",Arrays.asList("Envasos", "Paperera"),null);
 
         //Mostrar o amagar les fonts
         binding.btnFont.setOnClickListener(v -> {
@@ -159,6 +168,102 @@ public class IniciFragment extends Fragment implements MapListener, GpsStatus.Li
         //i amb el botofont es mostraran o no dins del mapa
 
         afegirPuntsFonts(llistaFonts);
+
+
+        Lavabo lavabo = new Lavabo("iddd","41.965170", "3.029927", Arrays.asList(3, 1, 4),"Si","Si", null);
+        Lavabo lavabo2 = new Lavabo("iddd","41.964670", "3.030034", Arrays.asList(3, 1, 4),"No","Si", null);
+
+        llistaLavabos.add(lavabo2);
+        llistaLavabos.add(lavabo);
+
+        //Mostrar o amagar lavabos
+        binding.btnLavabo.setOnClickListener(v -> {
+            if (areLavabosMarkersVisible) {
+                for (Marker marker : lavabosMarkers) {
+                    marker.setVisible(false);
+                }
+                binding.btnLavabo.setBackgroundTintList(ContextCompat.getColorStateList(getContext(), R.color.color_boto_inactiu));
+            } else {
+                for (Marker marker : lavabosMarkers) {
+                    marker.setVisible(true);
+                }
+                binding.btnLavabo.setBackgroundTintList(ContextCompat.getColorStateList(getContext(), R.color.color_boto_actiu));
+            }
+            areLavabosMarkersVisible = !areLavabosMarkersVisible; // Alternar el estado de visibilidad
+            mMap.invalidate(); // Refrescar el mapa
+        });
+
+        //Obtenir totes les fonts, que es guarden en un LiveData<List<Font>>
+        //es crida l'afegir punts de les fonts, passant larray de les fonts
+        //creara un fontmarkers amb l'informacio dels marcadors
+        //i amb el botofont es mostraran o no dins del mapa
+
+        afegirPuntsLavabos(llistaLavabos);
+
+
+        Picnic picnic = new Picnic("iddd","41.965702", "3.028188","Bancs",Arrays.asList(0,1),null);
+        Picnic picnic2 = new Picnic("iddd","41.961702", "3.028988","Bancs i taules",Arrays.asList(0,1),null);
+
+        llistaPicnics.add(picnic);
+        llistaPicnics.add(picnic2);
+
+        //Mostrar o amagar lavabos
+        binding.btnPicnic.setOnClickListener(v -> {
+            if (arePicnicsMarkersVisible) {
+                for (Marker marker : picnicsMarkers) {
+                    marker.setVisible(false);
+                }
+                binding.btnPicnic.setBackgroundTintList(ContextCompat.getColorStateList(getContext(), R.color.color_boto_inactiu));
+            } else {
+                for (Marker marker : picnicsMarkers) {
+                    marker.setVisible(true);
+                }
+                binding.btnPicnic.setBackgroundTintList(ContextCompat.getColorStateList(getContext(), R.color.color_boto_actiu));
+            }
+            arePicnicsMarkersVisible = !arePicnicsMarkersVisible; // Alternar el estado de visibilidad
+            mMap.invalidate(); // Refrescar el mapa
+        });
+
+        //Obtenir totes les fonts, que es guarden en un LiveData<List<Font>>
+        //es crida l'afegir punts de les fonts, passant larray de les fonts
+        //creara un fontmarkers amb l'informacio dels marcadors
+        //i amb el botofont es mostraran o no dins del mapa
+
+        afegirPuntsPicnics(llistaPicnics);
+
+
+
+        Contenidor contenidor = new Contenidor("iddd","41.967335", "3.027848",Arrays.asList("Envasos", "Paperera"),null);
+        Contenidor contenidor2 = new Contenidor("iddd","41.967395", "3.027841",Arrays.asList("Envasos", "Paperera, Roba, Organic, Rebuig"),null);
+
+        llistaContenidors.add(contenidor);
+        llistaContenidors.add(contenidor2);
+
+        //Mostrar o amagar lavabos
+        binding.btnContenidor.setOnClickListener(v -> {
+            if (areContenidorsMarkersVisible) {
+                for (Marker marker : contenidorsMarkers) {
+                    marker.setVisible(false);
+                }
+                binding.btnContenidor.setBackgroundTintList(ContextCompat.getColorStateList(getContext(), R.color.color_boto_inactiu));
+            } else {
+                for (Marker marker : contenidorsMarkers) {
+                    marker.setVisible(true);
+                }
+                binding.btnContenidor.setBackgroundTintList(ContextCompat.getColorStateList(getContext(), R.color.color_boto_actiu));
+            }
+            areContenidorsMarkersVisible = !areContenidorsMarkersVisible; // Alternar el estado de visibilidad
+            mMap.invalidate(); // Refrescar el mapa
+        });
+
+        //Obtenir totes les fonts, que es guarden en un LiveData<List<Font>>
+        //es crida l'afegir punts de les fonts, passant larray de les fonts
+        //creara un fontmarkers amb l'informacio dels marcadors
+        //i amb el botofont es mostraran o no dins del mapa
+
+        afegirPuntsContenidors(llistaContenidors);
+
+
 
         controller.setCenter(startPoint);
 
@@ -227,6 +332,91 @@ public class IniciFragment extends Fragment implements MapListener, GpsStatus.Li
         return null;
     }
 
+    private void afegirPuntsLavabos (List<Lavabo> llistaLavabos) {
+
+        lavabosMarkers.clear();
+
+        for (Lavabo lavabo:llistaLavabos) {
+            Marker marker = new Marker(mMap);
+            marker.setPosition(new GeoPoint(Double.parseDouble(lavabo.getLatitud()), Double.parseDouble(lavabo.getLongitud())));
+            marker.setIcon(ContextCompat.getDrawable(getContext(), R.drawable.icona_lavabo));
+            marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
+            marker.setInfoWindow(new InformacioPuntLavabo(mMap,lavabo, obtenirAdreca(lavabo.getLatitud(),lavabo.getLongitud()),getContext()));
+            marker.setOnMarkerClickListener((m, mapView) -> {
+                m.showInfoWindow(); // Muestra la ventana de información al hacer clic en el marcador
+                return true;
+            });
+
+            mMap.setOnTouchListener((v, event) -> {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    InformacioPuntLavabo.closeAllInfoWindowsOn(mMap); // Cerrar cualquier ventana abierta
+                }
+                return false;
+            });
+
+            mMap.getOverlays().add(marker);
+            lavabosMarkers.add(marker);
+
+        }
+        mMap.invalidate();
+    }
+
+    private void afegirPuntsPicnics (List<Picnic> llistaPicnics) {
+        picnicsMarkers.clear();
+
+        for (Picnic picnic:llistaPicnics) {
+            Marker marker = new Marker(mMap);
+            marker.setPosition(new GeoPoint(Double.parseDouble(picnic.getLatitud()), Double.parseDouble(picnic.getLongitud())));
+            marker.setIcon(ContextCompat.getDrawable(getContext(), R.drawable.icona_picnic));
+            marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
+            marker.setInfoWindow(new InformacioPuntPicnic(mMap,picnic, obtenirAdreca(picnic.getLatitud(),picnic.getLongitud()),getContext()));
+            marker.setOnMarkerClickListener((m, mapView) -> {
+                m.showInfoWindow(); // Muestra la ventana de información al hacer clic en el marcador
+                return true;
+            });
+
+            mMap.setOnTouchListener((v, event) -> {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    InformacioPuntPicnic.closeAllInfoWindowsOn(mMap); // Cerrar cualquier ventana abierta
+                }
+                return false;
+            });
+
+            mMap.getOverlays().add(marker);
+            picnicsMarkers.add(marker);
+
+        }
+        mMap.invalidate();
+    }
+
+    private void afegirPuntsContenidors (List<Contenidor> llistaContenidors) {
+        contenidorsMarkers.clear();
+
+        for (Contenidor contenidor:llistaContenidors) {
+            Marker marker = new Marker(mMap);
+            marker.setPosition(new GeoPoint(Double.parseDouble(contenidor.getLatitud()), Double.parseDouble(contenidor.getLongitud())));
+            marker.setIcon(ContextCompat.getDrawable(getContext(), R.drawable.icona_contenidor));
+            marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
+            marker.setInfoWindow(new InformacioPuntContenidor(mMap,contenidor, obtenirAdreca(contenidor.getLatitud(),contenidor.getLongitud()),getContext()));
+            marker.setOnMarkerClickListener((m, mapView) -> {
+                m.showInfoWindow(); // Muestra la ventana de información al hacer clic en el marcador
+                return true;
+            });
+
+            mMap.setOnTouchListener((v, event) -> {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    InformacioPuntContenidor.closeAllInfoWindowsOn(mMap); // Cerrar cualquier ventana abierta
+                }
+                return false;
+            });
+
+            mMap.getOverlays().add(marker);
+            contenidorsMarkers.add(marker);
+
+        }
+        mMap.invalidate();
+    }
+
     private void afegirPuntsFonts (List<Font> llistaFonts) {
 
         fontMarkers.clear();
@@ -253,45 +443,7 @@ public class IniciFragment extends Fragment implements MapListener, GpsStatus.Li
             fontMarkers.add(marker);
 
         }
-
         mMap.invalidate();
-
-        // Crear una lista de ubicaciones (GeoPoints) para los marcadores
-        /*List<GeoPoint> markerPoints = new ArrayList<>();
-        markerPoints.add(new GeoPoint(41.965419, 3.032546));
-        markerPoints.add(new GeoPoint(41.972909, 3.025227));
-        markerPoints.add(new GeoPoint(41.962155, 3.022201));
-
-
-// Añadir los marcadores al mapa
-        for (GeoPoint point : markerPoints) {
-            Marker marker = new Marker(mMap);
-            marker.setPosition(point);
-            marker.setTitle("Tipus");
-            marker.setSnippet("Adreça");
-            marker.setIcon(ContextCompat.getDrawable(getContext()
-                    , R.drawable.icona_font)); // Icono personalizado para el marcador
-            marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM); // Anclar el marcador desde el centro-inferior
-            marker.setInfoWindow(new InformacioPuntFont(mMap));//informacio personalitzada
-
-            marker.setOnMarkerClickListener((m, mapView) -> {
-                m.showInfoWindow(); // Muestra la ventana de información al hacer clic en el marcador
-                return true;
-            });
-
-            mMap.setOnTouchListener((v, event) -> {
-                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    InformacioPuntFont.closeAllInfoWindowsOn(mMap); // Cerrar cualquier ventana abierta
-                }
-                return false;
-            });
-
-            mMap.getOverlays().add(marker); // Añadir el marcador al mapa
-            fontMarkers.add(marker);
-        }
-
-// Refrescar el mapa para mostrar los cambios
-        mMap.invalidate();*/
     }
 
     private void mostrarUbicacio() {

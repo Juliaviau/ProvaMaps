@@ -3,6 +3,10 @@ package com.example.provamaps;
 import java.util.List;
 
 public class Contenidor {
+    public List<String> getTipusContenidor() {
+        return tipusContenidor;
+    }
+
     //Coordenades, tipus, url foto, usuari que l'ha creat, tipus contenidor (vidre, paper, envasos, roba, organic, rebuig, paperera)
     public List<String> tipusContenidor;//vidre, paper, envasos, roba, organic, rebuig, paperera. Poden ser uns quants
 

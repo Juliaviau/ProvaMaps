@@ -4,6 +4,14 @@ import java.util.List;
 
 public class Picnic {
 
+    public String getBancsIOTaules() {
+        return bancsIOTaules;
+    }
+
+    public List<Integer> getQueHiHa() {
+        return queHiHa;
+    }
+
     //Coordenades, tipus, url foto, usuari que l'ha creat, bancsIOTaules (bancs, taules, tot), quehiha (barbacoa, herba, contenidors, sombrilles, llum)
     public String bancsIOTaules = "";//bancs, taules, tot
     public List<Integer> queHiHa;//0barbacoa, 1herba, 2contenidors, 3sombrilles, 4llum
