@@ -1,6 +1,19 @@
 package com.example.provamaps;
 
+import android.location.Address;
+
+import java.io.IOException;
+import java.util.List;
+
 public class Font {
+
+    public String getPotable() {
+        return potable;
+    }
+
+    public String getEstat() {
+        return estat;
+    }
 
     //Coordenades, tipus, url foto, usuari que l'ha creat, potable (potable, no potable, no info), estat (em servei, sense servei)
     public String potable = "";//0: no info, 1: potable, 2: no potable
@@ -59,6 +72,7 @@ public class Font {
     public void setImageUrl(String imageUrl) {
         this.urlfoto = imageUrl;
     }
+
 
     public String getKey() {
         return key;

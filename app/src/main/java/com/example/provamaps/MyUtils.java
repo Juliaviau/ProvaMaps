@@ -8,6 +8,8 @@ import android.widget.Toast;
 import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.Locale;
 
 public class MyUtils {
 

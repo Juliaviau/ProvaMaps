@@ -129,6 +129,11 @@ public class RealtimeManager {
     }
 
 
+   /* public LiveData<List<Font>> obtenirFonts() {
+        return true;
+    }*/
+
+
     //LAVABOS
     public void afegirLavabo(String latitud, String longitud, List<Integer> tipusLavabo, String disposaPaper, String disposaPica, byte[] imageData, PenjarImatges.OnImageUploadListener listener) {
 

@@ -40,6 +40,9 @@
     <color name="cancelar2">#B84010</color>
     <color name="blau_pred">#21414C</color>
 
+    <color name="colorPrimary">#21414C</color>
+
+
     <color name="blau_boto_dialog">#417C91</color>
 
     <color name="common_google_signin_btn_text_light">#000000</color>

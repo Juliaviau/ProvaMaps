@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:color="@color/blau_boto_dialog" android:state_pressed="true"/><!--quan es mostren-->
+    <item android:color="@color/blau_pred"/><!--quan no es mostren-->
+</selector>
