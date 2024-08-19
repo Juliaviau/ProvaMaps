@@ -37,14 +37,7 @@ public class PerfilFragment extends Fragment implements SearchView.OnQueryTextLi
     private FirebaseAuth firebaseAuth;
     private ProgressDialog progressDialog;
     RecyclerView recyclerView;
-    ArrayList<Model_ItemCardPerfil> arrayListFonts = new ArrayList<>();
-    ArrayList<Model_ItemCardPerfil> arrayListLavabos = new ArrayList<>();
-    ArrayList<Model_ItemCardPerfil> arrayListContenidors = new ArrayList<>();
-    ArrayList<Model_ItemCardPerfil> arrayListPicnics = new ArrayList<>();
-
     ArrayList<Model_ItemCardPerfil> arrayListPunts = new ArrayList<>();
-
-
     SearchView searchView;
     ModelRecyclerView modelRecyclerView;
     private RealtimeManager realtimeManager;
@@ -102,10 +95,6 @@ public class PerfilFragment extends Fragment implements SearchView.OnQueryTextLi
         // Obté les dades de la base de dades
         //obtenirFonts();
 
-        // Maneja los argumentos si es necesario
-        if (getArguments() != null) {
-            // Código para manejar los argumentos
-        }
     }
 
 
@@ -214,9 +203,6 @@ public class PerfilFragment extends Fragment implements SearchView.OnQueryTextLi
         });
     }
 
-
-
-
     private void obtenirFonts() {
         // Segons les dades del LiveData de RealtimeManager actualitza la UI quan canviin les dades
         realtimeManager.obtenirFontsUsuari().observe(this, fonts -> {
@@ -261,22 +247,6 @@ public class PerfilFragment extends Fragment implements SearchView.OnQueryTextLi
         //obtenirFonts();
         return binding.getRoot();
     }
-
-    /*private void obtenirFonts() {
-        // Obtén el LiveData desde RealtimeManager y obsérvalo
-        realtimeManager.obtenirFontsUsuari().observe(getViewLifecycleOwner(), fonts -> {
-            // Aquí obtienes la lista de contactos en 'fonts'
-            if (fonts != null && !fonts.isEmpty()) {
-                // Realiza las operaciones necesarias con los contactos
-                // Por ejemplo, actualizar un RecyclerView o UI
-                updateUIWithContacts(fonts);
-            }
-        });
-    }
-
-    private void updateUIWithContacts(List<Font> fonts) {
-        // actualizar UI amb les fonts
-    }*/
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {

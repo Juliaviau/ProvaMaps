@@ -13,6 +13,9 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.Manifest;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import android.graphics.drawable.Drawable;
@@ -86,6 +89,7 @@ public class IniciFragment extends Fragment implements MapListener, GpsStatus.Li
     private List<GeoPoint> routePoints = new ArrayList<>();
     private Polyline routePolyline;
     GeoPoint destinacioRuta;
+    private RealtimeManager realtimeManager;
 
     public IniciFragment() {}
 
@@ -97,9 +101,8 @@ public class IniciFragment extends Fragment implements MapListener, GpsStatus.Li
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            // Handle arguments if any
-        }
+        //inicialitza el singleton realtimemanager
+        realtimeManager = RealtimeManager.getInstance();
     }
 
     @Override
@@ -140,7 +143,6 @@ public class IniciFragment extends Fragment implements MapListener, GpsStatus.Li
         mScaleBarOverlay.setScaleBarOffset(dm.widthPixels / 2, 80);
         mMap.getOverlays().add(this.mScaleBarOverlay);
 
-
         binding.btnCentrarMapa.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -157,11 +159,14 @@ public class IniciFragment extends Fragment implements MapListener, GpsStatus.Li
             }
         });
 
-        Font font = new Font("iddd","41.964488", "3.029476","Potable","En servei",null);
+
+
+        //Obtenir els punts
+        /*Font font = new Font("iddd","41.964488", "3.029476","Potable","En servei",null);
         Font font2 = new Font("iddd","41.964288", "3.029876","Potable","Sense servei",null);
 
         llistaFonts.add(font2);
-        llistaFonts.add(font);
+        llistaFonts.add(font);*/
 
         //Mostrar o amagar les fonts
         binding.btnFont.setOnClickListener(v -> {
@@ -177,13 +182,22 @@ public class IniciFragment extends Fragment implements MapListener, GpsStatus.Li
         //creara un fontmarkers amb l'informacio dels marcadors
         //i amb el botofont es mostraran o no dins del mapa
 
-        afegirPuntsFonts(llistaFonts);
+        // Llamar al método para obtener todas las fuentes y observar los cambios
+        realtimeManager.obtenirFonts().observe(getViewLifecycleOwner(), fonts -> {
+            if (fonts != null) {
+                llistaFonts.clear();
+                llistaFonts.addAll(fonts);
+                afegirPuntsFonts(llistaFonts);
+            }
+        });
 
-        Lavabo lavabo = new Lavabo("iddd","41.965170", "3.029927", Arrays.asList(3, 1, 4),"Si","Si", null);
+        //afegirPuntsFonts(llistaFonts);
+
+       /* Lavabo lavabo = new Lavabo("iddd","41.965170", "3.029927", Arrays.asList(3, 1, 4),"Si","Si", null);
         Lavabo lavabo2 = new Lavabo("iddd","41.964670", "3.030034", Arrays.asList(3, 1, 4),"No","Si", null);
 
         llistaLavabos.add(lavabo2);
-        llistaLavabos.add(lavabo);
+        llistaLavabos.add(lavabo);*/
 
         //Mostrar o amagar lavabos
         binding.btnLavabo.setOnClickListener(v -> {
@@ -193,20 +207,28 @@ public class IniciFragment extends Fragment implements MapListener, GpsStatus.Li
                     areLavabosMarkersVisible ? R.color.color_boto_actiu : R.color.color_boto_inactiu));
         });
 
+        realtimeManager.obtenirLavabos().observe(getViewLifecycleOwner(), lavabos -> {
+            if (lavabos != null) {
+                llistaLavabos.clear();
+                llistaLavabos.addAll(lavabos);
+                afegirPuntsLavabos(llistaLavabos);
+            }
+        });
+
         //Obtenir totes les fonts, que es guarden en un LiveData<List<Font>>
         //es crida l'afegir punts de les fonts, passant larray de les fonts
         //creara un fontmarkers amb l'informacio dels marcadors
         //i amb el botofont es mostraran o no dins del mapa
 
-        afegirPuntsLavabos(llistaLavabos);
+        //afegirPuntsLavabos(llistaLavabos);
 
 
-        Picnic picnic = new Picnic("iddd","41.965702", "3.028188","Bancs",Arrays.asList(0,1),null);
+        /*Picnic picnic = new Picnic("iddd","41.965702", "3.028188","Bancs",Arrays.asList(0,1),null);
         Picnic picnic2 = new Picnic("iddd","41.961702", "3.028988","Bancs i taules",Arrays.asList(0,1),null);
         Picnic picnic3 = new Picnic("iddd","41.962446", "3.034602","Bancs i taules",Arrays.asList(0,1),null);
         llistaPicnics.add(picnic);
         llistaPicnics.add(picnic2);
-        llistaPicnics.add(picnic3);
+        llistaPicnics.add(picnic3);*/
 
         //Mostrar o amagar lavabos
         binding.btnPicnic.setOnClickListener(v -> {
@@ -216,20 +238,28 @@ public class IniciFragment extends Fragment implements MapListener, GpsStatus.Li
                     arePicnicsMarkersVisible ? R.color.color_boto_actiu : R.color.color_boto_inactiu));
         });
 
+        realtimeManager.obtenirPicnics().observe(getViewLifecycleOwner(), picnic -> {
+            if (picnic != null) {
+                llistaPicnics.clear();
+                llistaPicnics.addAll(picnic);
+                afegirPuntsPicnics(llistaPicnics);
+            }
+        });
+
         //Obtenir totes les fonts, que es guarden en un LiveData<List<Font>>
         //es crida l'afegir punts de les fonts, passant larray de les fonts
         //creara un fontmarkers amb l'informacio dels marcadors
         //i amb el botofont es mostraran o no dins del mapa
 
-        afegirPuntsPicnics(llistaPicnics);
+        //afegirPuntsPicnics(llistaPicnics);
 
 
 
-        Contenidor contenidor = new Contenidor("iddd","41.967335", "3.027848",Arrays.asList("Envasos", "Paperera"),null);
+        /*Contenidor contenidor = new Contenidor("iddd","41.967335", "3.027848",Arrays.asList("Envasos", "Paperera"),null);
         Contenidor contenidor2 = new Contenidor("iddd","41.967395", "3.027841",Arrays.asList("Envasos", "Paperera, Roba, Organic, Rebuig"),null);
 
         llistaContenidors.add(contenidor);
-        llistaContenidors.add(contenidor2);
+        llistaContenidors.add(contenidor2);*/
 
         //Mostrar o amagar lavabos
         binding.btnContenidor.setOnClickListener(v -> {
@@ -239,12 +269,20 @@ public class IniciFragment extends Fragment implements MapListener, GpsStatus.Li
                     areContenidorsMarkersVisible ? R.color.color_boto_actiu : R.color.color_boto_inactiu));
         });
 
+        realtimeManager.obtenirContenidors().observe(getViewLifecycleOwner(), contenidor -> {
+            if (contenidor != null) {
+                llistaContenidors.clear();
+                llistaContenidors.addAll(contenidor);
+                afegirPuntsContenidors(llistaContenidors);
+            }
+        });
+
         //Obtenir totes les fonts, que es guarden en un LiveData<List<Font>>
         //es crida l'afegir punts de les fonts, passant larray de les fonts
         //creara un fontmarkers amb l'informacio dels marcadors
         //i amb el botofont es mostraran o no dins del mapa
 
-        afegirPuntsContenidors(llistaContenidors);
+        //afegirPuntsContenidors(llistaContenidors);
 
 
 
@@ -296,6 +334,11 @@ public class IniciFragment extends Fragment implements MapListener, GpsStatus.Li
         mMap.addMapListener(this);*/
 
         return view;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
     }
 
     public String obtenirAdreca(String latitud, String longitud) {
@@ -518,58 +561,6 @@ public class IniciFragment extends Fragment implements MapListener, GpsStatus.Li
             return String.format("Duració: %d seg", seconds);
         }
     }
-    /*private List<GeoPoint> parseRoute(String jsonResponse) throws JSONException {
-        List<GeoPoint> geoPoints = new ArrayList<>();
-
-        JSONObject jsonObject = new JSONObject(jsonResponse);
-        JSONArray routes = jsonObject.getJSONArray("routes");
-        JSONObject route = routes.getJSONObject(0);
-
-        double distance = route.getDouble("distance"); // en metros
-        double duration = route.getDouble("duration"); // en segundos
-
-        // Convertir a kilómetros y minutos (opcional)
-        double distanceKm = distance / 1000;
-        double durationMin = duration / 60;
-
-        String distanceText = String.format(Locale.getDefault(), "Distance: %.2f km", distanceKm);
-        String durationText = String.format(Locale.getDefault(), "Duration: %.2f min", durationMin);
-
-        JSONObject geometry = route.getJSONObject("geometry");
-        JSONArray coordinates = geometry.getJSONArray("coordinates");
-
-        for (int i = 0; i < coordinates.length(); i++) {
-            JSONArray point = coordinates.getJSONArray(i);
-            double lon = point.getDouble(0);
-            double lat = point.getDouble(1);
-            geoPoints.add(new GeoPoint(lat, lon));
-        }
-
-        return geoPoints;
-    }*/
-
-/*
-    private List<GeoPoint> parseRoute(String jsonResponse) throws JSONException {
-        List<GeoPoint> geoPoints = new ArrayList<>();
-
-        JSONObject jsonObject = new JSONObject(jsonResponse);
-
-        JSONArray routes = jsonObject.getJSONArray("routes");
-
-        JSONObject route = routes.getJSONObject(0);
-        JSONObject geometry = route.getJSONObject("geometry");
-        JSONArray coordinates = geometry.getJSONArray("coordinates");
-
-        for (int i = 0; i < coordinates.length(); i++) {
-            JSONArray point = coordinates.getJSONArray(i);
-            double lon = point.getDouble(0);
-            double lat = point.getDouble(1);
-            geoPoints.add(new GeoPoint(lat, lon));
-        }
-
-        return geoPoints;
-    }
-*/
 
     private void updateMarkerVisibility(List<Marker> markers, boolean visible) {
         for (Marker marker : markers) {
@@ -621,7 +612,6 @@ public class IniciFragment extends Fragment implements MapListener, GpsStatus.Li
         mMap.invalidate(); // Refrescar el mapa para mostrar la ruta
     }
 
-
     private void mostrarUbicacio() {
         // Configurar la capa de ubicación
         mMyLocationOverlay = new MyLocationNewOverlay(new GpsMyLocationProvider(getActivity()), mMap);
@@ -649,7 +639,6 @@ public class IniciFragment extends Fragment implements MapListener, GpsStatus.Li
 
         mMap.getOverlays().add(mMyLocationOverlay);
     }
-
     private Handler routeUpdateHandler = new Handler();
     private Runnable routeUpdateRunnable = new Runnable() {
         @Override

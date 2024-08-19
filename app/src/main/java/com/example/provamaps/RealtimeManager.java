@@ -128,11 +128,34 @@ public class RealtimeManager {
         return liveData;
     }
 
+    public LiveData<List<Font>> obtenirFonts() {
+        MutableLiveData<List<Font>> liveData = new MutableLiveData<>();
 
-   /* public LiveData<List<Font>> obtenirFonts() {
-        return true;
-    }*/
+        ValueEventListener listener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                List<Font> llistaFonts = new ArrayList<>();
+                for (DataSnapshot childSnapshot : snapshot.getChildren()) {
+                    Font font = childSnapshot.getValue(Font.class);
+                    if (font != null) {
+                        font.setKey(childSnapshot.getKey());
+                        llistaFonts.add(font);
+                    }
+                }
+                liveData.setValue(llistaFonts);
+            }
 
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                // Manejar el error aquí si es necesario
+            }
+        };
+
+        // Escucha todos los cambios en el nodo donde están almacenadas las fuentes
+        databaseReferenceFonts.addValueEventListener(listener);
+
+        return liveData;
+    }
 
     //LAVABOS
     public void afegirLavabo(String latitud, String longitud, List<Integer> tipusLavabo, String disposaPaper, String disposaPica, byte[] imageData, PenjarImatges.OnImageUploadListener listener) {
@@ -168,7 +191,6 @@ public class RealtimeManager {
         }
     }
 
-
     private void guardarLavabo(Lavabo lavabo) {
         databaseReferenceLavabos.child(lavabo.getKey()).setValue(lavabo)
                 .addOnSuccessListener(aVoid -> {
@@ -178,7 +200,6 @@ public class RealtimeManager {
                     Log.e("RealtimeManager", "Error al guardar el lavabo: " + e.getMessage());
                 });
     }
-
 
     void eliminarLavabo(String lavaboId) {
         databaseReferenceLavabos.child(lavaboId).removeValue();
@@ -218,6 +239,34 @@ public class RealtimeManager {
         return liveData;
     }
 
+    public LiveData<List<Lavabo>> obtenirLavabos() {
+        MutableLiveData<List<Lavabo>> liveData = new MutableLiveData<>();
+
+        ValueEventListener listener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                List<Lavabo> llistaLavabos = new ArrayList<>();
+                for (DataSnapshot childSnapshot : snapshot.getChildren()) {
+                    Lavabo lavabo = childSnapshot.getValue(Lavabo.class);
+                    if (lavabo != null) {
+                        lavabo.setKey(childSnapshot.getKey());
+                        llistaLavabos.add(lavabo);
+                    }
+                }
+                liveData.setValue(llistaLavabos);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                // Manejar el error aquí si es necesario
+            }
+        };
+
+        // Escucha todos los cambios en el nodo donde están almacenadas las fuentes
+        databaseReferenceLavabos.addValueEventListener(listener);
+
+        return liveData;
+    }
 
     //CONTENIDORS
     public void afegirContenidor(String latitud, String longitud, List<String> tipusContenidor, byte[] imageData, PenjarImatges.OnImageUploadListener listener) {
@@ -252,7 +301,6 @@ public class RealtimeManager {
             listener.onUploadSuccess(null);
         }
     }
-
 
     private void guardarContenidor(Contenidor contenidor) {
         databaseReferenceContenidors.child(contenidor.getKey()).setValue(contenidor)
@@ -302,6 +350,35 @@ public class RealtimeManager {
         return liveData;
     }
 
+    public LiveData<List<Contenidor>> obtenirContenidors() {
+        MutableLiveData<List<Contenidor>> liveData = new MutableLiveData<>();
+
+        ValueEventListener listener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                List<Contenidor> llistaContenidors = new ArrayList<>();
+                for (DataSnapshot childSnapshot : snapshot.getChildren()) {
+                    Contenidor contenidor = childSnapshot.getValue(Contenidor.class);
+                    if (contenidor != null) {
+                        contenidor.setKey(childSnapshot.getKey());
+                        llistaContenidors.add(contenidor);
+                    }
+                }
+                liveData.setValue(llistaContenidors);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                // Manejar el error aquí si es necesario
+            }
+        };
+
+        // Escucha todos los cambios en el nodo donde están almacenadas las fuentes
+        databaseReferenceContenidors.addValueEventListener(listener);
+
+        return liveData;
+    }
+
     //PICNIC
 
     public void afegirPicnic(String latitud, String longitud, String bancsIOTaules, List<Integer> queHiHa, byte[] imageData, PenjarImatges.OnImageUploadListener listener) {
@@ -335,7 +412,6 @@ public class RealtimeManager {
             listener.onUploadSuccess(null);
         }
     }
-
 
     private void guardarPicnic(Picnic picnic) {
         databaseReferencePicnic.child(picnic.getKey()).setValue(picnic)
@@ -385,4 +461,34 @@ public class RealtimeManager {
 
         return liveData;
     }
+
+    public LiveData<List<Picnic>> obtenirPicnics() {
+        MutableLiveData<List<Picnic>> liveData = new MutableLiveData<>();
+
+        ValueEventListener listener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                List<Picnic> llistaPicnics = new ArrayList<>();
+                for (DataSnapshot childSnapshot : snapshot.getChildren()) {
+                    Picnic picnic = childSnapshot.getValue(Picnic.class);
+                    if (picnic != null) {
+                        picnic.setKey(childSnapshot.getKey());
+                        llistaPicnics.add(picnic);
+                    }
+                }
+                liveData.setValue(llistaPicnics);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                // Manejar el error aquí si es necesario
+            }
+        };
+
+        // Escucha todos los cambios en el nodo donde están almacenadas las fuentes
+        databaseReferencePicnic.addValueEventListener(listener);
+
+        return liveData;
+    }
+
 }
