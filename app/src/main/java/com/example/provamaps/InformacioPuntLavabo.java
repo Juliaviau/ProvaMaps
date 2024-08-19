@@ -17,6 +17,8 @@ public class InformacioPuntLavabo extends InfoWindow {
     private Lavabo lavabo;
     private String adreca;
     private Context context;
+    private IniciFragment fragment;
+
 
     private static final int[] ICONS = {
             R.drawable.icona_canviarnado,  // 0
@@ -26,11 +28,12 @@ public class InformacioPuntLavabo extends InfoWindow {
             R.drawable.icona_accesible   // 4
     };
 
-    public InformacioPuntLavabo(MapView mapView, Lavabo lavabo, String adreca, Context context) {
+    public InformacioPuntLavabo(MapView mapView, Lavabo lavabo, String adreca, Context context, IniciFragment fragment) {
         super(R.layout.informacio_punt_lavabo, mapView);
         this.lavabo = lavabo;
         this.context = context;
         this.adreca = adreca;
+        this.fragment = fragment;
     }
 
     @Override
@@ -85,6 +88,8 @@ public class InformacioPuntLavabo extends InfoWindow {
         Button btnMoreInfo = mView.findViewById(R.id.infoPunt_anar);
         btnMoreInfo.setOnClickListener(v -> {
             // al clicar el boto anar, mostrar la ruta des del punt actual fins al punt
+            fragment.calculateRoute(marker.getPosition());
+
         });
 
     }

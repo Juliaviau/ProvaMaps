@@ -17,9 +17,13 @@ public class InformacioPuntFont extends InfoWindow {
     private Font font;
     private String adreca;
     private Context context;
-    public InformacioPuntFont(MapView mapView, Font font, String adreca,Context context) {
+    private IniciFragment fragment;
+
+
+    public InformacioPuntFont(MapView mapView, Font font, String adreca,Context context, IniciFragment fragment) {
         super(R.layout.informacio_punt_font, mapView);
         this.font = font;
+        this.fragment = fragment;
         this.context = context;
         this.adreca = adreca;
     }
@@ -43,6 +47,8 @@ public class InformacioPuntFont extends InfoWindow {
         Button btnMoreInfo = mView.findViewById(R.id.infoPunt_anar);
         btnMoreInfo.setOnClickListener(v -> {
             // al clicar el boto anar, mostrar la ruta des del punt actual fins al punt
+            fragment.calculateRoute(marker.getPosition());
+
         });
 
     }

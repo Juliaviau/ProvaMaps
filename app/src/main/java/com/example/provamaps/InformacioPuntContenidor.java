@@ -17,13 +17,15 @@ public class InformacioPuntContenidor extends InfoWindow {
     private Contenidor contenidor;
     private String adreca;
     private Context context;
+    private IniciFragment fragment;
 
 
 
-    public InformacioPuntContenidor(MapView mapView, Contenidor contenidor, String adreca, Context context) {
+    public InformacioPuntContenidor(MapView mapView, Contenidor contenidor, String adreca, Context context, IniciFragment fragment) {
         super(R.layout.informacio_punt_contenidor, mapView);
         this.contenidor = contenidor;
         this.context = context;
+        this.fragment = fragment;
         this.adreca = adreca;
     }
 
@@ -45,6 +47,7 @@ public class InformacioPuntContenidor extends InfoWindow {
         Button btnMoreInfo = mView.findViewById(R.id.infoPunt_anar);
         btnMoreInfo.setOnClickListener(v -> {
             // al clicar el boto anar, mostrar la ruta des del punt actual fins al punt
+            fragment.calculateRoute(marker.getPosition());
         });
 
     }
