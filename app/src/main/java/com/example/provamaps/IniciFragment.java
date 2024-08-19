@@ -322,7 +322,6 @@ public class IniciFragment extends Fragment implements MapListener, GpsStatus.Li
                 return "Adreça no trobada";
             }
         } catch (IOException | NumberFormatException e) {
-            showError("Error al obtenir adreça.");
             e.printStackTrace();
         }
         return null;

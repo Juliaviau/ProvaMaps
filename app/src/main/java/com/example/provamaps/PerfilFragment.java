@@ -38,6 +38,13 @@ public class PerfilFragment extends Fragment implements SearchView.OnQueryTextLi
     private ProgressDialog progressDialog;
     RecyclerView recyclerView;
     ArrayList<Model_ItemCardPerfil> arrayListFonts = new ArrayList<>();
+    ArrayList<Model_ItemCardPerfil> arrayListLavabos = new ArrayList<>();
+    ArrayList<Model_ItemCardPerfil> arrayListContenidors = new ArrayList<>();
+    ArrayList<Model_ItemCardPerfil> arrayListPicnics = new ArrayList<>();
+
+    ArrayList<Model_ItemCardPerfil> arrayListPunts = new ArrayList<>();
+
+
     SearchView searchView;
     ModelRecyclerView modelRecyclerView;
     private RealtimeManager realtimeManager;
@@ -102,6 +109,114 @@ public class PerfilFragment extends Fragment implements SearchView.OnQueryTextLi
     }
 
 
+    private void obtenirContenidors() {
+        // Segons les dades del LiveData de RealtimeManager actualitza la UI quan canviin les dades
+        realtimeManager.obtenirContenidorsUsuari().observe(this, contenidors -> {
+            if (contenidors != null && !contenidors.isEmpty()) {
+                // Actualitza l'ArrayList de l'adapter i notifica els canvis
+                //arrayListFonts.clear();
+                for (Contenidor contenidor : contenidors) {
+
+                    // Obté les dades de l'objecte Font
+                    String tipus = contenidor.getTipus();
+                    String lat = contenidor.getLatitud();
+                    String lon = contenidor.getLongitud();
+                    String urlFoto = contenidor.getUrlfoto();
+
+                    // Crea el Model_ItemCardPerfil
+                    Model_ItemCardPerfil itemCardPerfil = new Model_ItemCardPerfil(
+                            /*urlFoto,*/
+                            tipus,
+                            lat,
+                            lon,
+                            urlFoto
+                    );
+
+                    // Añade el objeto a la lista que maneja el Adapter
+                    arrayListPunts.add(itemCardPerfil);
+                }
+                modelRecyclerView.notifyDataSetChanged();
+            } else {
+                //Notificar que no hi ha res guardat
+                Toast.makeText(getContext(), "No hi ha contenidors guardats", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void obtenirPicnics() {
+        // Segons les dades del LiveData de RealtimeManager actualitza la UI quan canviin les dades
+        realtimeManager.obtenirPicnicsUsuari().observe(this, picnics -> {
+            if (picnics != null && !picnics.isEmpty()) {
+                // Actualitza l'ArrayList de l'adapter i notifica els canvis
+                //arrayListFonts.clear();
+                for (Picnic picnic : picnics) {
+
+                    // Obté les dades de l'objecte Font
+                    String tipus = picnic.getTipus();
+                    String lat = picnic.getLatitud();
+                    String lon = picnic.getLongitud();
+                    String urlFoto = picnic.getUrlfoto();
+
+                    // Crea el Model_ItemCardPerfil
+                    Model_ItemCardPerfil itemCardPerfil = new Model_ItemCardPerfil(
+                            /*urlFoto,*/
+                            tipus,
+                            lat,
+                            lon,
+                            urlFoto
+                    );
+
+                    // Añade el objeto a la lista que maneja el Adapter
+                    arrayListPunts.add(itemCardPerfil);
+                }
+                modelRecyclerView.notifyDataSetChanged();
+            } else {
+                //Notificar que no hi ha res guardat
+                Toast.makeText(getContext(), "No hi ha picnics guardats", Toast.LENGTH_SHORT).show();
+
+            }
+        });
+    }
+
+    private void obtenirLavabos() {
+        // Segons les dades del LiveData de RealtimeManager actualitza la UI quan canviin les dades
+        realtimeManager.obtenirLavabosUsuari().observe(this, lavabos -> {
+            if (lavabos != null && !lavabos.isEmpty()) {
+                // Actualitza l'ArrayList de l'adapter i notifica els canvis
+                //arrayListFonts.clear();
+                for (Lavabo lavabo : lavabos) {
+
+                    // Obté les dades de l'objecte Font
+                    String tipus = lavabo.getTipus();
+                    String lat = lavabo.getLatitud();
+                    String lon = lavabo.getLongitud();
+                    String urlFoto = lavabo.getUrlfoto();
+
+
+                    // Crea el Model_ItemCardPerfil
+                    Model_ItemCardPerfil itemCardPerfil = new Model_ItemCardPerfil(
+                            /*urlFoto,*/
+                            tipus,
+                            lat,
+                            lon,
+                            urlFoto
+                    );
+
+                    // Añade el objeto a la lista que maneja el Adapter
+                    arrayListPunts.add(itemCardPerfil);
+                }
+                modelRecyclerView.notifyDataSetChanged();
+            } else {
+                //Notificar que no hi ha res guardat
+                Toast.makeText(getContext(), "No hi ha lavabos guardats", Toast.LENGTH_SHORT).show();
+
+            }
+        });
+    }
+
+
+
+
     private void obtenirFonts() {
         // Segons les dades del LiveData de RealtimeManager actualitza la UI quan canviin les dades
         realtimeManager.obtenirFontsUsuari().observe(this, fonts -> {
@@ -127,12 +242,12 @@ public class PerfilFragment extends Fragment implements SearchView.OnQueryTextLi
                     );
 
                     // Añade el objeto a la lista que maneja el Adapter
-                    arrayListFonts.add(itemCardPerfil);
+                    arrayListPunts.add(itemCardPerfil);
                 }
                 modelRecyclerView.notifyDataSetChanged();
             } else {
                 //Notificar que no hi ha res guardat
-                Toast.makeText(getContext(), "No hi ha guardats", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "No hi fonts ha guardades", Toast.LENGTH_SHORT).show();
 
             }
         });
@@ -178,15 +293,20 @@ public class PerfilFragment extends Fragment implements SearchView.OnQueryTextLi
 
         // Inicializa el RecyclerView on hi haurà la llista de punts que hagi afegir l'usuari en questio
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
-        arrayListFonts = new ArrayList<>();
+
+        //Fonts
+        arrayListPunts = new ArrayList<>();
         // Aporta els elements de l'arraylist al recycleview
         //TODO: falta fer que quan no hi hagi res a l abd, posar el que mostra
-        modelRecyclerView = new ModelRecyclerView(requireContext(), arrayListFonts);
+        modelRecyclerView = new ModelRecyclerView(requireContext(), arrayListPunts);
         binding.recyclerView.setAdapter(modelRecyclerView);
 
         binding.searchviewa.setOnQueryTextListener(this);
         //TODO: afegir tambe les altres bd
         obtenirFonts();
+        obtenirContenidors();
+        obtenirPicnics();
+        obtenirLavabos();
         loadMyInfo();
     }
 
