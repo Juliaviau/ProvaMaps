@@ -1,11 +1,16 @@
 package com.example.provamaps;
 
+import static androidx.core.content.ContextCompat.getSystemService;
+
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Rect;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.GpsStatus;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -18,7 +23,9 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.example.provamaps.databinding.FragmentIniciBinding;
-
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.json.JSONArray;
 import org.osmdroid.api.IMapController;
 import org.osmdroid.config.Configuration;
 import org.osmdroid.events.MapListener;
@@ -34,11 +41,47 @@ import org.osmdroid.views.overlay.gestures.RotationGestureOverlay;
 import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider;
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 
+import android.graphics.Color;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
+import androidx.fragment.app.Fragment;
+import android.os.Handler;
+import org.osmdroid.api.IGeoPoint;
+import org.osmdroid.util.GeoPoint;
+import org.osmdroid.views.MapView;
+import org.osmdroid.views.overlay.Polyline;
+import org.osmdroid.views.overlay.Overlay;
+import org.osmdroid.views.overlay.Marker;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class IniciFragment extends Fragment implements MapListener, GpsStatus.Listener {
 
@@ -65,6 +108,12 @@ public class IniciFragment extends Fragment implements MapListener, GpsStatus.Li
     private List<Marker> contenidorsMarkers = new ArrayList<>();
     private boolean areContenidorsMarkersVisible = true;
     private List<Contenidor> llistaContenidors = new ArrayList<>();
+
+
+    private List<GeoPoint> routePoints = new ArrayList<>();
+    private Polyline routePolyline;
+    GeoPoint destinacioRuta;
+
     public IniciFragment() {}
 
     public static IniciFragment newInstance(String param1, String param2) {
@@ -275,7 +324,15 @@ public class IniciFragment extends Fragment implements MapListener, GpsStatus.Li
             MyUtils.toast(getContext(), "Permiso de ubicación no otorgado, centrando el mapa en el punto predeterminado.");
         }
 
-
+        binding.btnEliminarRuta.setOnClickListener(v -> {
+            if (routePolyline != null) {
+                mMap.getOverlays().remove(routePolyline);
+                destinacioRuta= null;
+                routePolyline = null;
+                routePoints.clear();
+                mMap.invalidate();
+            }
+        });
 
         mMap.addMapListener(this);
 
@@ -369,7 +426,7 @@ public class IniciFragment extends Fragment implements MapListener, GpsStatus.Li
             marker.setPosition(new GeoPoint(Double.parseDouble(picnic.getLatitud()), Double.parseDouble(picnic.getLongitud())));
             marker.setIcon(ContextCompat.getDrawable(getContext(), R.drawable.icona_picnic));
             marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
-            marker.setInfoWindow(new InformacioPuntPicnic(mMap,picnic, obtenirAdreca(picnic.getLatitud(),picnic.getLongitud()),getContext()));
+            marker.setInfoWindow(new InformacioPuntPicnic(mMap,picnic, obtenirAdreca(picnic.getLatitud(),picnic.getLongitud()),getContext(),this));
             marker.setOnMarkerClickListener((m, mapView) -> {
                 m.showInfoWindow(); // Muestra la ventana de información al hacer clic en el marcador
                 return true;
@@ -446,6 +503,75 @@ public class IniciFragment extends Fragment implements MapListener, GpsStatus.Li
         mMap.invalidate();
     }
 
+    public void calculateRoute(GeoPoint destination) {
+        if (mMyLocationOverlay.getMyLocation() != null) {
+
+            destinacioRuta = destination;
+
+            String url = "https://router.project-osrm.org/route/v1/foot/" + mMyLocationOverlay.getMyLocation().getLongitude() + "," + mMyLocationOverlay.getMyLocation().getLatitude() +
+                    ";" + destination.getLongitude() + "," + destination.getLatitude() + "?overview=full&geometries=geojson";
+
+            OkHttpClient client = new OkHttpClient();
+            Request request = new Request.Builder().url(url).build();
+
+            client.newCall(request).enqueue(new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    e.printStackTrace();
+                }
+
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                    if (response.isSuccessful()) {
+                        String jsonResponse = response.body().string();
+                        try {
+                            List<GeoPoint> routePoints = parseRoute(jsonResponse);
+                            getActivity().runOnUiThread(() -> drawRoute(routePoints));
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            });
+        }
+    }
+
+    private List<GeoPoint> parseRoute(String jsonResponse) throws JSONException {
+        List<GeoPoint> geoPoints = new ArrayList<>();
+        JSONObject jsonObject = new JSONObject(jsonResponse);
+        JSONArray routes = jsonObject.getJSONArray("routes");
+        JSONObject route = routes.getJSONObject(0);
+        JSONObject geometry = route.getJSONObject("geometry");
+        JSONArray coordinates = geometry.getJSONArray("coordinates");
+
+        for (int i = 0; i < coordinates.length(); i++) {
+            JSONArray point = coordinates.getJSONArray(i);
+            double lon = point.getDouble(0);
+            double lat = point.getDouble(1);
+            geoPoints.add(new GeoPoint(lat, lon));
+        }
+
+        return geoPoints;
+    }
+
+    private void drawRoute(List<GeoPoint> geoPoints) {
+        if (routePolyline != null) {
+            mMap.getOverlays().remove(routePolyline); // Elimina la ruta actual del mapa
+        }
+
+        routePoints.clear();
+        routePoints.addAll(geoPoints);
+
+        routePolyline = new Polyline();
+        routePolyline.setPoints(routePoints);
+        routePolyline.setColor(Color.DKGRAY); // Puedes cambiar el color de la línea
+        routePolyline.setWidth(8f); // Ancho de la línea
+
+        mMap.getOverlays().add(routePolyline);
+        mMap.invalidate(); // Refrescar el mapa para mostrar la ruta
+    }
+
+
     private void mostrarUbicacio() {
         // Configurar la capa de ubicación
         mMyLocationOverlay = new MyLocationNewOverlay(new GpsMyLocationProvider(getActivity()), mMap);
@@ -474,6 +600,17 @@ public class IniciFragment extends Fragment implements MapListener, GpsStatus.Li
         mMap.getOverlays().add(mMyLocationOverlay);
     }
 
+    private Handler routeUpdateHandler = new Handler();
+    private Runnable routeUpdateRunnable = new Runnable() {
+        @Override
+        public void run() {
+            if (mMyLocationOverlay.getMyLocation() != null) {
+                calculateRoute(destinacioRuta);
+            }
+            routeUpdateHandler.postDelayed(this, 20000); // Actualiza cada 10 segundos
+        }
+    };
+
     @Override
     public boolean onScroll(ScrollEvent event) {
         Log.e(TAG, "onScroll:la " + (event.getSource().getMapCenter() != null ? event.getSource().getMapCenter().getLatitude() : "null"));
@@ -496,12 +633,15 @@ public class IniciFragment extends Fragment implements MapListener, GpsStatus.Li
     public void onPause () {
         super.onPause();
         mMap.onPause();
+        routeUpdateHandler.removeCallbacks(routeUpdateRunnable);
+
     }
 
     @Override
     public void onResume () {
         super.onResume();
         mMap.onResume();
+        routeUpdateHandler.post(routeUpdateRunnable);
+
     }
 }
-

@@ -17,6 +17,7 @@ public class InformacioPuntPicnic extends InfoWindow {
     private Picnic picnic;
     private String adreca;
     private Context context;
+    private IniciFragment fragment;
 
     private static final int[] ICONS = {
             R.drawable.icona_barbacoa,  // 0
@@ -26,11 +27,12 @@ public class InformacioPuntPicnic extends InfoWindow {
             R.drawable.icona_llum   // 4
     };
 
-    public InformacioPuntPicnic(MapView mapView, Picnic picnic, String adreca, Context context) {
+    public InformacioPuntPicnic(MapView mapView, Picnic picnic, String adreca, Context context, IniciFragment fragment) {
         super(R.layout.informacio_punt_picnic, mapView);
         this.picnic = picnic;
         this.context = context;
         this.adreca = adreca;
+        this.fragment = fragment;
     }
 
     @Override
@@ -66,6 +68,7 @@ public class InformacioPuntPicnic extends InfoWindow {
         Button btnMoreInfo = mView.findViewById(R.id.infoPunt_anar);
         btnMoreInfo.setOnClickListener(v -> {
             // al clicar el boto anar, mostrar la ruta des del punt actual fins al punt
+            fragment.calculateRoute(marker.getPosition());
         });
 
     }

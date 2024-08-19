@@ -1,31 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/fons"
-
-    tools:context=".IniciFragment">
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/pagina_inici"
-        android:gravity="center"
-        android:textSize="24sp"
-        android:textColor="@color/black"
-        />
-
-    <TextView
-        android:id="@+id/textView"
-        android:textSize="60dp"
-        android:layout_width="match_parent"
-
-        android:layout_height="match_parent"
-        android:text="TextView" />
-
-</FrameLayout-->
-
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
 xmlns:app="http://schemas.android.com/apk/res-auto"
 xmlns:tools="http://schemas.android.com/tools"
@@ -109,13 +82,26 @@ android:layout_height="match_parent"
         </LinearLayout>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/btn_centrar_mapa"
+            android:id="@+id/btn_eliminarRuta"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
             android:backgroundTint="@color/fons"
             android:layout_margin="16dp"
+            android:src="@drawable/icona_ruta"
+            app:maxImageSize="35dp"
+            android:scaleType="centerInside"/>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/btn_centrar_mapa"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_above="@id/btn_eliminarRuta"
+            android:backgroundTint="@color/fons"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="2dp"
             android:src="@drawable/icona_gps_fixat"
             app:maxImageSize="35dp"
             android:scaleType="centerInside"/>
