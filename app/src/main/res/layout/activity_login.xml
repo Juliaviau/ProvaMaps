@@ -34,7 +34,7 @@
             android:layout_height="180dp"
             android:layout_gravity="center"
             android:layout_marginTop="60dp"
-            app:srcCompat="@drawable/shape_cercle" />
+            app:srcCompat="@drawable/logorodo" />
 
         <TextView
             android:id="@+id/tv_resposta"

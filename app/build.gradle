@@ -87,7 +87,7 @@ dependencies {
     implementation 'com.google.android.material:material:1.10.0'
 
 
-    // Autenticación
+    // Autenticacio
     implementation 'com.google.android.gms:play-services-auth:21.2.0'
     // Firebase
     implementation platform('com.google.firebase:firebase-bom:33.1.1')
