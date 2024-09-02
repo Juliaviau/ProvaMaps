@@ -1,8 +1,12 @@
 package com.example.provamaps;
 
+import static android.content.Context.MODE_PRIVATE;
+import static android.content.Intent.getIntent;
+
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -19,6 +23,8 @@ import androidx.preference.PreferenceFragmentCompat;
 import com.example.provamaps.databinding.FragmentConfiguracioBinding;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+
+import java.util.Locale;
 
 public class ConfiguracioFragment extends Fragment {
 
@@ -118,7 +124,24 @@ private ProgressDialog progressDialog;
                 canviMode();
             }
         });
+
+        binding.mcbCanviIdioma.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SharedPreferences prefs = getActivity().getSharedPreferences("Settings", MODE_PRIVATE);
+                String currentLanguage = prefs.getString("My_Lang", "ca"); // "ca" és el valor per defecte
+
+                // Canviar l'idioma només si és diferent de l'actual
+                String newLanguage = currentLanguage.equals("ca") ? "es" : "ca";
+
+                if (!currentLanguage.equals(newLanguage)) {
+                    // Canviar l'idioma i recrear l'activitat si cal
+                    Llenguatge.setLocale(getActivity(), newLanguage);
+                }
+            }
+        });
     }
+
 
 
     private void canviMode() {

@@ -136,7 +136,7 @@
         android:layout_width="match_parent"
         android:layout_height="50dp" />
 
-    <TextView
+    <!--TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/altres"
@@ -164,7 +164,7 @@
             android:drawableStart="@drawable/icona_informacio"
             android:drawableEnd="@drawable/icona_seguent"
             android:drawablePadding="10dp"/>
-    </com.google.android.material.card.MaterialCardView>
+    </com.google.android.material.card.MaterialCardView-->
 
 </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

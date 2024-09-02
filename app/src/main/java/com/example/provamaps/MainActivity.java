@@ -1,6 +1,9 @@
 package com.example.provamaps;
 
+import static com.example.provamaps.Llenguatge.setLocale;
+
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -22,6 +25,8 @@ import com.example.provamaps.databinding.ActivityMainBinding;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.util.Locale;
+
 public class MainActivity extends AppCompatActivity /*implements OnMapReadyCallback*/ {
 
     private FirebaseAuth firebaseAuth;
@@ -35,8 +40,9 @@ public class MainActivity extends AppCompatActivity /*implements OnMapReadyCallb
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //
         setContentView(R.layout.activity_main);
-
+        loadLocale();
         firebaseAuth = FirebaseAuth.getInstance();
         //Si quan entra al MainActivity, no s'ha registrat va a la pagina de login
         if (firebaseAuth.getCurrentUser() == null) {
@@ -79,6 +85,31 @@ public class MainActivity extends AppCompatActivity /*implements OnMapReadyCallb
 
         setupNavegacio();
     }
+
+
+    public void loadLocale() {
+        //obté el llenguatge de preferencia de l'aplicació
+        SharedPreferences prefs = getSharedPreferences("Settings", MODE_PRIVATE);
+        String llengapp = prefs.getString("My_Lang", "");
+
+        // Obtenir l'idioma actual del dispositiu
+        Locale llengdis = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+            llengdis = getResources().getConfiguration().getLocales().get(0);
+        }
+        String llengactual = llengdis.getLanguage();
+
+        // Comprovar si l'idioma guardat és diferent de l'idioma actual del dispositiu
+        if (!llengapp.isEmpty() && !llengapp.equals(llengactual)) {
+            // Només canviar l'idioma si és diferent
+            Llenguatge.setLocale(MainActivity.this, llengapp);
+            /*MyUtils.toast(MainActivity.this, "Idioma canviat a: " + llengapp);
+        } else {
+            MyUtils.toast(MainActivity.this, "Idioma actual: " + llengactual);
+        }*/
+        }
+    }
+
 
     private void startLoginOptionsActivity() {
         //va al login, i deixa aquesta de fons per si fa un finish

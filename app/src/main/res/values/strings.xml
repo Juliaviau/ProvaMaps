@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name" translatable="false">ProvaMaps</string>
+    <string name="app_name" translatable="false">Apropa\'t</string>
     <string name="afegir_zona_mapa">Afegir una zona al mapa</string>
     <string name="font">Font</string>
     <string name="contenidor">Contenidor</string>
@@ -118,8 +118,6 @@
 
     <string name="modeclar">Canviar a mode clar</string>
     <string name="modefosc">Canviar a mode fosc</string>
-
-
 
     <string name="entrar">Entrar</string>
     <string name="enta_amb">o entra amb</string>
