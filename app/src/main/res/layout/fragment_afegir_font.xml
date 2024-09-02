@@ -65,14 +65,14 @@
                     android:layout_marginStart="12dp"
                     android:textColor="@color/black"
                     android:textStyle="bold"
-                    android:textSize="16sp"
+                    android:textSize="18sp"
                     android:text="@string/penja_una_imatge" />
 
                 <TextView
                     android:id="@+id/tv_descPenjaImatgeFont"
                     android:layout_marginHorizontal="12dp"
                     android:textStyle="italic"
-                    android:textSize="13sp"
+                    android:textSize="16sp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -131,14 +131,14 @@
                 android:layout_marginTop="5dp"
                 android:textColor="@color/black"
                 android:textStyle="bold"
-                android:textSize="16sp"
+                android:textSize="18sp"
                 android:text="@string/caracteristiques" />
 
             <TextView
                 android:id="@+id/tv_descCaracteristiquesAfegirFont"
                 android:layout_marginHorizontal="12dp"
                 android:textStyle="italic"
-                android:textSize="13sp"
+                android:textSize="16sp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -255,14 +255,14 @@
                 android:textStyle="bold"
                 android:layout_marginTop="5dp"
                 android:layout_marginStart="12dp"
-                android:textSize="16sp"
+                android:textSize="18sp"
                 android:text="@string/localitzacio_font" />
 
             <TextView
                 android:id="@+id/tv_descLocalitzacioAfegirFont"
                 android:layout_marginHorizontal="12dp"
                 android:textStyle="italic"
-                android:textSize="13sp"
+                android:textSize="16sp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"

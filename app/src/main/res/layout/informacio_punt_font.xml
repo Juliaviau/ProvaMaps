@@ -15,7 +15,7 @@
         android:layout_gravity="center_horizontal"
         android:text="@string/font"
         android:textSize="20sp"
-        android:textColor="#000"
+        android:textColor="@color/black"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -54,7 +54,7 @@
                 android:text="@string/adreca"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                android:textColor="#000" />
+                android:textColor="@color/black" />
 
             <TextView
                 android:id="@+id/infoPunt_adreca"
@@ -66,7 +66,7 @@
                 android:text=" "
                 android:textSize="16sp"
                 android:textStyle="italic"
-                android:textColor="#000"
+                android:textColor="@color/black"
                 android:layout_marginBottom="5dp"/>
 
             <TextView
@@ -76,7 +76,7 @@
                 android:text="@string/informacio"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                android:textColor="#000" />
+                android:textColor="@color/black" />
 
             <TextView
                 android:id="@+id/infoPunt_extra1"
@@ -86,7 +86,7 @@
                 android:paddingStart="4dp"
                 android:textSize="16sp"
                 android:text=" "
-                android:textColor="#000" />
+                android:textColor="@color/black" />
 
             <TextView
                 android:id="@+id/infoPunt_extra2"
@@ -96,7 +96,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
                 android:text=" "
-                android:textColor="#000" />
+                android:textColor="@color/black" />
 
         </LinearLayout>
     </LinearLayout>

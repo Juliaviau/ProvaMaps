@@ -1,106 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:cardElevation="2dp"
-    app:cardCornerRadius="12dp"
-    android:layout_margin="8dp"
-    android:clickable="true"
-    android:foreground="?android:attr/selectableItemBackground">
-    
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginHorizontal="10dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="4dp"
-                android:text="Font"
-                android:textSize="21sp"
-                android:id="@+id/tv_cvi_perfil_tipus"
-                android:textStyle="bold"
-                android:textColor="@color/blau_pred"/>
-
-            <View
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="1"/>
-
-            <ImageView
-                android:id="@+id/iv_tipus_cv"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:layout_margin="4dp"
-                android:paddingEnd="4dp"
-                app:srcCompat="@drawable/icona_font"
-                android:layout_gravity="center_vertical"/>
-        </LinearLayout>
-
-        
-        <ImageView
-            android:id="@+id/iv_cvi_perfil"
-            android:padding="5dp"
-            android:src="@drawable/mapafont"
-            android:layout_width="250dp"
-            android:layout_height="200dp"
-            android:layout_gravity="center"
-            android:scaleType="fitCenter" />
-
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Jardins de Vicenç Albert Ballester i Camps"
-                android:textSize="16sp"
-                android:layout_gravity="center"
-                android:padding="5dp"
-                android:id="@+id/tv_cvi_perfil_subtitol"
-                android:textStyle="italic"
-                android:textColor="@color/blau_pred"/>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="4dp"
-                android:orientation="horizontal"
-                android:gravity="center"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:padding="8dp"
-                android:clickable="true"
-                android:focusable="true">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Modificar"
-                    android:layout_marginEnd="2dp"
-                    android:textSize="16sp"
-                    android:textColor="@android:color/black"/>
-
-                <ImageView
-                android:layout_width="12dp"
-                android:layout_height="12dp"
-                android:layout_gravity="center"
-                android:src="@drawable/icona_modificar"
-                />
-            </LinearLayout>
-    </LinearLayout>
-</androidx.cardview.widget.CardView-->
-
-
-
-
-
 <androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
@@ -179,7 +77,8 @@
                     android:layout_margin="4dp"
                     android:paddingEnd="4dp"
                     app:srcCompat="@drawable/icona_font"
-                    android:layout_gravity="center_vertical"/>
+                    android:layout_gravity="center_vertical"
+                    app:tint="@color/coloricones" />
             </LinearLayout>
 
             <TextView

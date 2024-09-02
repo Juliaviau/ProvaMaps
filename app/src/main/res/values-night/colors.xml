@@ -21,32 +21,32 @@
     <color name="contenidor_roba_seleccionat">#EF5425</color>
     <color name="contenidor_paperera_seleccionat">#515558</color>
 
-    <color name="contenidor_vidre">#E4D7D7</color>
-    <color name="contenidor_paper">#E4D7D7</color>
-    <color name="contenidor_envasos">#E4D7D7</color>
-    <color name="contenidor_organic">#E4D7D7</color>
-    <color name="contenidor_rebuig">#E4D7D7</color>
-    <color name="contenidor_roba">#E4D7D7</color>
-    <color name="contenidor_paperera">#E4D7D7</color>
+    <color name="contenidor_vidre">#868991</color>
+    <color name="contenidor_paper">#767981</color>
+    <color name="contenidor_envasos">#767981</color>
+    <color name="contenidor_organic">#767981</color>
+    <color name="contenidor_rebuig">#767981</color>
+    <color name="contenidor_roba">#767981</color>
+    <color name="contenidor_paperera">#767981</color>
 
-
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
-    <color name="lletres_card">#0D3555</color>
-    <color name="fons">#F1EBEB</color>
-    <color name="fons_titol">#DAD6D6</color>
+    <color name="black">#FFFFFFFF</color>
+    <color name="white">#FF000000</color>
+    <color name="lletres_card">#B1CCD5</color>
+    <color name="fons">#4A4F51</color>
+    <color name="fons_titol">#302E2E</color>
 
     <color name="cancelar">#CC3C3C</color>
     <color name="cancelar2">#B84010</color>
-    <color name="blau_pred">#21414C</color>
+    <color name="blau_pred">#545859</color>
 
     <color name="colorPrimary">#21414C</color>
+    <color name="materialCardView">#2B2A2A</color>
 
-    <color name="materialCardView">#FEF7FF</color>
-    <color name="coloricones">#21404C</color>
-    <color name="colormapa">#201E1E</color>
     <color name="blau_boto_dialog">#417C91</color>
+    <color name="coloricones">#78B6CC</color>
 
+    <color name="colormapa">#BCBABA</color>
+
+    #A8A8A8
     <color name="common_google_signin_btn_text_light">#000000</color>
 </resources>
-

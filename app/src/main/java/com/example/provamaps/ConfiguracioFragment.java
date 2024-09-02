@@ -3,6 +3,7 @@ package com.example.provamaps;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
 import androidx.preference.PreferenceFragmentCompat;
 
@@ -24,7 +26,7 @@ public class ConfiguracioFragment extends Fragment {
     private FragmentConfiguracioBinding binding;
     private static final String TAG = "CONFIGURACIO_TAG";
     private Context mContext;
-    private boolean modeClar = true;
+    private boolean modeFosc = false;
 private ProgressDialog progressDialog;
 
     @Override
@@ -45,8 +47,9 @@ private ProgressDialog progressDialog;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-        }
+
+        modeFosc = (getResources().getConfiguration().uiMode
+                & Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES;
     }
 
     @Override
@@ -55,8 +58,13 @@ private ProgressDialog progressDialog;
 
         binding = FragmentConfiguracioBinding.inflate(inflater, container,false);
 
-        // Inflate the layout for this fragment
-       // View rootView = inflater.inflate(R.layout.fragment_configuracio, container, false);
+        if (modeFosc) {
+            binding.tvModeApp.setText("Canviar a mode clar");
+            binding.tvModeApp.setCompoundDrawablesWithIntrinsicBounds(R.drawable.icona_mode_fosc, 0, 0, 0);
+        } else {
+            binding.tvModeApp.setText("Canviar a mode fosc");
+            binding.tvModeApp.setCompoundDrawablesWithIntrinsicBounds(R.drawable.icona_mode_clar, 0, 0, 0);
+        }
 
         return binding.getRoot();
     }
@@ -103,30 +111,31 @@ private ProgressDialog progressDialog;
             }
         });
 
+        //canviMode();
         binding.mcbCanviModeColor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                modeClar = !modeClar;
-
-                // Update the button based on the new state
                 canviMode();
-
             }
-
-
         });
-
     }
 
+
     private void canviMode() {
-        //Mirar segons com estigui lapp, no a partir de la variable. Canvair al posar els colors
-        if (modeClar) {
-            binding.tvModeApp.setText("Canviar a mode fosc");
-            binding.tvModeApp.setCompoundDrawablesWithIntrinsicBounds(R.drawable.icona_mode_clar, 0, 0, 0);
-        } else {
+
+        //boolean isNightMode = (getResources().getConfiguration().uiMode
+                //& Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES;
+
+        if (modeFosc) {
             binding.tvModeApp.setText("Canviar a mode clar");
             binding.tvModeApp.setCompoundDrawablesWithIntrinsicBounds(R.drawable.icona_mode_fosc, 0, 0, 0);
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        } else {
+            binding.tvModeApp.setText("Canviar a mode fosc");
+            binding.tvModeApp.setCompoundDrawablesWithIntrinsicBounds(R.drawable.icona_mode_clar, 0, 0, 0);
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         }
+
     }
 
     private void comprovarUsuariRegistrat() {

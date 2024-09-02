@@ -54,7 +54,7 @@
                 android:text="@string/adreca"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                android:textColor="#000" />
+                android:textColor="@color/black" />
 
             <TextView
                 android:id="@+id/infoPunt_adreca"
@@ -66,7 +66,7 @@
                 android:text=" "
                 android:textSize="16sp"
                 android:textStyle="italic"
-                android:textColor="#000"
+                android:textColor="@color/black"
                 android:layout_marginBottom="5dp"/>
 
             <TextView
@@ -76,7 +76,7 @@
                 android:text="@string/informacio"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                android:textColor="#000" />
+                android:textColor="@color/black" />
 
             <TextView
                 android:id="@+id/infoPunt_bancs"
@@ -86,7 +86,7 @@
                 android:paddingStart="4dp"
                 android:textSize="16sp"
                 android:text=" "
-                android:textColor="#000" />
+                android:textColor="@color/black" />
 
             <LinearLayout
                 android:id="@+id/linearLayoutIcons"
@@ -100,6 +100,7 @@
                     android:id="@+id/iv_icon1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    app:tint="@color/coloricones"
                     android:layout_marginEnd="8dp"
                     android:contentDescription="Icono 1"
                     app:srcCompat="@drawable/icona_picnic"/>
@@ -109,10 +110,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
+                    app:tint="@color/coloricones"
                     android:contentDescription="Icono 2"
                     app:srcCompat="@drawable/icona_contenidor"/>
-
-                <!-- Puedes añadir más ImageView según sea necesario -->
 
             </LinearLayout>
 
