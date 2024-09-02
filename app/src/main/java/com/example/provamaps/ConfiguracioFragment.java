@@ -59,10 +59,10 @@ private ProgressDialog progressDialog;
         binding = FragmentConfiguracioBinding.inflate(inflater, container,false);
 
         if (modeFosc) {
-            binding.tvModeApp.setText("Canviar a mode clar");
+            binding.tvModeApp.setText(R.string.modeclar);
             binding.tvModeApp.setCompoundDrawablesWithIntrinsicBounds(R.drawable.icona_mode_fosc, 0, 0, 0);
         } else {
-            binding.tvModeApp.setText("Canviar a mode fosc");
+            binding.tvModeApp.setText(R.string.modefosc);
             binding.tvModeApp.setCompoundDrawablesWithIntrinsicBounds(R.drawable.icona_mode_clar, 0, 0, 0);
         }
 

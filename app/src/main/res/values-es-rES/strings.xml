@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+    <string name="afegir_zona_mapa">Añadir una zona al mapa</string>
+    <string name="font">Fuente</string>
+    <string name="contenidor">Contenedor</string>
+    <string name="lavabo_public">Baño público</string>
+    <string name="zona_picnic">Zona de picnic</string>
+
+    <string name="cancelar">Cancelar</string>
+    <string name="penja_una_imatge">Sube una imagen:</string>
+    <string name="afegir_imatge">Añadir imagen</string>
+    <string name="caracteristiques">Características:</string>
+    <string name="afegir">Añadir</string>
+
+    <string name="afegir_font">Añadir una fuente</string>
+    <string name="penja_imatge_font_desc">Toma una imagen de la fuente en la que se vea correctamente. Procura hacerla desde la distancia correcta, ni muy cerca ni muy lejos, y con buena iluminación.</string>
+    <string name="escull_una_opcio_categoria">Elige una opción de cada categoría.</string>
+    <string name="potable">Potable</string>
+    <string name="no_potable">No potable</string>
+    <string name="sense_informacio">Sin información</string>
+    <string name="estat">Estado</string>
+    <string name="en_servei">En servicio</string>
+    <string name="sense_servei">Fuera de servicio</string>
+    <string name="localitzacio_font">Localización de la fuente:</string>
+    <string name="informacio_mapa_font">El mapa indica la posición donde se guardará la fuente. Si es incorrecto, pulsa cancelar e inténtalo de nuevo.</string>
+
+    <string name="afegir_contenidor">Añadir un contenedor</string>
+    <string name="penja_imatge_contenidor_desc">Toma una imagen del contenedor en la que se vea correctamente, si hay más de uno, procura que se vean todos. Procura hacerla desde la distancia correcta, ni muy cerca ni muy lejos, y con buena iluminación.</string>
+    <string name="selecciona_tipus_contenidor">Selecciona los tipos de contenedores que hay en la posición donde te encuentras.</string>
+    <string name="tipus_contenidor">Tipo de contenedor</string>
+    <string name="vidre">Vidrio</string>
+    <string name="paper_cartro">Papel y cartón</string>
+    <string name="envasos">Envases</string>
+    <string name="roba">Ropa</string>
+    <string name="organic">Orgánico</string>
+    <string name="rebuig">Rechazo</string>
+    <string name="paperera">Papelera</string>
+    <string name="localitzacio_contenidor">Localización del contenedor:</string>
+    <string name="informacio_mapa_contenidor">El mapa indica la posición donde se guardará el contenedor. Si es incorrecto, pulsa cancelar e inténtalo de nuevo.</string>
+
+    <string name="informacio_mapa_lavabo">El mapa indica la posición donde se guardará el baño. Si es incorrecto, pulsa cancelar e inténtalo de nuevo.</string>
+    <string name="localitzacio_lavabo">Localización del baño:</string>
+    <string name="si">Sí</string>
+    <string name="no">No</string>
+    <string name="disposa_pica">¿Dispone de lavabo?</string>
+    <string name="disposa_paper">¿Dispone de papel higiénico?</string>
+    <string name="tipus_lavabo">Tipo de baño</string>
+    <string name="caracteristiques_lavabo">Elige las opciones de cada categoría según sea la zona de baños.</string>
+    <string name="penja_imartge_lavabo_desc">Toma una imagen del baño en la que se vea correctamente. Procura hacerla desde la distancia correcta, ni muy cerca ni muy lejos, y con buena iluminación.</string>
+    <string name="afegir_lavabo">Añadir un baño</string>
+
+    <string name="afegir_picnic">Añadir una zona de picnic</string>
+    <string name="informacio_mapa_picnic">El mapa indica la posición donde se guardará la zona de picnic. Si es incorrecto, pulsa cancelar e inténtalo de nuevo.</string>
+    <string name="localitzacio_picnic">Localización de la zona de picnic:</string>
+    <string name="penja_imatge_picnic_desc">Toma una imagen de la zona de picnic en la que se vea correctamente, si ocupa una zona amplia, haz la foto que mejor represente la zona. Procura hacerla desde la distancia correcta, ni muy cerca ni muy lejos, y con buena iluminación.</string>
+    <string name="hiha_bancs_io_taules">¿Hay bancos y/o mesas?</string>
+    <string name="bancs">Bancos</string>
+    <string name="taules">Mesas</string>
+    <string name="bancs_i_taules">Bancos y mesas</string>
+    <string name="que_hiha">¿Qué hay?</string>
+
+    <string name="pagina_inici">Página de inicio</string>
+    <string name="pagina_configuracio">Página de configuración</string>
+    <string name="pagina_perfil">Página de perfil</string>
+
+    <string name="perfil">Perfil</string>
+    <string name="inici">Mapa</string>
+    <string name="configuracio">Configuración</string>
+    <string name="descripcioImatgeAfegir">Imagen a añadir en el punto</string>
+    <string name="descripcioImatgeMapa">Imagen de la posición del punto en el mapa</string>
+
+    <string name="buscar">Buscar:</string>
+
+    <string name="els_teus_punts">Publicaciones</string>
+
+    <string name="title_activity_login">Actividad de Inicio de Sesión</string>
+    <!-- CAMBIAR Y PONER EL NOMBRE DE LA APLICACIÓN-->
+
+    <string name="login_failed">"Inicio de sesión fallido"</string>
+
+    <string name="usuari">Usuario</string>
+
+    <string name="nom_usuari">Nombre de usuario</string>
+    <string name="correu_usuari">nombreusuario@gmail.com</string>
+    <string name="continuar">Continuar</string>
+    <string name="benvingut">Bienvenido</string>
+    <string name="aparenca">Apariencia</string>
+    <string name="canvi_idioma">Cambiar el idioma</string>
+    <string name="sessio_google">Sesión de Google</string>
+    <string name="tancar_sessio">Cerrar sesión</string>
+    <string name="eliminar_compte">Eliminar cuenta</string>
+    <string name="canvi_mode_fosc">Cambiar a modo oscuro</string>
+
+    <string name="altres">Otros</string>
+    <string name="faqs">FAQ\'s</string>
+    <string name="adrecanodisponible">Dirección no disponible</string>
+    <string name="adreca">Dirección: </string>
+    <string name="informacio">Información:</string>
+    <string name="anarhi">Ir</string>
+
+    <string name="informacio_invitat">Como invitado solo podrás ver el mapa y los puntos. Inicia sesión para poder añadir puntos de interés.</string>
+    <string name="iniciar_amb_google">Iniciar sesión</string>
+
+    <string name="modificar">Modificar</string>
+
+    <string name="atencio">Atención</string>
+    <string name="infosessio">Para acceder a esta parte de la aplicación se necesita una cuenta. Inicia sesión ahora, o vuelve al mapa.</string>
+    <string name="tornarmapa">Volver al mapa</string>
+
+    <string name="lat">Latitud: </string>
+    <string name="lon">Longitud: </string>
+
+    <string name="contrasenya">Contraseña</string>
+    <string name="modeclar">Cambiar a modo claro</string>
+    <string name="modefosc">Cambiar a modo oscuro</string>
+    <string name="entrar">Entrar</string>
+    <string name="enta_amb">o entra con</string>
+    <string name="entrar_com_invitat">Entrar como invitado</string>
+
+    <!-- Preference Titles -->
+    <string name="sync_header">Sync</string>
+
+    <!-- Messages Preferences -->
+    <string name="signature_title">Your signature</string>
+    <string name="reply_title">Default reply action</string>
+
+    <!-- Sync Preferences -->
+    <string name="sync_title">Sync email periodically</string>
+    <string name="attachment_title">Download incoming attachments</string>
+    <string name="attachment_summary_on">Automatically download attachments for incoming emails    </string>
+    <string name="attachment_summary_off">Only download attachments when manually requested</string>
+    <string name="title_activity_main">NomAPP</string> <!-- CANVIAR I POSAR EL NOM DE L'APLICACIO-->
+</resources>
