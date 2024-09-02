@@ -122,7 +122,6 @@ public class IniciFragment extends Fragment implements MapListener, GpsStatus.Li
         mMap.getLocalVisibleRect(new Rect());
 
         //Posicio actual
-        //mMyLocationOverlay = new MyLocationNewOverlay(new GpsMyLocationProvider(getActivity()), mMap);
         controller = mMap.getController();
         controller.setZoom(18.0);
 
@@ -147,19 +146,14 @@ public class IniciFragment extends Fragment implements MapListener, GpsStatus.Li
             @Override
             public void onClick(View v) {
                 if (mMyLocationOverlay.getMyLocation() != null) {
-                    /*GeoPoint myLocation = mMyLocationOverlay.getMyLocation();
-                    controller.setCenter(myLocation);
-                    controller.animateTo(myLocation);*/
                     mMyLocationOverlay.enableFollowLocation();
                 } else {
-                    // Si la ubicació no esta disponible
+                    // Si la ubicació no esta disponible va a la universitat
                     controller.setCenter(startPoint);
                     controller.animateTo(startPoint);
                 }
             }
         });
-
-
 
         //Obtenir els punts
         /*Font font = new Font("iddd","41.964488", "3.029476","Potable","En servei",null);
@@ -253,8 +247,6 @@ public class IniciFragment extends Fragment implements MapListener, GpsStatus.Li
 
         //afegirPuntsPicnics(llistaPicnics);
 
-
-
         /*Contenidor contenidor = new Contenidor("iddd","41.967335", "3.027848",Arrays.asList("Envasos", "Paperera"),null);
         Contenidor contenidor2 = new Contenidor("iddd","41.967395", "3.027841",Arrays.asList("Envasos", "Paperera, Roba, Organic, Rebuig"),null);
 
@@ -284,8 +276,6 @@ public class IniciFragment extends Fragment implements MapListener, GpsStatus.Li
 
         //afegirPuntsContenidors(llistaContenidors);
 
-
-
         controller.setCenter(startPoint);
 
 
@@ -293,7 +283,7 @@ public class IniciFragment extends Fragment implements MapListener, GpsStatus.Li
         if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             mostrarUbicacio();
         } else {
-            MyUtils.toast(getContext(), "Permiso de ubicación no otorgado, centrando el mapa en el punto predeterminado.");
+            MyUtils.toast(getContext(), "No s'ha donat permís d'ubicació, centrar el mapa al punt predeterminat.");
         }
 
         binding.btnEliminarRuta.setOnClickListener(v -> {
@@ -486,7 +476,7 @@ public class IniciFragment extends Fragment implements MapListener, GpsStatus.Li
 
     public void calculateRoute(GeoPoint destination) {
         if (mMyLocationOverlay.getMyLocation() != null) {
-            GeoPoint myLocation = mMyLocationOverlay.getMyLocation();
+
             destinacioRuta = destination;
 
             if (destination == null) {
@@ -613,7 +603,7 @@ public class IniciFragment extends Fragment implements MapListener, GpsStatus.Li
     }
 
     private void mostrarUbicacio() {
-        // Configurar la capa de ubicación
+        // Configurar la capa d'ubicacio
         mMyLocationOverlay = new MyLocationNewOverlay(new GpsMyLocationProvider(getActivity()), mMap);
         mMyLocationOverlay.enableMyLocation();
         mMyLocationOverlay.enableFollowLocation();
@@ -629,7 +619,7 @@ public class IniciFragment extends Fragment implements MapListener, GpsStatus.Li
                             controller.setCenter(mMyLocationOverlay.getMyLocation());
                             controller.animateTo(mMyLocationOverlay.getMyLocation());
                         } else {
-                            // Si no se obtiene la ubicación, centrar en el punto predeterminado
+                            // Si no es donen permisos d'ubicació, centrar al punt per defecte
                             controller.setCenter(startPoint);
                         }
                     }

@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity /*implements OnMapReadyCallb
             @Override
             public void onClick(View v) {
                 dialog.cancel();
-                Toast.makeText(MainActivity.this,"taralaralà",Toast.LENGTH_SHORT).show();
+                //Toast.makeText(MainActivity.this,"taralaralà",Toast.LENGTH_SHORT).show();
             }
         });
 

@@ -151,7 +151,7 @@ public class RealtimeManager {
             }
         };
 
-        // Escucha todos los cambios en el nodo donde están almacenadas las fuentes
+        // Escolta tots els canvis en les Fonts
         databaseReferenceFonts.addValueEventListener(listener);
 
         return liveData;

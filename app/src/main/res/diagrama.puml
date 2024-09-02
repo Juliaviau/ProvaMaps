@@ -1,0 +1,16 @@
+@startuml
+start
+:Inicio;
+:Mostrar pantalla principal;
+
+if (Usuario no registrado) then (si)
+  :Mostrar opciones básicas;
+  :Permitir acceso al mapa;
+else (no)
+  :Mostrar opciones avanzadas;
+  :Permitir creación de puntos de interés;
+endif
+
+:Fin;
+stop
+@enduml

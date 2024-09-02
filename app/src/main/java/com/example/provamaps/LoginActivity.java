@@ -75,16 +75,9 @@ public class LoginActivity extends AppCompatActivity {
 
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
-        binding.btnContinuar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                MyUtils.toast(LoginActivity.this, "btnContinuar");
-                finish();
-
-            /*startActivity(new Intent(LoginActivity.this,MainActivity.class));
-            finishAffinity();*/
-            }
-        });
+        binding.btnGoogle.setSize(SignInButton.SIZE_STANDARD);  // Pot ser també SIZE_STANDARD o SIZE_ICON_ONLY
+        binding.btnGoogle.setColorScheme(SignInButton.COLOR_LIGHT);  // O COLOR_DARK
+        setGoogleButtonText(binding.btnGoogle, getString(R.string.iniciar_amb_google));
 
         binding.btnGoogle.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -102,6 +95,15 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+    private void setGoogleButtonText(SignInButton signInButton, String buttonText) {
+        for (int i = 0; i < signInButton.getChildCount(); i++) {
+            View v = signInButton.getChildAt(i);
+            if (v instanceof TextView) {
+                ((TextView) v).setText(buttonText);
+                return;
+            }
+        }
+    }
     private void signOutAndRevokeAccess() {
         mGoogleSignInClient.signOut().addOnCompleteListener(this, new OnCompleteListener<Void>() {
             @Override
@@ -135,7 +137,7 @@ public class LoginActivity extends AppCompatActivity {
                         try {
                             //inicia be la sessio
                             GoogleSignInAccount account = task.getResult(ApiException.class);
-                            Log.d(TAG, "onActivityResult: AccountID: " + account.getId());
+                            Log.d(TAG, "onActivityResult: ID de la conta: " + account.getId());
                             firebaseAuthWithGoogleAccount(account.getIdToken());
                         } catch (Exception e) {
                             Log.e(TAG, "onActivityResult: ", e);
@@ -158,14 +160,12 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onSuccess(AuthResult authResult) {
                 if (authResult.getAdditionalUserInfo().isNewUser()) {
-                    //Si es un usuari nou
-                    Log.d(TAG, "onSucces: Account Created...");
+                    //Si es un usuari nou crea la nova conta
+                    Log.d(TAG, "onSucces: Nova conta creada...");
                     updateUserInfoDB();
                 } else {
-                    //Si usuari ja existia
-                    Log.d(TAG, "onSucces: Logged in...");
-                    //MyUtils.toast(LoginActivity.this, "start activity firebaseauth"); //entra per aqio. juspalia
-
+                    //Si usuari ja existia, entra directament amb la sessió
+                    Log.d(TAG, "onSucces: Iniciant Sessió...");
                     //Si ja existeix, obre un nou MainActivity i tanca els que tenia oberts
                     startActivity(new Intent(LoginActivity.this, MainActivity.class));
                     finishAffinity();
@@ -184,19 +184,18 @@ public class LoginActivity extends AppCompatActivity {
         progressDialog.setMessage("Guardant informació de l'usuari...");
         progressDialog.show();
 
-        String registeredUserID = firebaseAuth.getUid();
-        String registeredUserEmail = firebaseAuth.getCurrentUser().getEmail();
-        String name = firebaseAuth.getCurrentUser().getDisplayName();
+        String idUsuari = firebaseAuth.getUid();
+        String emailUsuari = firebaseAuth.getCurrentUser().getEmail();
+        String nomUsuari = firebaseAuth.getCurrentUser().getDisplayName();
 
         HashMap<String, Object> hashMap = new HashMap<>();
-        hashMap.put("uid", registeredUserID);
-        hashMap.put("email", registeredUserEmail);
-        hashMap.put("name", name);
+        hashMap.put("uid", idUsuari);
+        hashMap.put("email", emailUsuari);
+        hashMap.put("name", nomUsuari);
         hashMap.put("profileImageUrl", "");
-        //hashMap.put("token", "");
 
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users");
-        ref.child(registeredUserID).setValue(hashMap)
+        ref.child(idUsuari).setValue(hashMap)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
@@ -204,7 +203,7 @@ public class LoginActivity extends AppCompatActivity {
                         progressDialog.dismiss();
 
                         //Si no existeix i el crea correctament, obre un nou MainActivity i tanca els que tenia oberts
-                        MyUtils.toast(LoginActivity.this, "updateusaerdb succes");//entra aqui
+                        MyUtils.toast(LoginActivity.this, "updateusaerdb succes");
                         startActivity(new Intent(LoginActivity.this, MainActivity.class));
                         finishAffinity();
                     }
@@ -220,74 +219,11 @@ public class LoginActivity extends AppCompatActivity {
                 });
     }
 
-
-
     @Override
     public void onStart() {
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
         /*FirebaseUser currentUser = mAuth.getCurrentUser();
         updateUI(currentUser);*/
-    }
-
-   /* private void signIn() {
-        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
-        startActivityForResult(signInIntent, RC_SIGN_IN);
-    }
-
-    private void updateUI(FirebaseUser user) {
-        user = mAuth.getCurrentUser();
-        if(user!=null) {
-            irHome();
-        }
-    }
-
-    private void irHome() {
-        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-        startActivity(intent);
-        finish();
-    }*/
-
-    /*@Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
-        /*if (requestCode == RC_SIGN_IN) {
-            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
-            try {
-                // Google Sign In was successful, authenticate with Firebase
-                GoogleSignInAccount account = task.getResult(ApiException.class);
-                //Log.d(TAG, "firebaseAuthWithGoogle:" + account.getId());
-                firebaseAuthWithGoogle(account.getIdToken());
-            } catch (ApiException e) {
-                // Google Sign In failed, update UI appropriately
-                textView.setText(e.getMessage());
-                //Log.w(TAG, "Google sign in failed", e);
-            }
-        }
-    }*/
-
-    private void firebaseAuthWithGoogle(String idToken) {
-        /*AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
-        mAuth.signInWithCredential(credential)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            // Log.d(TAG, "signInWithCredential:success");
-                            irHome();
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            updateUI(user);
-                        } else {
-                            // If sign in fails, display a message to the user.
-                            // Log.w(TAG, "signInWithCredential:failure", task.getException());
-                            textView.setText(task.getException().toString());
-
-                            updateUI(null);
-                        }
-                    }
-                });*/
     }
 }

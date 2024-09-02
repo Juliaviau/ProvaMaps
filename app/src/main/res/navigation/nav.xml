@@ -100,6 +100,11 @@
         android:name="com.example.provamaps.ConfiguracioFragment"
         android:label="Configuració"
         tools:layout="@xml/root_preferences" />
+    <activity
+        android:id="@+id/loginActivity"
+        android:name="com.example.provamaps.LoginActivity"
+        android:label="activity_login"
+        tools:layout="@layout/activity_login" />
 
 
 </navigation>

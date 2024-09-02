@@ -192,7 +192,7 @@ public class AfegirFontFragment extends Fragment {
 
                     try {
                         // Comprime la imagen antes de subirla
-                        byte[] compressedImage = compressImage(getContext(), uriImatge);
+                        byte[] compressedImage = comprimirImatge(getContext(), uriImatge);
 
                         // Llama al método que sube la imagen comprimida
                         realtimeManager.afegirFont(binding.textLatitudFont.getText().toString(),
@@ -214,34 +214,8 @@ public class AfegirFontFragment extends Fragment {
                         Toast.makeText(getContext(), "Error al comprimir la imatge", Toast.LENGTH_SHORT).show();
                     }
 
-
-
-
-
-
-
-
-
-
-
-
-                        // Subir la imagen y luego crear la fuente
-                        /*realtimeManager.afegirFont(binding.textLatitudFont.getText().toString(), binding.textLongitudFont.getText().toString(), potable, estat, uriImatge, new PenjarImatges.OnImageUploadListener() {
-                            @Override
-                            public void onUploadSuccess(String imageUrl) {
-                                Toast.makeText(getContext(), "Font afegida amb èxit!", Toast.LENGTH_SHORT).show();
-                                //Tornar al mapa
-                            }
-
-                            @Override
-                            public void onUploadFailed(String errorMessage) {
-                                Toast.makeText(getContext(), "Error al afegir la font: " + errorMessage, Toast.LENGTH_SHORT).show();
-
-                            }
-                        });*/
-
                 } else {
-                    // Crear la Font sin foto
+                    // Crear la Font sense foto
                     realtimeManager.afegirFont(binding.textLatitudFont.getText().toString(), binding.textLongitudFont.getText().toString(), potable, estat, null, new PenjarImatges.OnImageUploadListener() {
                                 @Override
                                 public void onUploadSuccess(String imageUrl) {
@@ -256,23 +230,6 @@ public class AfegirFontFragment extends Fragment {
                             }
                     );
                 }
-
-
-                /*if (hiHaFoto) {
-                    //Afegir la foto
-                    // Aquí deberías subir la foto a Firebase Storage antes de crear el objeto Font
-                    subirImagenYCrearFont(latitud, longitud, potable, estat);
-                } else {
-                    // Crear la Font sin foto
-                    crearFont(latitud, longitud, potable, estat, null);
-                }*/
-
-                //Obtenir valors i crear l'objecte font
-
-                //Errors als ttoggle buttons
-                /*if (binding.tggbFontPotable.getCheckedButtonId() == -1) {
-                    binding.tggbFontPotable.error
-                }*/
             }
         });
 
@@ -320,18 +277,16 @@ public class AfegirFontFragment extends Fragment {
             });
 
 
-    private byte[] compressImage(Context context, Uri imageUri) throws IOException {
-        // Convierte el URI de la imagen a un Bitmap
-        Bitmap bitmap = MediaStore.Images.Media.getBitmap(context.getContentResolver(), imageUri);
+    private byte[] comprimirImatge(Context context, Uri uri) throws IOException {
+        // Converteix l'URI a un Bitmap
+        Bitmap bitmap = MediaStore.Images.Media.getBitmap(context.getContentResolver(), uri);
 
-        // Redimensiona la imagen si es necesario (opcional)
-        int maxWidth = 1024;
-        int maxHeight = 1024;
-        bitmap = resizeBitmap(bitmap, maxWidth, maxHeight);
+        // Redimensiona la imatge
+        bitmap = resizeBitmap(bitmap, 1024, 1024);
 
-        // Comprime el Bitmap en un ByteArrayOutputStream
+        // Comprimeix el Bitmap
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 75, baos); // Ajusta la calidad (50 es un buen punto de partida)
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 75, baos);
 
         return baos.toByteArray();
     }
