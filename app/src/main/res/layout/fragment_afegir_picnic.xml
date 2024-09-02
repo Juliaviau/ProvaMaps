@@ -340,7 +340,7 @@
                 android:textAlignment="center"
                 android:layout_gravity="center"
                 android:paddingHorizontal="15sp"
-                android:text="Adreça no disponible"
+                android:text="@string/adrecanodisponible"
                 android:id="@+id/textAdrecaPicnic"/>
 
             <LinearLayout
@@ -352,7 +352,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Latitud: " />
+                    android:text="@string/lat" />
 
                 <EditText
                     android:id="@+id/textLatitudPicnic"
@@ -365,7 +365,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
-                    android:text="Longitud:" />
+                    android:text="@string/lon" />
 
                 <EditText
                     android:id="@+id/textLongitudPicnic"

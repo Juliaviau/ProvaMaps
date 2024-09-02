@@ -75,8 +75,8 @@ public class LoginActivity extends AppCompatActivity {
 
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
-        binding.btnGoogle.setSize(SignInButton.SIZE_STANDARD);  // Pot ser també SIZE_STANDARD o SIZE_ICON_ONLY
-        binding.btnGoogle.setColorScheme(SignInButton.COLOR_LIGHT);  // O COLOR_DARK
+        binding.btnGoogle.setSize(SignInButton.SIZE_STANDARD);
+        binding.btnGoogle.setColorScheme(SignInButton.COLOR_LIGHT);
         setGoogleButtonText(binding.btnGoogle, getString(R.string.iniciar_amb_google));
 
         binding.btnGoogle.setOnClickListener(new View.OnClickListener() {

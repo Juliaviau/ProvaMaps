@@ -137,10 +137,6 @@
             android:orientation="vertical"
             app:layout_constraintGuide_percent="0.5" />
 
-
-
-
-
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -166,7 +162,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="4dp"
-                    android:text="Font"
+                    android:text=""
                     android:textSize="21sp"
                     android:textStyle="bold"
                     android:textColor="@color/blau_pred"/>
@@ -189,7 +185,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Jardins de Vicenç Albert Ballester i Camps"
+                android:text=""
                 android:textSize="16sp"
                 android:padding="5dp"
                 android:id="@+id/tv_cvi_perfil_subtitol"
@@ -212,7 +208,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Modificar"
+                    android:text="@string/modificar"
                     android:layout_marginEnd="2dp"
                     android:textSize="16sp"
                     android:textColor="@android:color/black"/>

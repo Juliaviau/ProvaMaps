@@ -155,9 +155,10 @@
 
     <string name="altres">Altres</string>
     <string name="faqs">FAQ\'s</string>
-    <string name="a">Aparença</string>
-    <string name="ap">Aparença</string>
-    <string name="apa">Aparença</string>
+    <string name="adrecanodisponible">Adreça no disponible</string>
+    <string name="adreca">Adreça: </string>
+    <string name="informacio">Informació:</string>
+    <string name="anarhi">Anar-hi</string>
     <string name="apar">Aparença</string>
     <string name="apare">Aparença</string>
     <string name="aparen">Aparença</string>
@@ -167,6 +168,18 @@
 
     <string name="informacio_invitat">Com a invitat només podràs veure el mapa i els punts. Inicia sessió per poder afegir punts d\'interès.</string>
     <string name="iniciar_amb_google">Iniciar sessió</string>
+
+    <string name="modificar">Modificar</string>
+
+    <string name="atencio">Atenció</string>
+    <string name="infosessio">Per a accedir a aquesta part de l\'aplicació s\'ha de tenir un compte. Inicia sessió ara, o torna al mapa.</string>
+    <string name="tornarmapa">Tornar al mapa</string>
+
+
+    <string name="lat">Latitud: </string>
+    <string name="lon">Longitud: </string>
+
+
 
 
 

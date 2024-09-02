@@ -366,7 +366,7 @@ Rebuig (contenidor gris) >
                         style="@style/Widget.MaterialComponents.Chip.Choice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Paperera"
+                        android:text="@string/paperera"
                         app:chipStrokeColor="@color/black"
                         app:chipStrokeWidth="1dp"
                         app:chipBackgroundColor="@color/chip_color_paperera"
@@ -377,7 +377,7 @@ Rebuig (contenidor gris) >
                         style="@style/Widget.MaterialComponents.Chip.Choice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Vidre"
+                        android:text="@string/vidre"
                         app:chipBackgroundColor="@color/chip_color_vidre"
                         app:chipStrokeColor="@color/black"
                         app:chipStrokeWidth="1dp"
@@ -388,7 +388,7 @@ Rebuig (contenidor gris) >
                         style="@style/Widget.MaterialComponents.Chip.Choice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Paper"
+                        android:text="@string/paper_cartro"
                         app:chipStrokeColor="@color/black"
                         app:chipStrokeWidth="1dp"
                         app:chipBackgroundColor="@color/chip_color_paper"
@@ -399,7 +399,7 @@ Rebuig (contenidor gris) >
                         style="@style/Widget.MaterialComponents.Chip.Choice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Envasos"
+                        android:text="@string/envasos"
                         app:chipStrokeColor="@color/black"
                         app:chipStrokeWidth="1dp"
                         app:chipBackgroundColor="@color/chip_color_envasos"
@@ -410,7 +410,7 @@ Rebuig (contenidor gris) >
                         style="@style/Widget.MaterialComponents.Chip.Choice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Orgànic"
+                        android:text="@string/organic"
                         app:chipStrokeColor="@color/black"
                         app:chipStrokeWidth="1dp"
                         app:chipBackgroundColor="@color/chip_color_organic"
@@ -421,7 +421,7 @@ Rebuig (contenidor gris) >
                         style="@style/Widget.MaterialComponents.Chip.Choice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Roba"
+                        android:text="@string/roba"
                         app:chipStrokeColor="@color/black"
                         app:chipStrokeWidth="1dp"
                         app:chipBackgroundColor="@color/chip_color_roba"
@@ -434,7 +434,7 @@ Rebuig (contenidor gris) >
                         style="@style/Widget.MaterialComponents.Chip.Choice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Rebuig"
+                        android:text="@string/rebuig"
                         app:chipStrokeColor="@color/black"
                         app:chipStrokeWidth="1dp"
                         app:chipBackgroundColor="@color/chip_color_rebuig"
@@ -490,7 +490,7 @@ Rebuig (contenidor gris) >
                 android:textAlignment="center"
                 android:layout_gravity="center"
                 android:paddingHorizontal="15sp"
-                android:text="Adreça no disponible"
+                android:text="@string/adrecanodisponible"
                 android:id="@+id/textAdrecaContenidor"/>
 
             <LinearLayout
@@ -502,7 +502,7 @@ Rebuig (contenidor gris) >
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Latitud: " />
+                    android:text="@string/lat" />
 
                 <EditText
                     android:id="@+id/textLatitudContenidor"
@@ -515,7 +515,7 @@ Rebuig (contenidor gris) >
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
-                    android:text="Longitud:" />
+                    android:text="@string/lon" />
 
                 <EditText
                     android:id="@+id/textLongitudContenidor"
@@ -523,7 +523,6 @@ Rebuig (contenidor gris) >
                     android:layout_height="wrap_content"
                     android:ems="10"
                     android:inputType="numberDecimal" />
-
             </LinearLayout>
 
 
