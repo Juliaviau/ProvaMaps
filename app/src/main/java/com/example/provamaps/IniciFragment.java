@@ -16,6 +16,7 @@ import android.Manifest;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import android.graphics.drawable.Drawable;
@@ -69,6 +70,8 @@ public class IniciFragment extends Fragment implements MapListener, GpsStatus.Li
     private FragmentIniciBinding binding;
     private static final String TAG = "INICI_TAG";
     private ScaleBarOverlay mScaleBarOverlay;
+    private static final int PERMISSION_REQUEST_CODE = 100;
+
     private GeoPoint startPoint = new GeoPoint(41.964109, 2.829905);//posicio universitat
     //Fonts
     private List<Marker> fontMarkers = new ArrayList<>();
@@ -280,10 +283,15 @@ public class IniciFragment extends Fragment implements MapListener, GpsStatus.Li
 
 
         // Mirar si hi ha permisos d'ubicació
-        if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            mostrarUbicacio();
+        if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            // Demanar permis ubicacio
+            ActivityCompat.requestPermissions(getActivity(),
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                    PERMISSION_REQUEST_CODE);
         } else {
-            MyUtils.toast(getContext(), "No s'ha donat permís d'ubicació, centrar el mapa al punt predeterminat.");
+            mostrarUbicacio();
         }
 
         binding.btnEliminarRuta.setOnClickListener(v -> {
@@ -651,6 +659,20 @@ public class IniciFragment extends Fragment implements MapListener, GpsStatus.Li
     public boolean onZoom(ZoomEvent event) {
         Log.e(TAG, "onZoom: " + (event != null ? event.getZoomLevel() : "null") + "   source:  " + event.getSource());
         return false;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == PERMISSION_REQUEST_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Permiso concedido, mostrar la ubicación
+                mostrarUbicacio();
+            } else {
+                // Permiso denegado, mostrar un mensaje al usuario
+                MyUtils.toast(getContext(), "Permís d'ubicació denegat, no es pot mostrar la ubicació.");
+            }
+        }
     }
 
     @Override

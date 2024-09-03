@@ -3,6 +3,7 @@ package com.example.provamaps;
 import android.content.Context;
 import android.location.Address;
 import android.location.Geocoder;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,11 +13,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.widget.AppCompatImageView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -31,12 +30,10 @@ public class ModelRecyclerView extends RecyclerView.Adapter<ModelRecyclerView.Vi
     ArrayList<Model_ItemCardPerfil> llistaOriginal;
     private Geocoder geocoder;
 
-    public ModelRecyclerView(Context context, ArrayList<Model_ItemCardPerfil> arrayList) {
-
+    public ModelRecyclerView(Context context, ArrayList<Model_ItemCardPerfil> arrayPunts) {
         this.context = context;
-        this.arrayList = arrayList;
-        llistaOriginal = new ArrayList<>();
-        llistaOriginal.addAll(arrayList);
+        arrayList = new ArrayList<>(arrayPunts);
+        llistaOriginal = arrayPunts;
     }
 
     @NonNull
@@ -141,25 +138,32 @@ public class ModelRecyclerView extends RecyclerView.Adapter<ModelRecyclerView.Vi
         view.setAnimation(animation);
     }
 
-    public void filtrar (String textBuscar) {
-        //todo no funciona
-        int llargada = textBuscar.length();
-        if (llargada == 0){
+
+
+    public void filtrar(String textBuscar) {
+
+        if (textBuscar.isEmpty()) {
             arrayList.clear();
             arrayList.addAll(llistaOriginal);
         } else {
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-                List<Model_ItemCardPerfil> punts = arrayList.stream().filter(i -> i.getTipus().toLowerCase().contains(textBuscar.toLowerCase()) || i.getAdreca().toLowerCase().contains(textBuscar.toLowerCase()) ).collect(Collectors.toList());
-                arrayList.clear();
-                arrayList.addAll(punts);
+            List<Model_ItemCardPerfil> filtrada;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                filtrada = llistaOriginal.stream()
+                        .filter(i -> i.getTipus().toLowerCase().contains(textBuscar.toLowerCase()) ||
+                                i.getAdreca().toLowerCase().contains(textBuscar.toLowerCase()))
+                        .collect(Collectors.toList());
             } else {
-                for (Model_ItemCardPerfil m: arrayList) {
-                    if (m.getTipus().toLowerCase().contains(textBuscar.toLowerCase())) {
-                        arrayList.add(m);
+                filtrada = new ArrayList<>();
+                for (Model_ItemCardPerfil m : llistaOriginal) {
+                    if (m.getTipus().toLowerCase().contains(textBuscar.toLowerCase()) ||
+                            m.getAdreca().toLowerCase().contains(textBuscar.toLowerCase())) {
+                        filtrada.add(m);
                     }
                 }
             }
+            arrayList.clear();
+            arrayList.addAll(filtrada);
         }
-        notifyDataSetChanged();
+        notifyDataSetChanged(); // Actualiza el RecyclerView
     }
 }

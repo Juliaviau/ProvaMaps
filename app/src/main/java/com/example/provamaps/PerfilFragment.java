@@ -95,12 +95,13 @@ public class PerfilFragment extends Fragment implements SearchView.OnQueryTextLi
         // Obté les dades de la base de dades
         //obtenirFonts();
 
+
     }
 
 
     private void obtenirContenidors() {
         // Segons les dades del LiveData de RealtimeManager actualitza la UI quan canviin les dades
-        realtimeManager.obtenirContenidorsUsuari().observe(this, contenidors -> {
+        realtimeManager.obtenirContenidorsUsuari().observe(getViewLifecycleOwner(), contenidors -> {
             if (contenidors != null && !contenidors.isEmpty()) {
                 // Actualitza l'ArrayList de l'adapter i notifica els canvis
                 //arrayListFonts.clear();
@@ -134,7 +135,7 @@ public class PerfilFragment extends Fragment implements SearchView.OnQueryTextLi
 
     private void obtenirPicnics() {
         // Segons les dades del LiveData de RealtimeManager actualitza la UI quan canviin les dades
-        realtimeManager.obtenirPicnicsUsuari().observe(this, picnics -> {
+        realtimeManager.obtenirPicnicsUsuari().observe(getViewLifecycleOwner(), picnics -> {
             if (picnics != null && !picnics.isEmpty()) {
                 // Actualitza l'ArrayList de l'adapter i notifica els canvis
                 //arrayListFonts.clear();
@@ -169,7 +170,7 @@ public class PerfilFragment extends Fragment implements SearchView.OnQueryTextLi
 
     private void obtenirLavabos() {
         // Segons les dades del LiveData de RealtimeManager actualitza la UI quan canviin les dades
-        realtimeManager.obtenirLavabosUsuari().observe(this, lavabos -> {
+        realtimeManager.obtenirLavabosUsuari().observe(getViewLifecycleOwner(), lavabos -> {
             if (lavabos != null && !lavabos.isEmpty()) {
                 // Actualitza l'ArrayList de l'adapter i notifica els canvis
                 //arrayListFonts.clear();
@@ -205,7 +206,7 @@ public class PerfilFragment extends Fragment implements SearchView.OnQueryTextLi
 
     private void obtenirFonts() {
         // Segons les dades del LiveData de RealtimeManager actualitza la UI quan canviin les dades
-        realtimeManager.obtenirFontsUsuari().observe(this, fonts -> {
+        realtimeManager.obtenirFontsUsuari().observe(getViewLifecycleOwner(), fonts -> {
             if (fonts != null && !fonts.isEmpty()) {
                 // Actualitza l'ArrayList de l'adapter i notifica els canvis
                 //arrayListFonts.clear();
@@ -230,7 +231,9 @@ public class PerfilFragment extends Fragment implements SearchView.OnQueryTextLi
                     // Añade el objeto a la lista que maneja el Adapter
                     arrayListPunts.add(itemCardPerfil);
                 }
+                MyUtils.toast(getContext(),"abans " + arrayListPunts.size());
                 modelRecyclerView.notifyDataSetChanged();
+                MyUtils.toast(getContext(),"despres " + arrayListPunts.size());
             } else {
                 //Notificar que no hi ha res guardat
                 Toast.makeText(getContext(), "No hi fonts ha guardades", Toast.LENGTH_SHORT).show();
@@ -243,7 +246,14 @@ public class PerfilFragment extends Fragment implements SearchView.OnQueryTextLi
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentPerfilBinding.inflate(inflater,container,false);
         //return inflater.inflate(R.layout.fragment_perfil, container, false);
-        
+
+
+        obtenirFonts();
+        obtenirContenidors();
+        obtenirPicnics();
+        obtenirLavabos();
+        MyUtils.toast(getContext(),"dp carregar " + arrayListPunts.size());
+
         //obtenirFonts();
         return binding.getRoot();
     }
@@ -258,25 +268,23 @@ public class PerfilFragment extends Fragment implements SearchView.OnQueryTextLi
 
         firebaseAuth = FirebaseAuth.getInstance();
 
-
         // usersRecycler.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
 
         // Inicializa el RecyclerView on hi haurà la llista de punts que hagi afegir l'usuari en questio
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
 
-        //Fonts
-        arrayListPunts = new ArrayList<>();
+
+
+
+
         // Aporta els elements de l'arraylist al recycleview
-        //TODO: falta fer que quan no hi hagi res a l abd, posar el que mostra
         modelRecyclerView = new ModelRecyclerView(requireContext(), arrayListPunts);
         binding.recyclerView.setAdapter(modelRecyclerView);
 
+
+
         binding.searchviewa.setOnQueryTextListener(this);
-        //TODO: afegir tambe les altres bd
-        obtenirFonts();
-        obtenirContenidors();
-        obtenirPicnics();
-        obtenirLavabos();
+
         loadMyInfo();
     }
 
@@ -287,6 +295,7 @@ public class PerfilFragment extends Fragment implements SearchView.OnQueryTextLi
 
     @Override
     public boolean onQueryTextChange(String newText) {
+        MyUtils.toast(getContext(), "arr" + arrayListPunts.size());
         modelRecyclerView.filtrar(newText);
         return false;
     }
