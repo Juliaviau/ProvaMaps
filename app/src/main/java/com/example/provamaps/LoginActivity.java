@@ -89,8 +89,10 @@ public class LoginActivity extends AppCompatActivity {
         binding.buttoninv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MyUtils.toast(LoginActivity.this, "buttoninv");
+                MyUtils.toast(LoginActivity.this, "Entrar com a invitat?");
                 finish(); //amb finish va a lactivit que hi havia oberta abans
+                //startActivity(new Intent(LoginActivity.this,MainActivity.class));
+                //finishAffinity();
             }
         });
     }

@@ -119,7 +119,8 @@ public class PerfilFragment extends Fragment implements SearchView.OnQueryTextLi
                             tipus,
                             lat,
                             lon,
-                            urlFoto
+                            urlFoto,
+                            contenidor
                     );
 
                     // Añade el objeto a la lista que maneja el Adapter
@@ -153,7 +154,8 @@ public class PerfilFragment extends Fragment implements SearchView.OnQueryTextLi
                             tipus,
                             lat,
                             lon,
-                            urlFoto
+                            urlFoto,
+                            picnic
                     );
 
                     // Añade el objeto a la lista que maneja el Adapter
@@ -189,7 +191,8 @@ public class PerfilFragment extends Fragment implements SearchView.OnQueryTextLi
                             tipus,
                             lat,
                             lon,
-                            urlFoto
+                            urlFoto,
+                            lavabo
                     );
 
                     // Añade el objeto a la lista que maneja el Adapter
@@ -216,7 +219,7 @@ public class PerfilFragment extends Fragment implements SearchView.OnQueryTextLi
                     String tipus = font.getTipus();
                     String lat = font.getLatitud();
                     String lon = font.getLongitud();
-                    String urlFoto = font.getUrlfoto();//TODO: mirar com van les fotos.
+                    String urlFoto = font.getUrlfoto();
 
 
                     // Crea el Model_ItemCardPerfil
@@ -225,7 +228,8 @@ public class PerfilFragment extends Fragment implements SearchView.OnQueryTextLi
                             tipus,
                             lat,
                             lon,
-                            urlFoto
+                            urlFoto,
+                            font
                     );
 
                     // Añade el objeto a la lista que maneja el Adapter
@@ -246,8 +250,6 @@ public class PerfilFragment extends Fragment implements SearchView.OnQueryTextLi
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentPerfilBinding.inflate(inflater,container,false);
         //return inflater.inflate(R.layout.fragment_perfil, container, false);
-
-
         obtenirFonts();
         obtenirContenidors();
         obtenirPicnics();

@@ -272,7 +272,6 @@ public class AfegirLavaboFragment extends Fragment {
             }
         });
 
-
         return view;
     }
 

@@ -10,9 +10,13 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -129,9 +133,66 @@ public class ModelRecyclerView extends RecyclerView.Adapter<ModelRecyclerView.Vi
             tipus = itemView.findViewById(R.id.tv_cvi_perfil_tipus);
             adreca = itemView.findViewById(R.id.tv_cvi_perfil_subtitol);
             iv_foto_tipus = itemView.findViewById(R.id.iv_tipus_cv);
+
+
+            LinearLayout cardviewPerfil = itemView.findViewById(R.id.cardviewperfil);
+
+            cardviewPerfil.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position = getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION) {
+                        Model_ItemCardPerfil item = arrayList.get(position);
+                        onEditButtonClick(item);
+                    }
+                }
+            });
+
+
           //  animar(itemView);
         }
     }
+
+
+    private void onEditButtonClick(Model_ItemCardPerfil item) {
+
+        //Segons el tipus que sigui, hi posa un icona o altre
+        if (item.getTipus().equalsIgnoreCase("Font")) {
+
+            EditFontFragment fragment = EditFontFragment.newInstance(item.getFont());
+            FragmentManager fragmentManager = ((AppCompatActivity) context).getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.perfilfra, fragment);
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();
+
+        } else if (item.getTipus().equalsIgnoreCase("lavabo")) {
+
+            EditLavaboFragment fragment = EditLavaboFragment.newInstance(item.getLavabo());
+            FragmentManager fragmentManager = ((AppCompatActivity) context).getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.perfilfra, fragment);
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();
+
+        } else if (item.getTipus().equalsIgnoreCase("contenidor")) {
+            EditContenidorFragment fragment = EditContenidorFragment.newInstance(item.getContenidor());
+            FragmentManager fragmentManager = ((AppCompatActivity) context).getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.perfilfra, fragment);
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();
+        } else {
+            EditPicnicFragment fragment = EditPicnicFragment.newInstance(item.getPicnic());
+            FragmentManager fragmentManager = ((AppCompatActivity) context).getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.perfilfra, fragment);
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();
+        }
+    }
+
+
 
     public void animar(View view) {
         Animation animation = AnimationUtils.loadAnimation(context, android.R.anim.slide_in_left);
@@ -164,6 +225,6 @@ public class ModelRecyclerView extends RecyclerView.Adapter<ModelRecyclerView.Vi
             arrayList.clear();
             arrayList.addAll(filtrada);
         }
-        notifyDataSetChanged(); // Actualiza el RecyclerView
+        notifyDataSetChanged();
     }
 }

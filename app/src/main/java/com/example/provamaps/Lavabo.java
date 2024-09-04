@@ -1,8 +1,9 @@
 package com.example.provamaps;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Lavabo {
+public class Lavabo implements Serializable {
 
 
 
@@ -22,6 +23,19 @@ public class Lavabo {
 
     //Coordenades, tipus, url foto, usuari que l'ha creat, tipuslavabo (nadons, mixt, home, dona, accesible), paperhigienic (si, no), pica (si,no)
     public List<Integer> tipusLavabo ;//0nadons, 1mixt, 2home, 3dona, 4accesible. pot seleccionarse mes dun
+
+    public void setTipusLavabo(List<Integer> tipusLavabo) {
+        this.tipusLavabo = tipusLavabo;
+    }
+
+    public void setDisposaPaper(String disposaPaper) {
+        this.disposaPaper = disposaPaper;
+    }
+
+    public void setDisposaPica(String disposaPica) {
+        this.disposaPica = disposaPica;
+    }
+
     public String disposaPaper = "";//si, no
     public String disposaPica = "";//si, no
     public String latitud = "";

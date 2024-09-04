@@ -201,7 +201,38 @@ public class AfegirContenidorFragment extends Fragment {
             }
         });
 
+
         ChipGroup chipGroup = binding.chipGroupTipusContenidor;
+
+
+// Configurar el listener para detectar cambios en la selección de los chips
+        chipGroup.setOnCheckedStateChangeListener(new ChipGroup.OnCheckedStateChangeListener() {
+            @Override
+            public void onCheckedChanged(@NonNull ChipGroup group, @NonNull List<Integer> checkedIds) {
+                selecioTipusContenidor.clear();  // Limpiamos la selección anterior
+
+                // Iteramos sobre los chips seleccionados
+                for (int id : checkedIds) {
+                    Chip chip = group.findViewById(id);
+                    if (chip != null) {
+                        selecioTipusContenidor.add(chip.getText().toString());
+                    }
+                }
+
+                // Mostrar el mensaje Toast con la selección actual
+                if (!selecioTipusContenidor.isEmpty()) {
+                    MyUtils.toast(context, "Seleccionado: " + selecioTipusContenidor.toString());
+                } else {
+                    MyUtils.toast(context, "No hay selección");
+                }
+            }
+        });
+
+
+
+
+
+        /*ChipGroup chipGroup = binding.chipGroupTipusContenidor;
         //Cada vegada que es canvia de boto canvia la variable que diu quin esta seleccionat
         chipGroup.setOnCheckedChangeListener((group, checkedId) -> {
             selecioTipusContenidor.clear();
@@ -214,7 +245,8 @@ public class AfegirContenidorFragment extends Fragment {
                     }
                 }
             }
-        });
+            MyUtils.toast(context,"seleccinat");
+        });*/
         //todo son check box no togglebuttons
         /*binding..addOnButtonCheckedListener(new MaterialButtonToggleGroup.OnButtonCheckedListener() {
             @Override

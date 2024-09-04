@@ -1,0 +1,480 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AfegirContenidorFragment"
+    android:background="@color/fons">
+
+    <!--ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- LinearLayout de la capçalera. Conté títol i botó de cancelar. -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="@color/fons_titol">
+
+            <TextView
+                android:id="@+id/tv_TitolAfegirContenidor"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/editarcontenidor"
+                android:textColor="@color/black"
+                android:textSize="23sp"
+                android:layout_gravity="center"
+                android:padding="10dp"
+                android:textStyle="bold"/>
+
+            <Button
+                android:id="@+id/boto_tancar_modificar_contenidor"
+                android:layout_width="95dp"
+                android:layout_height="45dp"
+                android:layout_margin="10dp"
+                android:backgroundTint="@color/cancelar2"
+                android:text="@string/cancelar"
+                android:layout_gravity="center"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray"/>
+
+        <!-- LinearLayout que conté el contingut de l'imatge-->
+        <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_marginTop="12dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_penjaImatgeContenidor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="12dp"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:text="@string/penja_una_imatge" />
+
+            <TextView
+                android:id="@+id/tv_descPenjaImatgeContenidor"
+                android:layout_marginHorizontal="12dp"
+                android:textStyle="italic"
+                android:textSize="16sp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/penja_imatge_contenidor_desc" />
+
+            <ImageView
+                android:id="@+id/iv_imatgeAfegirContenidor"
+                android:layout_width="300dp"
+                android:layout_height="200dp"
+                android:src="@drawable/icona_imatge"
+                android:gravity="center"
+                android:scaleType="fitCenter"
+                android:adjustViewBounds="true"
+                android:layout_marginTop="14dp"
+                android:background="@color/fons_titol"
+                android:layout_marginStart="10dp"
+                android:layout_gravity="center_horizontal"/>
+
+
+            <LinearLayout android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:gravity="center"
+                android:orientation="horizontal">
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="5dp"
+                    android:text="@string/afegir_imatge"
+                    android:layout_marginHorizontal="10dp"
+                    android:textAllCaps="false"
+                    android:textStyle="normal"
+                    android:id="@+id/boto_modificarImatgeContenidor"/>
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:paddingHorizontal="2dp"
+                    android:layout_marginTop="5dp"
+                    android:drawableBottom="@drawable/icona_fer_foto"
+                    android:id="@+id/boto_ferFotoContenidor"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.51dp"
+            android:layout_marginVertical="10dp"
+            android:background="@android:color/darker_gray"/>
+
+        <TextView
+            android:id="@+id/tv_caracteristiquesAfegirContenidor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:text="@string/caracteristiques" />
+
+        <TextView
+            android:id="@+id/tv_descCaracteristiquesAfegirContenidor"
+            android:layout_marginHorizontal="12dp"
+            android:textStyle="italic"
+            android:textSize="16sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/selecciona_tipus_contenidor" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text= "@string/tipus_contenidor"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:gravity="center"
+            android:paddingStart="20dp"
+            android:layout_marginTop="12dp"
+            android:textSize="18sp"/>
+
+        <!-- Envasos lleugers (contenidor groc)
+Vidre (contenidor verd)
+Paper i cartró (contenidor blau)
+Matèria orgànica (contenidor marró)
+Tèxtils (contenidor carbassa)
+Rebuig (contenidor gris) >
+
+        <LinearLayout android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="horizontal"
+            android:weightSum="10"
+            android:gravity="center">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <!-ImageView
+                    android:id="@+id/iv_contenidorvidreAfegirContenidor"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:scaleType="fitCenter"
+                    android:adjustViewBounds="true"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:src="@drawable/icona_contenidor" />
+                <CheckBox
+                    android:id="@+id/cb_contenidorvidreAfegirContenidor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="15dp"
+                    android:textSize="14sp"
+                    android:buttonTint="@color/contenidor_vidre"
+                    android:text="@string/vidre" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <!-ImageView
+                    android:id="@+id/iv_contenidorpaperAfegirContenidor"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:scaleType="fitCenter"
+                    android:adjustViewBounds="true"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:src="@drawable/icona_contenidor" />
+                <CheckBox
+                    android:id="@+id/cb_contenidorpaperAfegirContenidor"
+                    android:layout_width="wrap_content"
+                    android:layout_marginHorizontal="15dp"
+
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    android:buttonTint="@color/contenidor_paper"
+                    android:text="@string/paper_cartro" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <!-ImageView
+                    android:id="@+id/iv_contenidorenvasosAfegirContenidor"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:scaleType="fitCenter"
+                    android:adjustViewBounds="true"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:src="@drawable/icona_contenidor" />
+                <CheckBox
+                    android:id="@+id/cb_contenidorenvasosAfegirContenidor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="15dp"
+                    android:textSize="14sp"
+                    android:buttonTint="@color/contenidor_envasos"
+                    android:text="@string/envasos" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+        <LinearLayout android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <!-ImageView
+                android:id="@+id/iv_contenidorrobaAfegirContenidor"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:scaleType="fitCenter"
+                android:adjustViewBounds="true"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:src="@drawable/icona_contenidor" />
+            <CheckBox
+                android:id="@+id/cb_contenidorrobaAfegirContenidor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="15dp"
+                android:textSize="14sp"
+                android:buttonTint="@color/contenidor_roba"
+                android:text="@string/roba" />
+        </LinearLayout>
+
+            <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <!-ImageView
+                android:id="@+id/iv_contenidororganicAfegirContenidor"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:scaleType="fitCenter"
+                android:adjustViewBounds="true"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:src="@drawable/icona_contenidor" />
+            <CheckBox
+                android:id="@+id/cb_contenidororganicAfegirContenidor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:layout_marginHorizontal="15dp"
+                android:buttonTint="@color/contenidor_organic"
+                android:text="@string/organic" />
+        </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <!ImageView
+                    android:id="@+id/iv_contenidorrebuigAfegirContenidor"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:scaleType="fitCenter"
+                    android:adjustViewBounds="true"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:src="@drawable/icona_contenidor" />
+                <CheckBox
+                    android:id="@+id/cb_contenidorrebuigAfegirContenidor"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    android:layout_marginHorizontal="15dp"
+                    android:buttonTint="@color/contenidor_rebuig"
+                    android:text="@string/rebuig" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <CheckBox
+                    android:id="@+id/cb_contenidorpapereraAfegirContenidor"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    android:layout_marginHorizontal="15dp"
+                    android:layout_gravity="center"
+                    android:buttonTint="@color/contenidor_paperera"
+                    android:text="@string/paperera" />
+            </LinearLayout>
+    </LinearLayout-->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/chipGroup_tipusContenidor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                app:chipSpacingHorizontal="8dp"
+                app:chipSpacingVertical="8dp"
+                app:singleLine="false"
+                app:selectionRequired="true"
+                app:singleSelection="false">
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipPaperera"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/paperera"
+                    app:chipStrokeColor="@color/black"
+                    app:chipStrokeWidth="1dp"
+                    app:chipBackgroundColor="@color/chip_color_paperera"
+                    android:textColor="@color/chip_text_color"/>
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipVidre"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/vidre"
+                    app:chipBackgroundColor="@color/chip_color_vidre"
+                    app:chipStrokeColor="@color/black"
+                    app:chipStrokeWidth="1dp"
+                    android:textColor="@color/chip_text_color"/>
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipPaper"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/paper_cartro"
+                    app:chipStrokeColor="@color/black"
+                    app:chipStrokeWidth="1dp"
+                    app:chipBackgroundColor="@color/chip_color_paper"
+                    android:textColor="@color/chip_text_color"/>
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipEnvasos"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/envasos"
+                    app:chipStrokeColor="@color/black"
+                    app:chipStrokeWidth="1dp"
+                    app:chipBackgroundColor="@color/chip_color_envasos"
+                    android:textColor="@color/chip_text_color"/>
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipOrganic"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/organic"
+                    app:chipStrokeColor="@color/black"
+                    app:chipStrokeWidth="1dp"
+                    app:chipBackgroundColor="@color/chip_color_organic"
+                    android:textColor="@color/chip_text_color"/>
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipRoba"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/roba"
+                    app:chipStrokeColor="@color/black"
+                    app:chipStrokeWidth="1dp"
+                    app:chipBackgroundColor="@color/chip_color_roba"
+                    android:textColor="@color/chip_text_color"/>
+
+
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipRebuig"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/rebuig"
+                    app:chipStrokeColor="@color/black"
+                    app:chipStrokeWidth="1dp"
+                    app:chipBackgroundColor="@color/chip_color_rebuig"
+                    android:textColor="@color/chip_text_color"/>
+
+            </com.google.android.material.chip.ChipGroup>
+        </LinearLayout>
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.51dp"
+            android:layout_marginVertical="10dp"
+            android:background="@android:color/darker_gray" />
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:text="@string/actualitzar"
+            android:textSize="20sp"
+            android:textStyle="bold"/>
+
+        <Button
+            android:id="@+id/boto_modificarcontenidor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:text="@string/actualitzar"
+            android:textAllCaps="false"
+            android:textSize="18sp"
+            android:background="@color/blau_pred"
+            android:textColor="@color/white"
+            android:drawableStart="@drawable/icona_afegir"
+            android:drawablePadding="8dp"
+            android:padding="10dp" />
+    </LinearLayout>
+    <!--/ScrollView-->
+</ScrollView>

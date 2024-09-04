@@ -1,10 +1,15 @@
 package com.example.provamaps;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Contenidor {
+public class Contenidor implements Serializable {
     public List<String> getTipusContenidor() {
         return tipusContenidor;
+    }
+
+    public void setTipusContenidor(List<String> tipusContenidor) {
+        this.tipusContenidor = tipusContenidor;
     }
 
     //Coordenades, tipus, url foto, usuari que l'ha creat, tipus contenidor (vidre, paper, envasos, roba, organic, rebuig, paperera)
@@ -56,4 +61,5 @@ public class Contenidor {
     public String getKey() {
         return key;
     }
+
 }

@@ -44,7 +44,7 @@
             android:layout_height="wrap_content"
             android:textSize="16dp"
             android:textStyle="italic"
-            android:textColor="#605C5C"
+            android:textColor="@color/atencio"
             android:text="@string/infosessio"/>
 
 

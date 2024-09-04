@@ -1,8 +1,9 @@
 package com.example.provamaps;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Picnic {
+public class Picnic implements Serializable {
 
     public String getBancsIOTaules() {
         return bancsIOTaules;
@@ -14,6 +15,15 @@ public class Picnic {
 
     //Coordenades, tipus, url foto, usuari que l'ha creat, bancsIOTaules (bancs, taules, tot), quehiha (barbacoa, herba, contenidors, sombrilles, llum)
     public String bancsIOTaules = "";//bancs, taules, tot
+
+    public void setBancsIOTaules(String bancsIOTaules) {
+        this.bancsIOTaules = bancsIOTaules;
+    }
+
+    public void setQueHiHa(List<Integer> queHiHa) {
+        this.queHiHa = queHiHa;
+    }
+
     public List<Integer> queHiHa;//0barbacoa, 1herba, 2contenidors, 3sombrilles, 4llum
     public String latitud = "";
     public String longitud = "";

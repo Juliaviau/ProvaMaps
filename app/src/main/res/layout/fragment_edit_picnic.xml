@@ -1,0 +1,331 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AfegirPicnicFragment"
+    android:background="@color/fons">
+
+
+    <!-- LinearLayout global. -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- LinearLayout de la capçalera. Conté títol i botó de cancelar. -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="@color/fons_titol">
+
+            <TextView
+                android:id="@+id/tv_TitolAfegirPicnic"
+                android:layout_width="0dp"
+                android:autoSizeTextType="uniform"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/editarpicnic"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:layout_gravity="center"
+                android:padding="10dp"
+                android:textStyle="bold"/>
+
+            <Button
+                android:id="@+id/boto_tancar_modificar_picnic"
+                android:layout_width="95dp"
+                android:layout_height="45dp"
+                android:layout_margin="10dp"
+                android:backgroundTint="@color/cancelar2"
+                android:text="@string/cancelar"
+                android:layout_gravity="center"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray"/>
+
+        <!-- LinearLayout que conté el contingut de l'imatge-->
+        <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_marginTop="12dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_penjaImatgePicnic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="12dp"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:text="@string/penja_una_imatge" />
+
+            <TextView
+                android:id="@+id/tv_descPenjaImatgePicnic"
+                android:layout_marginHorizontal="12dp"
+                android:textStyle="italic"
+                android:textSize="16sp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/penja_imatge_picnic_desc" />
+
+            <ImageView
+                android:id="@+id/iv_imatgeAfegirPicnic"
+                android:layout_width="300dp"
+                android:layout_height="200dp"
+                android:src="@drawable/icona_imatge"
+                android:gravity="center"
+                android:scaleType="fitCenter"
+                android:adjustViewBounds="true"
+                android:layout_marginTop="14dp"
+                android:background="@color/fons_titol"
+                android:contentDescription="@string/descripcioImatgeAfegir"
+                android:layout_marginStart="10dp"
+                android:layout_gravity="center_horizontal"/>
+
+            <LinearLayout android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:gravity="center"
+                android:orientation="horizontal">
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="5dp"
+                    android:text="@string/afegir_imatge"
+                    android:layout_marginHorizontal="10dp"
+                    android:textAllCaps="false"
+                    android:textStyle="normal"
+                    android:id="@+id/boto_modificarImatgePicnic"/>
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:paddingHorizontal="2dp"
+                    android:layout_marginTop="5dp"
+                    android:drawableBottom="@drawable/icona_fer_foto"
+                    android:id="@+id/boto_ferFotoPicnic"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.51dp"
+            android:layout_marginVertical="10dp"
+            android:background="@android:color/darker_gray"/>
+
+        <TextView
+            android:id="@+id/tv_caracteristiquesAfegirPicnic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:text="@string/caracteristiques" />
+
+        <TextView
+            android:id="@+id/tv_descCaracteristiquesAfegirPicnic"
+            android:layout_marginHorizontal="12dp"
+            android:textStyle="italic"
+            android:textSize="16sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/escull_una_opcio_categoria" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text= "@string/hiha_bancs_io_taules"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:gravity="center"
+            android:layout_marginTop="12dp"
+            android:textSize="16sp"/>
+        <!-- ToggleGroup de potable -->
+        <com.google.android.material.button.MaterialButtonToggleGroup
+            android:id="@+id/tggb_banctaula"
+            android:layout_width="match_parent"
+            android:layout_gravity="center"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="30dp"
+            app:checkedButton="@id/boto_tggb_bancs"
+            app:singleSelection="true">
+
+            <Button
+                android:id="@+id/boto_tggb_bancs"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/bancs"
+                style="?attr/materialButtonOutlinedStyle"
+                android:ellipsize="end"
+                android:maxLines="1"
+                app:iconGravity="textStart"
+                app:iconPadding="8dp" />
+
+            <Button
+                android:id="@+id/boto_tggb_taules"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/taules"
+                style="?attr/materialButtonOutlinedStyle"
+                android:ellipsize="end"
+                android:maxLines="1"
+                app:iconGravity="textStart"
+                app:iconPadding="8dp" />
+
+            <Button
+                android:id="@+id/boto_tggb_bancTaula"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/bancs_i_taules"
+                style="?attr/materialButtonOutlinedStyle"
+                android:ellipsize="end"
+                android:maxLines="1"
+                app:iconGravity="textStart"
+                app:iconPadding="8dp" />
+        </com.google.android.material.button.MaterialButtonToggleGroup>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text= "@string/que_hiha"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:gravity="center"
+            android:layout_marginTop="12dp"
+            android:textSize="16sp"/>
+
+        <com.google.android.material.button.MaterialButtonToggleGroup
+            android:id="@+id/tggb_picnicConte"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="46dp"
+            android:layout_gravity="center"
+            app:checkedButton="@id/boto_tggb_lavaboTipusHomeDona"
+            app:singleSelection="false">
+
+            <Button
+                android:id="@+id/boto_tggb_picnicConteBarbacoa"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                app:icon="@drawable/icona_barbacoa"
+                style="?attr/materialButtonOutlinedStyle"
+                android:ellipsize="end"
+                android:maxLines="1"
+                app:iconGravity="textStart"
+                app:iconPadding="8dp"
+                android:layout_marginEnd="8dp"
+                app:iconSize="32dp"/>
+
+            <Button
+                android:id="@+id/boto_tggb_picnicConteHerba"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                app:icon="@drawable/icona_herba"
+                style="?attr/materialButtonOutlinedStyle"
+                android:ellipsize="end"
+                android:maxLines="1"
+                app:iconGravity="textStart"
+                app:iconPadding="8dp"
+                android:layout_marginEnd="8dp"
+                app:iconSize="32dp"/>
+
+            <Button
+                android:id="@+id/tggb_picnicConteContenidors"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                app:icon="@drawable/icona_contenidor"
+                style="?attr/materialButtonOutlinedStyle"
+                android:ellipsize="end"
+                android:maxLines="1"
+                app:iconGravity="textStart"
+                app:iconPadding="8dp"
+                android:layout_marginEnd="8dp"
+                app:iconSize="32dp"/>
+
+            <Button
+                android:id="@+id/boto_tggb_picnicConteSombrilla"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                app:icon="@drawable/icona_sombrilla"
+                style="?attr/materialButtonOutlinedStyle"
+                android:ellipsize="end"
+                android:maxLines="1"
+                app:iconGravity="textStart"
+                app:iconPadding="8dp"
+                android:layout_marginEnd="8dp"
+                app:iconSize="32dp"/>
+
+            <Button
+                android:id="@+id/boto_tggb_picnicConteLlum"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                app:icon="@drawable/icona_llum"
+                style="?attr/materialButtonOutlinedStyle"
+                android:ellipsize="end"
+                android:maxLines="1"
+                app:iconGravity="textStart"
+                app:iconPadding="8dp"
+                android:layout_marginEnd="8dp"
+                app:iconSize="32dp"/>
+        </com.google.android.material.button.MaterialButtonToggleGroup>
+
+
+
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.51dp"
+            android:layout_marginVertical="10dp"
+            android:background="@android:color/darker_gray" />
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:text="@string/actualitzar"
+            android:textSize="20sp"
+            android:textStyle="bold"/>
+
+        <Button
+            android:id="@+id/boto_afegir_afegirPicnic"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:text="@string/actualitzar"
+            android:textAllCaps="false"
+            android:textSize="18sp"
+            android:background="@color/blau_pred"
+            android:textColor="@color/white"
+            android:drawableStart="@drawable/icona_afegir"
+            android:drawablePadding="8dp"
+            android:padding="10dp" />
+
+
+    </LinearLayout>
+</ScrollView>

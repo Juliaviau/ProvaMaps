@@ -93,6 +93,7 @@
                 app:layout_constraintTop_toBottomOf="@id/tv_cvi_perfil_tipus" /> <!-- Coloca este TextView debajo del TextView anterior -->
 
             <LinearLayout
+                android:id="@+id/cardviewperfil"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="4dp"
@@ -102,8 +103,7 @@
                 android:padding="8dp"
                 android:clickable="true"
                 android:focusable="true"
-                app:layout_constraintTop_toBottomOf="@id/tv_cvi_perfil_subtitol"> <!-- Coloca este LinearLayout debajo del TextView anterior -->
-
+                app:layout_constraintTop_toBottomOf="@id/tv_cvi_perfil_subtitol">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

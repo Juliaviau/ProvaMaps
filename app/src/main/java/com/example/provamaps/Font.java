@@ -3,9 +3,10 @@ package com.example.provamaps;
 import android.location.Address;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.List;
 
-public class Font {
+public class Font implements Serializable {
 
     public String getPotable() {
         return potable;
@@ -13,6 +14,22 @@ public class Font {
 
     public String getEstat() {
         return estat;
+    }
+
+    public void setPotable(String potable) {
+        this.potable = potable;
+    }
+
+    public void setEstat(String estat) {
+        this.estat = estat;
+    }
+
+    public void setLatitud(String latitud) {
+        this.latitud = latitud;
+    }
+
+    public void setLongitud(String longitud) {
+        this.longitud = longitud;
     }
 
     //Coordenades, tipus, url foto, usuari que l'ha creat, potable (potable, no potable, no info), estat (em servei, sense servei)

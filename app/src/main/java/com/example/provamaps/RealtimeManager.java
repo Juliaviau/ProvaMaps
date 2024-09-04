@@ -79,14 +79,10 @@ public class RealtimeManager {
     private void guardarFont(Font font) {
         databaseReferenceFonts.child(font.getKey()).setValue(font)
                 .addOnSuccessListener(aVoid -> {
-                    // Éxito
                     Log.d("RealtimeManager", "Font guardada exitosament");
-
                 })
                 .addOnFailureListener(e -> {
-                    // Manejar error
                     Log.e("RealtimeManager", "Error al guardar la font: " + e.getMessage());
-
                 });
     }
 
@@ -95,9 +91,41 @@ public class RealtimeManager {
         //TODO: Eliminar tambe la foto
     }
 
-    void actualitzarFont(String fontId, Font font) {
-        databaseReferenceFonts.child(fontId).setValue(font);
+    void actualitzarFont(String fontId, Font font, byte[] imageData, PenjarImatges.OnImageUploadListener listener) {
+
+        if (imageData != null) {
+            penjarImatges.penjarFotos(imageData, fontId, new PenjarImatges.OnImageUploadListener() {
+                @Override
+                public void onUploadSuccess(String imagenUri) {
+                    font.setImageUrl(imagenUri);
+                    modificarLavabo(fontId,font);
+                    listener.onUploadSuccess(imagenUri);
+                }
+
+                @Override
+                public void onUploadFailed(String errorMessage) {
+                    listener.onUploadFailed(errorMessage);
+                }
+            });
+        } else {
+            modificarLavabo(fontId,font);
+            listener.onUploadSuccess(null);
+        }
     }
+
+    void modificarLavabo(String fontId, Font font) {
+        databaseReferenceFonts.child(fontId).setValue(font)
+                .addOnSuccessListener(aVoid -> {
+                    Log.d("RealtimeManager", "Font modificada exitosament");
+                })
+                .addOnFailureListener(e -> {
+                    Log.e("RealtimeManager", "Error al modificar la font: " + e.getMessage());
+
+                });
+    }
+
+
+
 
     public LiveData<List<Font>> obtenirFontsUsuari() {
         MutableLiveData<List<Font>> liveData = new MutableLiveData<>();
@@ -206,8 +234,37 @@ public class RealtimeManager {
         //TODO: Eliminar tambe la foto
     }
 
-    void actualitzarLavabo(String lavaboId, Lavabo lavabo) {
-        databaseReferenceLavabos.child(lavaboId).setValue(lavabo);
+    void actualitzarLavabo(String lavaboId, Lavabo lavabo, byte[] imageData, PenjarImatges.OnImageUploadListener listener) {
+
+        if (imageData != null) {
+            penjarImatges.penjarFotos(imageData, lavaboId, new PenjarImatges.OnImageUploadListener() {
+                @Override
+                public void onUploadSuccess(String imagenUri) {
+                    lavabo.setImageUrl(imagenUri);
+                    modificarLavabo(lavaboId,lavabo);
+                    listener.onUploadSuccess(imagenUri);
+                }
+
+                @Override
+                public void onUploadFailed(String errorMessage) {
+                    listener.onUploadFailed(errorMessage);
+                }
+            });
+        } else {
+            modificarLavabo(lavaboId,lavabo);
+            listener.onUploadSuccess(null);
+        }
+    }
+
+    void modificarLavabo(String lavaboId, Lavabo lavabo) {
+        databaseReferenceLavabos.child(lavaboId).setValue(lavabo)
+                .addOnSuccessListener(aVoid -> {
+                    Log.d("RealtimeManager", "Lavabo modificat exitosament");
+                })
+                .addOnFailureListener(e -> {
+                    Log.e("RealtimeManager", "Error al modificar el lavabo: " + e.getMessage());
+
+                });
     }
 
     public LiveData<List<Lavabo>> obtenirLavabosUsuari() {
@@ -317,8 +374,37 @@ public class RealtimeManager {
         //TODO: Eliminar tambe la foto
     }
 
-    void actualitzarContenidor(String contenidorId, Contenidor contenidor) {
-        databaseReferenceContenidors.child(contenidorId).setValue(contenidor);
+    void actualitzarContenidor(String contenidorId, Contenidor contenidor, byte[] imageData, PenjarImatges.OnImageUploadListener listener) {
+
+        if (imageData != null) {
+            penjarImatges.penjarFotos(imageData, contenidorId, new PenjarImatges.OnImageUploadListener() {
+                @Override
+                public void onUploadSuccess(String imagenUri) {
+                    contenidor.setImageUrl(imagenUri);
+                    modificarContenidor(contenidorId,contenidor);
+                    listener.onUploadSuccess(imagenUri);
+                }
+
+                @Override
+                public void onUploadFailed(String errorMessage) {
+                    listener.onUploadFailed(errorMessage);
+                }
+            });
+        } else {
+            modificarContenidor(contenidorId,contenidor);
+            listener.onUploadSuccess(null);
+        }
+    }
+
+    void modificarContenidor(String contenidorId, Contenidor contenidor) {
+        databaseReferenceContenidors.child(contenidorId).setValue(contenidor)
+                .addOnSuccessListener(aVoid -> {
+                    Log.d("RealtimeManager", "Contenidor modificat exitosament");
+                })
+                .addOnFailureListener(e -> {
+                    Log.e("RealtimeManager", "Error al modificar el contenidor: " + e.getMessage());
+
+                });
     }
 
     public LiveData<List<Contenidor>> obtenirContenidorsUsuari() {
@@ -429,8 +515,37 @@ public class RealtimeManager {
         //TODO: Eliminar tambe la foto
     }
 
-    void actualitzarPicnic(String picnicId, Picnic picnic) {
-        databaseReferencePicnic.child(picnicId).setValue(picnic);
+    void actualitzarPicnic(String picnicId, Picnic picnic, byte[] imageData, PenjarImatges.OnImageUploadListener listener) {
+
+        if (imageData != null) {
+            penjarImatges.penjarFotos(imageData, picnicId, new PenjarImatges.OnImageUploadListener() {
+                @Override
+                public void onUploadSuccess(String imagenUri) {
+                    picnic.setImageUrl(imagenUri);
+                    modificarPicnic(picnicId,picnic);
+                    listener.onUploadSuccess(imagenUri);
+                }
+
+                @Override
+                public void onUploadFailed(String errorMessage) {
+                    listener.onUploadFailed(errorMessage);
+                }
+            });
+        } else {
+            modificarPicnic(picnicId,picnic);
+            listener.onUploadSuccess(null);
+        }
+    }
+
+    void modificarPicnic(String picnicId, Picnic picnic) {
+        databaseReferencePicnic.child(picnicId).setValue(picnic)
+                .addOnSuccessListener(aVoid -> {
+                    Log.d("RealtimeManager", "Picnic modificat exitosament");
+                })
+                .addOnFailureListener(e -> {
+                    Log.e("RealtimeManager", "Error al modificar el picnic: " + e.getMessage());
+
+                });
     }
 
     public LiveData<List<Picnic>> obtenirPicnicsUsuari() {

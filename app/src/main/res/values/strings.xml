@@ -11,7 +11,7 @@
     <string name="afegir_imatge">Afegir imatge</string>
     <string name="caracteristiques">Característiques:</string>
     <string name="afegir">Afegir</string>
-
+    <string name="actualitzar">Actualitzar</string>
     <string name="afegir_font">Afegir una font</string>
     <string name="penja_imatge_font_desc">Fes una imatge a la font on es vegi correctament. Procura fer-la des de la distància correcte, ni molt aprop ni molt lluny. I amb una bona il·luminació.</string>
     <string name="escull_una_opcio_categoria">Escull una opció de cada categoria.</string>
@@ -23,6 +23,11 @@
     <string name="sense_servei">Sense servei</string>
     <string name="localitzacio_font">Localització de la font:</string>
     <string name="informacio_mapa_font">El mapa indica la posició on guardarà la font. Si és incorrecte, prem cancelar i torna-ho a intentar.</string>
+
+    <string name="editarfont">Editar Font</string>
+    <string name="editarlavabo">Editar Lavabo</string>
+    <string name="editarcontenidor">Editar Contenidor</string>
+    <string name="editarpicnic">Editar Picnic</string>
 
     <string name="afegir_contenidor">Afegir un contenidor</string>
     <string name="penja_imatge_contenidor_desc">Fes una imatge al contenidor on es vegi correctament, si n\\\'hi ha més d\\\'un procura que es vegin tots. Procura fer-la des de la distància correcte, ni molt aprop ni molt lluny. I amb una bona il·luminació.</string>
