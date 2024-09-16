@@ -166,7 +166,7 @@ public class ModelRecyclerView extends RecyclerView.Adapter<ModelRecyclerView.Vi
             fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commit();
 
-        } else if (item.getTipus().equalsIgnoreCase("lavabo")) {
+        } else if (item.getTipus().equalsIgnoreCase("Lavabo")) {
 
             EditLavaboFragment fragment = EditLavaboFragment.newInstance(item.getLavabo());
             FragmentManager fragmentManager = ((AppCompatActivity) context).getSupportFragmentManager();
@@ -175,7 +175,7 @@ public class ModelRecyclerView extends RecyclerView.Adapter<ModelRecyclerView.Vi
             fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commit();
 
-        } else if (item.getTipus().equalsIgnoreCase("contenidor")) {
+        } else if (item.getTipus().equalsIgnoreCase("Contenidor")) {
             EditContenidorFragment fragment = EditContenidorFragment.newInstance(item.getContenidor());
             FragmentManager fragmentManager = ((AppCompatActivity) context).getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -199,7 +199,14 @@ public class ModelRecyclerView extends RecyclerView.Adapter<ModelRecyclerView.Vi
         view.setAnimation(animation);
     }
 
+    public void iniciar() {
+        //MyUtils.toast(context, "araaar" + arrayList.size());
+        arrayList.clear();
 
+        arrayList.addAll(llistaOriginal);
+        //MyUtils.toast(context, "arr" + arrayList.size());
+        notifyDataSetChanged();
+    }
 
     public void filtrar(String textBuscar) {
 
@@ -211,13 +218,13 @@ public class ModelRecyclerView extends RecyclerView.Adapter<ModelRecyclerView.Vi
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 filtrada = llistaOriginal.stream()
                         .filter(i -> i.getTipus().toLowerCase().contains(textBuscar.toLowerCase()) ||
-                                i.getAdreca().toLowerCase().contains(textBuscar.toLowerCase()))
+                                i.getAdreca(geocoder).toLowerCase().contains(textBuscar.toLowerCase()))
                         .collect(Collectors.toList());
             } else {
                 filtrada = new ArrayList<>();
                 for (Model_ItemCardPerfil m : llistaOriginal) {
                     if (m.getTipus().toLowerCase().contains(textBuscar.toLowerCase()) ||
-                            m.getAdreca().toLowerCase().contains(textBuscar.toLowerCase())) {
+                            m.getAdreca(geocoder).toLowerCase().contains(textBuscar.toLowerCase())) {
                         filtrada.add(m);
                     }
                 }

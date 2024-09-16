@@ -1,5 +1,11 @@
 package com.example.provamaps;
 
+import android.location.Address;
+import android.location.Geocoder;
+
+import java.io.IOException;
+import java.util.List;
+
 public class Model_ItemCardPerfil {
 
     public Font getFont() {
@@ -24,49 +30,55 @@ public class Model_ItemCardPerfil {
     private Lavabo lavabo;
 
     int img;
+    String adreca;
     String urlfoto;
     String tipus;
     String lat;
     String lon;
 
-    public Model_ItemCardPerfil(String tipus, String lat,  String lon, String urlfoto) {
+    public Model_ItemCardPerfil(String tipus, String lat,  String lon, String adreca) {
         this.tipus = tipus;
         this.lat = lat;
         this.lon = lon;
         this.urlfoto = urlfoto;
+        this.adreca = adreca;
     }
 
-    public Model_ItemCardPerfil(String tipus, String lat,  String lon, String urlfoto, Font font) {
+    public Model_ItemCardPerfil(String tipus, String lat,  String lon, String urlfoto, Font font, String adreca) {
         this.tipus = tipus;
         this.lat = lat;
         this.lon = lon;
         this.urlfoto = urlfoto;
         this.font = font;
+        this.adreca = adreca;
     }
 
 
-    public Model_ItemCardPerfil(String tipus, String lat,  String lon, String urlfoto, Lavabo lavabo) {
+    public Model_ItemCardPerfil(String tipus, String lat,  String lon, String urlfoto, Lavabo lavabo, String adreca) {
         this.tipus = tipus;
         this.lat = lat;
         this.lon = lon;
         this.urlfoto = urlfoto;
         this.lavabo = lavabo;
+        this.adreca = adreca;
     }
 
-    public Model_ItemCardPerfil(String tipus, String lat,  String lon, String urlfoto, Picnic picnic) {
+    public Model_ItemCardPerfil(String tipus, String lat,  String lon, String urlfoto, Picnic picnic, String adreca) {
         this.tipus = tipus;
         this.lat = lat;
         this.lon = lon;
         this.urlfoto = urlfoto;
         this.picnic = picnic;
+        this.adreca = adreca;
     }
 
-    public Model_ItemCardPerfil(String tipus, String lat, String lon, String urlFoto, Contenidor contenidor) {
+    public Model_ItemCardPerfil(String tipus, String lat, String lon, String urlFoto, Contenidor contenidor, String adreca) {
         this.tipus = tipus;
         this.lat = lat;
         this.lon = lon;
         this.urlfoto = urlFoto;
         this.contenidor = contenidor;
+        this.adreca = adreca;
     }
 
 
@@ -95,9 +107,9 @@ public class Model_ItemCardPerfil {
         return lon;
     }
 
-    public String getAdreca() {
+    public String getAdreca(Geocoder geocoder) {
         //TODO: Obtenir aqui l'adreca segons la lat i lon
-        return lon;
-    }
 
+        return adreca;
+    }
 }

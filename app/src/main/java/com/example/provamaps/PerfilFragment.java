@@ -2,6 +2,8 @@ package com.example.provamaps;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -26,8 +28,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class PerfilFragment extends Fragment implements SearchView.OnQueryTextListener {
 
@@ -41,7 +45,7 @@ public class PerfilFragment extends Fragment implements SearchView.OnQueryTextLi
     SearchView searchView;
     ModelRecyclerView modelRecyclerView;
     private RealtimeManager realtimeManager;
-
+    private Geocoder geocoder;
     public PerfilFragment() {
         // Required empty public constructor
     }
@@ -56,42 +60,12 @@ public class PerfilFragment extends Fragment implements SearchView.OnQueryTextLi
         super.onCreate(savedInstanceState);
 
         // Inicializa la llista d'items per defecte
-        /*arrayListFonts.add(new Model_ItemCardPerfil(R.drawable.mapafont,"Font","Jardins de Vicenç Albert Ballester i Camps"));
-        arrayListFonts.add(new Model_ItemCardPerfil(R.drawable.font3,"Font","Jardins de Vicenç Albert Ballester i Camps"));
-        arrayListFonts.add(new Model_ItemCardPerfil(R.drawable.font1,"Lavabo","Jadsdrdins de Vicenç Albert Ballester i Camps"));
-        arrayListFonts.add(new Model_ItemCardPerfil(R.drawable.mapafont,"Picnic","font mco laboris nisi ut aliquip ex ea commodo consequat. "));
-        arrayListFonts.add(new Model_ItemCardPerfil(R.drawable.font4,"Font","Jardins de Vicenç Albert Ballester i Camps"));
-        arrayListFonts.add(new Model_ItemCardPerfil(R.drawable.font2,"Contenidor","Jaaaardins de Vicenç Albert Ballester i Camps"));
-        arrayListFonts.add(new Model_ItemCardPerfil(R.drawable.mapafont,"Font","Jardins de Vicenç Albert Ballester i Camps"));
-        arrayListFonts.add(new Model_ItemCardPerfil(R.drawable.font3,"Font","Jardins de Vicenç Albert Ballester i Camps"));
-        arrayListFonts.add(new Model_ItemCardPerfil(R.drawable.font1,"Lavabo","Jadsdrdins de Vicenç Albert Ballester i Camps"));
-        arrayListFonts.add(new Model_ItemCardPerfil(R.drawable.mapafont,"Picnic","font mco laboris nisi ut aliquip ex ea commodo consequat. "));
-        arrayListFonts.add(new Model_ItemCardPerfil(R.drawable.font4,"Font","Jardins de Vicenç Albert Ballester i Camps"));
-        arrayListFonts.add(new Model_ItemCardPerfil(R.drawable.font2,"Contenidor","Jaaaardins de Vicenç Albert Ballester i Camps"));
-        arrayListFonts.add(new Model_ItemCardPerfil(R.drawable.mapafont,"Font","Jardins de Vicenç Albert Ballester i Camps"));
-        arrayListFonts.add(new Model_ItemCardPerfil(R.drawable.font3,"Font","Jardins de Vicenç Albert Ballester i Camps"));
-        arrayListFonts.add(new Model_ItemCardPerfil(R.drawable.font1,"Lavabo","Jadsdrdins de Vicenç Albert Ballester i Camps"));
-        arrayListFonts.add(new Model_ItemCardPerfil(R.drawable.mapafont,"Picnic","font mco laboris nisi ut aliquip ex ea commodo consequat. "));
-        arrayListFonts.add(new Model_ItemCardPerfil(R.drawable.font4,"Font","Jardins de Vicenç Albert Ballester i Camps"));
-        arrayListFonts.add(new Model_ItemCardPerfil(R.drawable.font2,"Contenidor","Jaaaardins de Vicenç Albert Ballester i Camps"));
-        arrayListFonts.add(new Model_ItemCardPerfil(R.drawable.mapafont,"Font","Jardins de Vicenç Albert Ballester i Camps"));
-        arrayListFonts.add(new Model_ItemCardPerfil(R.drawable.font3,"Font","Jardins de Vicenç Albert Ballester i Camps"));
-        arrayListFonts.add(new Model_ItemCardPerfil(R.drawable.font1,"Lavabo","Jadsdrdins de Vicenç Albert Ballester i Camps"));
-        arrayListFonts.add(new Model_ItemCardPerfil(R.drawable.mapafont,"Picnic","font mco laboris nisi ut aliquip ex ea commodo consequat. "));
-        arrayListFonts.add(new Model_ItemCardPerfil(R.drawable.font4,"Font","Jardins de Vicenç Albert Ballester i Camps"));
-        arrayListFonts.add(new Model_ItemCardPerfil(R.drawable.font2,"Contenidor","Jaaaardins de Vicenç Albert Ballester i Camps"));
-        arrayListFonts.add(new Model_ItemCardPerfil(R.drawable.mapafont,"Font","Jardins de Vicenç Albert Ballester i Camps"));
-        arrayListFonts.add(new Model_ItemCardPerfil(R.drawable.font3,"Font","Jardins de Vicenç Albert Ballester i Camps"));
-        arrayListFonts.add(new Model_ItemCardPerfil(R.drawable.font1,"Lavabo","Jadsdrdins de Vicenç Albert Ballester i Camps"));
-        arrayListFonts.add(new Model_ItemCardPerfil(R.drawable.mapafont,"Picnic","font mco laboris nisi ut aliquip ex ea commodo consequat. "));
-        arrayListFonts.add(new Model_ItemCardPerfil(R.drawable.font4,"Font","Jardins de Vicenç Albert Ballester i Camps"));
-        arrayListFonts.add(new Model_ItemCardPerfil(R.drawable.font2,"Contenidor","Jaaaardins de Vicenç Albert Ballester i Camps"));*/
 
         //Obté les dades de la base de dades
 
         //inicialitza el singleton realtimemanager
         realtimeManager = RealtimeManager.getInstance();
-
+        geocoder = new Geocoder(getContext(), Locale.getDefault());
         // Obté les dades de la base de dades
         //obtenirFonts();
 
@@ -112,6 +86,7 @@ public class PerfilFragment extends Fragment implements SearchView.OnQueryTextLi
                     String lat = contenidor.getLatitud();
                     String lon = contenidor.getLongitud();
                     String urlFoto = contenidor.getUrlfoto();
+                    String adreca = crearAdreca(lat,lon);
 
                     // Crea el Model_ItemCardPerfil
                     Model_ItemCardPerfil itemCardPerfil = new Model_ItemCardPerfil(
@@ -120,13 +95,15 @@ public class PerfilFragment extends Fragment implements SearchView.OnQueryTextLi
                             lat,
                             lon,
                             urlFoto,
-                            contenidor
+                            contenidor,
+                            adreca
                     );
 
                     // Añade el objeto a la lista que maneja el Adapter
                     arrayListPunts.add(itemCardPerfil);
                 }
                 modelRecyclerView.notifyDataSetChanged();
+                modelRecyclerView.iniciar();
             } else {
                 //Notificar que no hi ha res guardat
                 Toast.makeText(getContext(), "No hi ha contenidors guardats", Toast.LENGTH_SHORT).show();
@@ -147,7 +124,7 @@ public class PerfilFragment extends Fragment implements SearchView.OnQueryTextLi
                     String lat = picnic.getLatitud();
                     String lon = picnic.getLongitud();
                     String urlFoto = picnic.getUrlfoto();
-
+                    String adreca = crearAdreca(lat,lon);
                     // Crea el Model_ItemCardPerfil
                     Model_ItemCardPerfil itemCardPerfil = new Model_ItemCardPerfil(
                             /*urlFoto,*/
@@ -155,13 +132,15 @@ public class PerfilFragment extends Fragment implements SearchView.OnQueryTextLi
                             lat,
                             lon,
                             urlFoto,
-                            picnic
+                            picnic,
+                            adreca
                     );
 
                     // Añade el objeto a la lista que maneja el Adapter
                     arrayListPunts.add(itemCardPerfil);
                 }
                 modelRecyclerView.notifyDataSetChanged();
+                modelRecyclerView.iniciar();
             } else {
                 //Notificar que no hi ha res guardat
                 Toast.makeText(getContext(), "No hi ha picnics guardats", Toast.LENGTH_SHORT).show();
@@ -183,7 +162,7 @@ public class PerfilFragment extends Fragment implements SearchView.OnQueryTextLi
                     String lat = lavabo.getLatitud();
                     String lon = lavabo.getLongitud();
                     String urlFoto = lavabo.getUrlfoto();
-
+                    String adreca = crearAdreca(lat,lon);
 
                     // Crea el Model_ItemCardPerfil
                     Model_ItemCardPerfil itemCardPerfil = new Model_ItemCardPerfil(
@@ -192,13 +171,15 @@ public class PerfilFragment extends Fragment implements SearchView.OnQueryTextLi
                             lat,
                             lon,
                             urlFoto,
-                            lavabo
+                            lavabo,
+                            adreca
                     );
 
                     // Añade el objeto a la lista que maneja el Adapter
                     arrayListPunts.add(itemCardPerfil);
                 }
                 modelRecyclerView.notifyDataSetChanged();
+                modelRecyclerView.iniciar();
             } else {
                 //Notificar que no hi ha res guardat
                 Toast.makeText(getContext(), "No hi ha lavabos guardats", Toast.LENGTH_SHORT).show();
@@ -207,9 +188,45 @@ public class PerfilFragment extends Fragment implements SearchView.OnQueryTextLi
         });
     }
 
+
+    private String crearAdreca(String lat, String lon) {
+        try {
+            double lata = Double.parseDouble(lat);
+            double lona = Double.parseDouble(lon);
+
+            List<Address> adreca = geocoder.getFromLocation(lata, lona, 1);
+
+            if (adreca != null && !adreca.isEmpty()) {
+                Address address = adreca.get(0);
+
+                String poblacio = address.getLocality();
+                String provincia = address.getAdminArea();
+                String pais = address.getCountryName();
+                String numero = address.getFeatureName();
+                String comarca = address.getSubAdminArea();
+                String carrer = address.getThoroughfare();
+
+                return carrer + ", " + numero + ", " + poblacio + ", " + comarca + ", " + provincia + ", " + pais;
+
+            } else {
+                // Si no se encuentra una dirección, muestra un mensaje o realiza alguna acción
+                return  "Adreça no trobada";
+            }
+        } catch (IOException | NumberFormatException e) {
+            e.printStackTrace();
+            return "Error en obtenir l'adreça";
+        }
+    }
+
     private void obtenirFonts() {
+
+        progressDialog.show();
+
         // Segons les dades del LiveData de RealtimeManager actualitza la UI quan canviin les dades
         realtimeManager.obtenirFontsUsuari().observe(getViewLifecycleOwner(), fonts -> {
+
+
+
             if (fonts != null && !fonts.isEmpty()) {
                 // Actualitza l'ArrayList de l'adapter i notifica els canvis
                 //arrayListFonts.clear();
@@ -220,7 +237,7 @@ public class PerfilFragment extends Fragment implements SearchView.OnQueryTextLi
                     String lat = font.getLatitud();
                     String lon = font.getLongitud();
                     String urlFoto = font.getUrlfoto();
-
+                    String adreca = crearAdreca(lat,lon);
 
                     // Crea el Model_ItemCardPerfil
                     Model_ItemCardPerfil itemCardPerfil = new Model_ItemCardPerfil(
@@ -229,32 +246,32 @@ public class PerfilFragment extends Fragment implements SearchView.OnQueryTextLi
                             lat,
                             lon,
                             urlFoto,
-                            font
+                            font,
+                            adreca
                     );
 
                     // Añade el objeto a la lista que maneja el Adapter
                     arrayListPunts.add(itemCardPerfil);
                 }
-                MyUtils.toast(getContext(),"abans " + arrayListPunts.size());
+                //MyUtils.toast(getContext(),"abans " + arrayListPunts.size());
                 modelRecyclerView.notifyDataSetChanged();
-                MyUtils.toast(getContext(),"despres " + arrayListPunts.size());
+                modelRecyclerView.iniciar();
+                //MyUtils.toast(getContext(),"despres " + arrayListPunts.size());
             } else {
                 //Notificar que no hi ha res guardat
                 Toast.makeText(getContext(), "No hi fonts ha guardades", Toast.LENGTH_SHORT).show();
 
             }
         });
+        progressDialog.dismiss();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentPerfilBinding.inflate(inflater,container,false);
         //return inflater.inflate(R.layout.fragment_perfil, container, false);
-        obtenirFonts();
-        obtenirContenidors();
-        obtenirPicnics();
-        obtenirLavabos();
-        MyUtils.toast(getContext(),"dp carregar " + arrayListPunts.size());
+
+        //MyUtils.toast(getContext(),"dp carregar " + arrayListPunts.size());
 
         //obtenirFonts();
         return binding.getRoot();
@@ -276,18 +293,20 @@ public class PerfilFragment extends Fragment implements SearchView.OnQueryTextLi
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
 
 
-
-
-
         // Aporta els elements de l'arraylist al recycleview
         modelRecyclerView = new ModelRecyclerView(requireContext(), arrayListPunts);
         binding.recyclerView.setAdapter(modelRecyclerView);
 
-
+        obtenirFonts();
+        obtenirContenidors();
+        obtenirPicnics();
+        obtenirLavabos();
 
         binding.searchviewa.setOnQueryTextListener(this);
 
         loadMyInfo();
+
+        modelRecyclerView.iniciar();
     }
 
     @Override
@@ -297,9 +316,20 @@ public class PerfilFragment extends Fragment implements SearchView.OnQueryTextLi
 
     @Override
     public boolean onQueryTextChange(String newText) {
-        MyUtils.toast(getContext(), "arr" + arrayListPunts.size());
-        modelRecyclerView.filtrar(newText);
+        //MyUtils.toast(getContext(), "arr" + arrayListPunts.size());
+        //modelRecyclerView.filtrar(newText);
+        //return false;
+
+
+        if (newText == null || newText.isEmpty()) {
+            // No aplicar ningún filtro si no hay texto de búsqueda
+            modelRecyclerView.iniciar();  // Si tienes un método para resetear el filtro
+        } else {
+            // Filtrar por el texto ingresado
+            modelRecyclerView.filtrar(newText);
+        }
         return false;
+
     }
 
     //rep el context de l'activity mainActivity
@@ -310,7 +340,7 @@ public class PerfilFragment extends Fragment implements SearchView.OnQueryTextLi
     }
 
     private void loadMyInfo () {
-        //Toast.makeText(mContext, "entra a loadmyinfo  sdf", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(mContext, "entra a loadmyinfo  sdf" + arrayListPunts.size(), Toast.LENGTH_SHORT).show();
 
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users");
         ref.child(""+firebaseAuth.getUid())
