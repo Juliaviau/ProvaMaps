@@ -205,6 +205,7 @@ public class AfegirLavaboFragment extends Fragment {
                                     @Override
                                     public void onUploadSuccess(String imageUrl) {
                                         Toast.makeText(getContext(), "Lavabo afegit amb èxit!", Toast.LENGTH_SHORT).show();
+                                        tancarFragment();
                                     }
 
                                     @Override
@@ -222,6 +223,7 @@ public class AfegirLavaboFragment extends Fragment {
                                 @Override
                                 public void onUploadSuccess(String imageUrl) {
                                     Toast.makeText(getContext(), "Lavabo afegit sense foto amb èxit!", Toast.LENGTH_SHORT).show();
+                                    tancarFragment();
                                     //Tornar al mapa
                                 }
 

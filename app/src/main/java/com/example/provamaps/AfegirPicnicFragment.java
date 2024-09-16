@@ -188,6 +188,7 @@ public class AfegirPicnicFragment extends Fragment {
                                     @Override
                                     public void onUploadSuccess(String imageUrl) {
                                         Toast.makeText(getContext(), "Picnic afegit amb èxit!", Toast.LENGTH_SHORT).show();
+                                        tancarFragment();
                                         // Aquí puedes realizar alguna acción después de la subida exitosa
                                     }
 
@@ -206,6 +207,7 @@ public class AfegirPicnicFragment extends Fragment {
                                 @Override
                                 public void onUploadSuccess(String imageUrl) {
                                     Toast.makeText(getContext(), "Picnic afegit sense foto amb èxit!", Toast.LENGTH_SHORT).show();
+                                    tancarFragment();
                                     //Tornar al mapa
                                 }
 

@@ -202,6 +202,7 @@ public class AfegirFontFragment extends Fragment {
                                     public void onUploadSuccess(String imageUrl) {
                                         Toast.makeText(getContext(), "Font afegida amb èxit!", Toast.LENGTH_SHORT).show();
                                         // Aquí puedes realizar alguna acción después de la subida exitosa
+                                        tancarFragment();
                                     }
 
                                     @Override
@@ -220,6 +221,7 @@ public class AfegirFontFragment extends Fragment {
                                 @Override
                                 public void onUploadSuccess(String imageUrl) {
                                     Toast.makeText(getContext(), "Font afegida sense foto amb èxit!", Toast.LENGTH_SHORT).show();
+                                    tancarFragment();
                                     //Tornar al mapa
                                 }
 

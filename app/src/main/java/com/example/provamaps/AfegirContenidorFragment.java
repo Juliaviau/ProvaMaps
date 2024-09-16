@@ -169,13 +169,14 @@ public class AfegirContenidorFragment extends Fragment {
                                 selecioTipusContenidor, compressedImage, new PenjarImatges.OnImageUploadListener() {
                                     @Override
                                     public void onUploadSuccess(String imageUrl) {
-                                        Toast.makeText(getContext(), "Font afegida amb èxit!", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getContext(), "Contenidor afegit amb èxit!", Toast.LENGTH_SHORT).show();
+                                        tancarFragment();
                                         // Aquí puedes realizar alguna acción después de la subida exitosa
                                     }
 
                                     @Override
                                     public void onUploadFailed(String errorMessage) {
-                                        Toast.makeText(getContext(), "Error al afegir la font: " + errorMessage, Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getContext(), "Error al afegir el contenidor: " + errorMessage, Toast.LENGTH_SHORT).show();
                                     }
                                 });
                     } catch (IOException e) {
@@ -187,13 +188,14 @@ public class AfegirContenidorFragment extends Fragment {
                     realtimeManager.afegirContenidor(binding.textLatitudContenidor.getText().toString(), binding.textLongitudContenidor.getText().toString(), selecioTipusContenidor, null, new PenjarImatges.OnImageUploadListener() {
                                 @Override
                                 public void onUploadSuccess(String imageUrl) {
-                                    Toast.makeText(getContext(), "Font afegida sense foto amb èxit!", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getContext(), "Contenidor afegit sense foto amb èxit!", Toast.LENGTH_SHORT).show();
+                                    tancarFragment();
                                     //Tornar al mapa
                                 }
 
                                 @Override
                                 public void onUploadFailed(String errorMessage) {
-                                    Toast.makeText(getContext(), "Error al afegir la font amb foto: " + errorMessage, Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getContext(), "Error al afegir el contenidor amb foto: " + errorMessage, Toast.LENGTH_SHORT).show();
                                 }
                             }
                     );
