@@ -257,16 +257,16 @@ public class EditFontFragment extends Fragment {
 
         } else {
             // Crear la Font sense foto
-            Toast.makeText(getContext(), "mod no foto", Toast.LENGTH_SHORT).show();
+           // Toast.makeText(getContext(), "mod no foto", Toast.LENGTH_SHORT).show();
             //Font novaFont = new Font(font.getKey(),font.getLatitud(),font.getLongitud(),potable,estat,null);
             realtimeManager.modificarLavabo(font.getKey(),font);
 
-            Toast.makeText(getContext(), "mod ", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getContext(), "mod ", Toast.LENGTH_SHORT).show();
 
         }
 
         // Regresa al fragmento anterior
-        Toast.makeText(getContext(), "sotie ", Toast.LENGTH_SHORT).show();
+       // Toast.makeText(getContext(), "sotie ", Toast.LENGTH_SHORT).show();
         getActivity().getSupportFragmentManager().popBackStack();
 
     }
