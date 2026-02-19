@@ -79,10 +79,17 @@ public class LoginActivity extends AppCompatActivity {
         binding.btnGoogle.setColorScheme(SignInButton.COLOR_LIGHT);
         setGoogleButtonText(binding.btnGoogle, getString(R.string.iniciar_amb_google));
 
-        binding.btnGoogle.setOnClickListener(new View.OnClickListener() {
+        /*binding.btnGoogle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 signOutAndRevokeAccess();
+            }
+        });*/
+        binding.btnGoogle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // En lugar de signOutAndRevokeAccess(), llama directamente a beginGoogleLogin()
+                beginGoogleLogin();
             }
         });
 
@@ -131,7 +138,7 @@ public class LoginActivity extends AppCompatActivity {
             new ActivityResultCallback<ActivityResult>() {
                 @Override
                 public void onActivityResult(ActivityResult o) {
-                    Log.d(TAG, "onActivityResult");
+                    Log.d(TAG, "onActivityResult " + o.getResultCode());
 
                     if (o.getResultCode() == Activity.RESULT_OK) {
                         Intent data = o.getData();

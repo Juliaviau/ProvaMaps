@@ -9,7 +9,7 @@ plugins {
 
 android {
     namespace 'com.example.provamaps'
-    compileSdk 34
+    compileSdk 35
 
     defaultConfig {
         applicationId "com.example.provamaps"
@@ -37,6 +37,7 @@ android {
     buildFeatures {
         viewBinding true
         compose true
+        buildConfig true
     }
     buildscript {
         repositories {
