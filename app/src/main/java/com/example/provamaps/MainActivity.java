@@ -40,16 +40,17 @@ public class MainActivity extends AppCompatActivity /*implements OnMapReadyCallb
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //
+
         setContentView(R.layout.activity_main);
-        loadLocale();
+        loadLocale(); //configura l'idioma
         firebaseAuth = FirebaseAuth.getInstance();
+
         //Si quan entra al MainActivity, no s'ha registrat va a la pagina de login
         if (firebaseAuth.getCurrentUser() == null) {
             startLoginOptionsActivity();
         }
 
-        View alertCustomDialog = LayoutInflater.from(MainActivity.this).inflate(R.layout.dialog_fragment,null);
+        View alertCustomDialog = LayoutInflater.from(MainActivity.this).inflate(R.layout.dialog_fragment,null); //per anunciar que s'ha d'estar registrat
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(MainActivity.this);
         alertDialog.setView(alertCustomDialog);
         creuDialog = (ImageButton) alertCustomDialog.findViewById(R.id.btn_creu_dialog);
@@ -117,6 +118,7 @@ public class MainActivity extends AppCompatActivity /*implements OnMapReadyCallb
         //finish();//afegit
     }
 
+
     private void setupNavegacio() {
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_hostfragment);
@@ -142,10 +144,12 @@ public class MainActivity extends AppCompatActivity /*implements OnMapReadyCallb
         });
     }
 
+
     public void amagarBottomMenu() {
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setVisibility(View.GONE);
     }
+
 
     public void mostrarBottomMenu() {
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);

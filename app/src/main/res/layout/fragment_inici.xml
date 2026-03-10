@@ -87,7 +87,7 @@ android:layout_height="match_parent"
             android:layout_alignParentBottom="true"
             android:orientation="horizontal"
             android:gravity="center"
-            android:layout_marginBottom="70dp">
+            android:layout_marginBottom="0dp">
 
             <TextView
                 android:id="@+id/tv_distancia_ruta"
@@ -111,6 +111,7 @@ android:layout_height="match_parent"
         </LinearLayout>
 
 
+
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/btn_eliminarRuta"
             android:layout_width="wrap_content"
@@ -132,10 +133,123 @@ android:layout_height="match_parent"
             android:layout_above="@id/btn_eliminarRuta"
             android:backgroundTint="@color/fons"
             android:layout_marginEnd="16dp"
-            android:layout_marginBottom="2dp"
+            android:layout_marginBottom="1dp"
             app:tint="@color/colormapa"
             android:src="@drawable/icona_gps_fixat"
             app:maxImageSize="35dp"
             android:scaleType="centerInside"/>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/btn_filtres"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_above="@id/btn_centrar_mapa"
+            android:backgroundTint="@color/fons"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="17dp"
+            app:tint="@color/colormapa"
+            android:src="@drawable/icona_filtre"
+            app:maxImageSize="35dp"
+            android:scaleType="centerInside"/>
+        <View
+            android:id="@+id/badge_filtre"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:layout_alignTop="@id/btn_filtres"
+            android:layout_alignEnd="@id/btn_filtres"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="3dp"
+            android:background="@drawable/cercle_vermell"
+            android:elevation="10dp"
+            android:visibility="gone" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/menu_lateral"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            app:cardCornerRadius="15dp"
+            app:cardElevation="8dp"
+            android:layout_marginEnd="10dp"
+            android:backgroundTint="#F0FFFFFF"
+            android:layout_toStartOf="@id/btn_filtres"
+            android:layout_alignTop="@id/btn_filtres"
+            android:layout_marginBottom="10dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+                <LinearLayout
+                    android:id="@+id/opcio_font"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:clickable="true"
+                    android:focusable="true"
+quer                     android:background="@drawable/selector_filtre_background"
+                    android:padding="8dp">
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:src="@drawable/icona_font" />
+                </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/opcio_contenidor"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:background="@drawable/selector_filtre_background"
+                        android:padding="8dp">
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:src="@drawable/icona_contenidor" />
+
+                    </LinearLayout>
+            <LinearLayout
+                android:id="@+id/opcio_picnic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="@drawable/selector_filtre_background"
+                android:padding="8dp">
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:src="@drawable/icona_picnic" />
+
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/opcio_lavabo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="@drawable/selector_filtre_background"
+                android:padding="8dp">
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:src="@drawable/icona_lavabo" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
     </RelativeLayout>
 </FrameLayout>

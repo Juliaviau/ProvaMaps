@@ -72,6 +72,11 @@ public class IniciFragment extends Fragment implements MapListener, GpsStatus.Li
     private ScaleBarOverlay mScaleBarOverlay;
     private static final int PERMISSION_REQUEST_CODE = 100;
 
+    private boolean filtresOberts = false;
+    // Crea un estat per a cada filtre
+    final boolean[] estatFiltres = {true, true, true, true}; // Font, Contenidor, Picnic, Lavabo
+
+
     private GeoPoint startPoint = new GeoPoint(41.964109, 2.829905);//posicio universitat
     //Fonts
     private List<Marker> fontMarkers = new ArrayList<>();
@@ -166,13 +171,13 @@ public class IniciFragment extends Fragment implements MapListener, GpsStatus.Li
         llistaFonts.add(font);*/
 
         //Mostrar o amagar les fonts
-        binding.btnFont.setOnClickListener(v -> {
+       /* binding.btnFont.setOnClickListener(v -> {
             areFontMarkersVisible = !areFontMarkersVisible;
             updateMarkerVisibility(fontMarkers, areFontMarkersVisible);
             binding.btnFont.setBackgroundTintList(ContextCompat.getColorStateList(getContext(),
                     areFontMarkersVisible ? R.color.color_boto_actiu : R.color.color_boto_inactiu));
 
-        });
+        });*/
 
         //Obtenir totes les fonts, que es guarden en un LiveData<List<Font>>
         //es crida l'afegir punts de les fonts, passant larray de les fonts
@@ -197,12 +202,12 @@ public class IniciFragment extends Fragment implements MapListener, GpsStatus.Li
         llistaLavabos.add(lavabo);*/
 
         //Mostrar o amagar lavabos
-        binding.btnLavabo.setOnClickListener(v -> {
+        /*binding.btnLavabo.setOnClickListener(v -> {
             areLavabosMarkersVisible = !areLavabosMarkersVisible;
             updateMarkerVisibility(lavabosMarkers, areLavabosMarkersVisible);
             binding.btnLavabo.setBackgroundTintList(ContextCompat.getColorStateList(getContext(),
                     areLavabosMarkersVisible ? R.color.color_boto_actiu : R.color.color_boto_inactiu));
-        });
+        });*/
 
         realtimeManager.obtenirLavabos().observe(getViewLifecycleOwner(), lavabos -> {
             if (lavabos != null) {
@@ -228,12 +233,12 @@ public class IniciFragment extends Fragment implements MapListener, GpsStatus.Li
         llistaPicnics.add(picnic3);*/
 
         //Mostrar o amagar lavabos
-        binding.btnPicnic.setOnClickListener(v -> {
+        /*binding.btnPicnic.setOnClickListener(v -> {
             arePicnicsMarkersVisible = !arePicnicsMarkersVisible;
             updateMarkerVisibility(picnicsMarkers, arePicnicsMarkersVisible);
             binding.btnPicnic.setBackgroundTintList(ContextCompat.getColorStateList(getContext(),
                     arePicnicsMarkersVisible ? R.color.color_boto_actiu : R.color.color_boto_inactiu));
-        });
+        });*/
 
         realtimeManager.obtenirPicnics().observe(getViewLifecycleOwner(), picnic -> {
             if (picnic != null) {
@@ -257,12 +262,12 @@ public class IniciFragment extends Fragment implements MapListener, GpsStatus.Li
         llistaContenidors.add(contenidor2);*/
 
         //Mostrar o amagar lavabos
-        binding.btnContenidor.setOnClickListener(v -> {
+       /* binding.btnContenidor.setOnClickListener(v -> {
             areContenidorsMarkersVisible = !areContenidorsMarkersVisible;
             updateMarkerVisibility(contenidorsMarkers, areContenidorsMarkersVisible);
             binding.btnContenidor.setBackgroundTintList(ContextCompat.getColorStateList(getContext(),
                     areContenidorsMarkersVisible ? R.color.color_boto_actiu : R.color.color_boto_inactiu));
-        });
+        });*/
 
         realtimeManager.obtenirContenidors().observe(getViewLifecycleOwner(), contenidor -> {
             if (contenidor != null) {
@@ -306,6 +311,76 @@ public class IniciFragment extends Fragment implements MapListener, GpsStatus.Li
             }
         });
 
+        //Mostrar panell per els filtres
+        binding.btnFiltres.setOnClickListener(v -> {
+            toggleMenu();
+                if (!filtresOberts) {
+                    obrirMenu();
+                } else {
+                    tancarMenu();
+                }
+        });
+
+
+        // Exemple per al botó "Aigua"
+        binding.opcioFont.setOnClickListener(v -> {
+            estatFiltres[0] = !estatFiltres[0]; // Inverteix l'estat
+            v.setSelected(!v.isSelected());
+            animarSeleccio(v);
+            // Canvi visual: si està activat, fons gris clar, si no, transparent
+
+            actualitzarBadgeFiltre();
+
+            // AQUÍ: Cridaries la teva funció per filtrar el mapa
+            // filtrarMapa("aigua", estatFiltres[0]);
+
+            updateMarkerVisibility(fontMarkers, estatFiltres[0]);
+
+
+
+        });
+
+
+        binding.opcioContenidor.setOnClickListener(v -> {
+            estatFiltres[1] = !estatFiltres[1]; // Inverteix l'estat
+            v.setSelected(!v.isSelected());
+            animarSeleccio(v);
+
+            actualitzarBadgeFiltre();
+
+            // AQUÍ: Cridaries la teva funció per filtrar el mapa
+            // filtrarMapa("aigua", estatFiltres[0]);
+            updateMarkerVisibility(fontMarkers, estatFiltres[1]);
+
+        });
+
+        binding.opcioPicnic.setOnClickListener(v -> {
+            estatFiltres[2] = !estatFiltres[2]; // Inverteix l'estat
+
+            v.setSelected(!v.isSelected());
+            animarSeleccio(v);
+            actualitzarBadgeFiltre();
+
+            // AQUÍ: Cridaries la teva funció per filtrar el mapa
+            // filtrarMapa("aigua", estatFiltres[0]);
+            updateMarkerVisibility(fontMarkers, estatFiltres[2]);
+
+        });
+
+        binding.opcioLavabo.setOnClickListener(v -> {
+            estatFiltres[3] = !estatFiltres[3]; // Inverteix l'estat
+
+            v.setSelected(!v.isSelected());
+            animarSeleccio(v);
+            actualitzarBadgeFiltre();
+
+            // AQUÍ: Cridaries la teva funció per filtrar el mapa
+            // filtrarMapa("aigua", estatFiltres[0]);
+            updateMarkerVisibility(fontMarkers, estatFiltres[3]);
+
+        });
+
+
         mMap.addMapListener(this);
 
         /*mMyLocationOverlay.enableMyLocation();
@@ -332,6 +407,52 @@ public class IniciFragment extends Fragment implements MapListener, GpsStatus.Li
         mMap.addMapListener(this);*/
 
         return view;
+    }
+    private void animarSeleccio(View v) {
+        v.animate().scaleX(1.1f).scaleY(1.1f).setDuration(100)
+                .withEndAction(() -> v.animate().scaleX(1f).scaleY(1f).setDuration(100).start())
+                .start();
+    }
+    private void actualitzarBadgeFiltre() {
+
+        // Comprovem si algun filtre de l'array està en true
+        boolean algunActiu = false;
+        for (boolean estat : estatFiltres) {
+            if (estat) {
+                algunActiu = true;
+                break;
+            }
+        }
+
+        // Mostrem o amaguem la rodoneta
+        binding.badgeFiltre.setVisibility(algunActiu ? View.VISIBLE : View.GONE);
+    }
+
+    private void toggleMenu() {
+        if (binding.menuLateral.getVisibility() == View.GONE) {
+            binding.menuLateral.setVisibility(View.VISIBLE);
+            binding.menuLateral.setScaleX(0f);
+            binding.menuLateral.setScaleY(0f);
+            binding.menuLateral.animate().scaleX(1f).scaleY(1f).setDuration(200).start();
+        } else {
+            binding.menuLateral.animate().scaleX(0f).scaleY(0f).setDuration(200)
+                    .withEndAction(() -> binding.menuLateral.setVisibility(View.GONE)).start();
+        }
+    }
+
+    private void obrirMenu() {
+        binding.menuLateral.setVisibility(View.VISIBLE);
+        // Opcional: Afegir una animació de "fade in"
+        binding.menuLateral.setAlpha(0f);
+        binding.menuLateral.animate().alpha(1f).setDuration(300);
+        filtresOberts = true;
+    }
+
+    private void tancarMenu() {
+        binding.menuLateral.animate().alpha(0f).setDuration(300).withEndAction(() -> {
+            binding.menuLateral.setVisibility(View.GONE);
+            filtresOberts = false;
+        });
     }
 
     @Override
