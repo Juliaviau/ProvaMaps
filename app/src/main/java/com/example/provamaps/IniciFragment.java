@@ -1,6 +1,7 @@
 package com.example.provamaps;
 
 import android.content.pm.PackageManager;
+import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.location.Address;
 import android.location.Geocoder;
@@ -33,6 +34,7 @@ import org.osmdroid.events.ZoomEvent;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
+import org.osmdroid.views.Projection;
 import org.osmdroid.views.overlay.Marker;
 import org.osmdroid.views.overlay.ScaleBarOverlay;
 import org.osmdroid.views.overlay.compass.CompassOverlay;
@@ -43,11 +45,13 @@ import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 import android.graphics.Color;
 
 import android.os.Handler;
+import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import org.osmdroid.views.overlay.Polyline;
 
+import java.io.Console;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -136,6 +140,14 @@ public class IniciFragment extends Fragment implements MapListener, GpsStatus.Li
         //Brújula a dalt a lesquerra
         CompassOverlay compassOverlay = new CompassOverlay(getActivity(), mMap);
         compassOverlay.enableCompass();
+        // Ajustar la posició (X, Y) en píxels
+        // X: Ample de la pantalla - un marge (ex: 80dp)
+        // Y: Marge superior (ex: 100dp per baixar-la una mica)
+        float density = getResources().getDisplayMetrics().density;
+        float xPixel = getResources().getDisplayMetrics().widthPixels - (266 * density);
+        float yPixel = 197 * density; // Ajusta aquest valor per posar-la sobre els botons
+
+        compassOverlay.setCompassCenter(xPixel, yPixel);
         mMap.getOverlays().add(compassOverlay);
 
         //Rotacio del mapa
@@ -146,19 +158,46 @@ public class IniciFragment extends Fragment implements MapListener, GpsStatus.Li
         //Linia d'escala del mapa
         final DisplayMetrics dm = getActivity().getResources().getDisplayMetrics();
         mScaleBarOverlay = new ScaleBarOverlay(mMap);
-        mScaleBarOverlay.setCentred(true);
-        mScaleBarOverlay.setScaleBarOffset(dm.widthPixels / 2, 80);
+        mScaleBarOverlay.setCentred(false); // Millor false per alinear des de l'inici de la barra
+        /*int xOffset = dm.widthPixels - (int) (160 * dm.density); // 20dp de marge des de l'esquerra
+        int yOffset = dm.heightPixels- (dm.heightPixels - (int) (20 * dm.density)) ; // Alçada total menys 100dp
+        mScaleBarOverlay.setScaleBarOffset(xOffset, yOffset);*/
+        mMap.post(() -> {
+            int xOffset = mMap.getWidth() - (int) (165 * dm.density);
+            // Utilitzem l'alçada real del mapa, no de la pantalla
+            int yOffset = mMap.getHeight() - (mMap.getHeight() - (int) (25 * dm.density));
+            mScaleBarOverlay.setScaleBarOffset(xOffset, yOffset);
+            mMap.invalidate(); // Forcem a redibuixar
+        });
+        //mScaleBarOverlay.setAlignBottom(true);
         mMap.getOverlays().add(this.mScaleBarOverlay);
+
+
+        /*mScaleBarOverlay.setCentred(true);
+        mScaleBarOverlay.setScaleBarOffset(dm.widthPixels / 2, 80);
+        mMap.getOverlays().add(this.mScaleBarOverlay);*/
 
         binding.btnCentrarMapa.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mMyLocationOverlay.getMyLocation() != null) {
+                /*if (mMyLocationOverlay.getMyLocation() != null) {
                     mMyLocationOverlay.enableFollowLocation();
                 } else {
                     // Si la ubicació no esta disponible va a la universitat
                     controller.setCenter(startPoint);
                     controller.animateTo(startPoint);
+                }*/
+                aplicarAnimacioClick(v);
+                if (mMyLocationOverlay.getMyLocation() != null) {
+                    // Centra en l'usuari i activa el seguiment
+                    mMyLocationOverlay.enableFollowLocation();
+                    controller.animateTo(mMyLocationOverlay.getMyLocation());
+                    controller.setZoom(18.0); // Un zoom proper per veure bé on ets
+                } else {
+                    // Si no hi ha GPS, anem al punt per defecte
+                    controller.setZoom(15.0);
+                    controller.animateTo(startPoint);
+                    Toast.makeText(getActivity(), "Esperant senyal GPS...", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -171,7 +210,7 @@ public class IniciFragment extends Fragment implements MapListener, GpsStatus.Li
         llistaFonts.add(font);*/
 
         //Mostrar o amagar les fonts
-       /* binding.btnFont.setOnClickListener(v -> {
+        /*binding.btnFont.setOnClickListener(v -> {
             areFontMarkersVisible = !areFontMarkersVisible;
             updateMarkerVisibility(fontMarkers, areFontMarkersVisible);
             binding.btnFont.setBackgroundTintList(ContextCompat.getColorStateList(getContext(),
@@ -300,6 +339,7 @@ public class IniciFragment extends Fragment implements MapListener, GpsStatus.Li
         }
 
         binding.btnEliminarRuta.setOnClickListener(v -> {
+            aplicarAnimacioClick(v);
             if (routePolyline != null) {
                 mMap.getOverlays().remove(routePolyline);
                 destinacioRuta= null;
@@ -313,6 +353,7 @@ public class IniciFragment extends Fragment implements MapListener, GpsStatus.Li
 
         //Mostrar panell per els filtres
         binding.btnFiltres.setOnClickListener(v -> {
+            aplicarAnimacioClick(v);
             toggleMenu();
                 if (!filtresOberts) {
                     obrirMenu();
@@ -329,13 +370,13 @@ public class IniciFragment extends Fragment implements MapListener, GpsStatus.Li
             animarSeleccio(v);
             // Canvi visual: si està activat, fons gris clar, si no, transparent
 
-            actualitzarBadgeFiltre();
+
 
             // AQUÍ: Cridaries la teva funció per filtrar el mapa
             // filtrarMapa("aigua", estatFiltres[0]);
 
             updateMarkerVisibility(fontMarkers, estatFiltres[0]);
-
+            actualitzarBadgeFiltre();
 
 
         });
@@ -346,11 +387,11 @@ public class IniciFragment extends Fragment implements MapListener, GpsStatus.Li
             v.setSelected(!v.isSelected());
             animarSeleccio(v);
 
-            actualitzarBadgeFiltre();
 
             // AQUÍ: Cridaries la teva funció per filtrar el mapa
             // filtrarMapa("aigua", estatFiltres[0]);
-            updateMarkerVisibility(fontMarkers, estatFiltres[1]);
+            updateMarkerVisibility(contenidorsMarkers, estatFiltres[1]);
+            actualitzarBadgeFiltre();
 
         });
 
@@ -359,11 +400,11 @@ public class IniciFragment extends Fragment implements MapListener, GpsStatus.Li
 
             v.setSelected(!v.isSelected());
             animarSeleccio(v);
-            actualitzarBadgeFiltre();
 
             // AQUÍ: Cridaries la teva funció per filtrar el mapa
             // filtrarMapa("aigua", estatFiltres[0]);
-            updateMarkerVisibility(fontMarkers, estatFiltres[2]);
+            updateMarkerVisibility(picnicsMarkers, estatFiltres[2]);
+            actualitzarBadgeFiltre();
 
         });
 
@@ -372,11 +413,11 @@ public class IniciFragment extends Fragment implements MapListener, GpsStatus.Li
 
             v.setSelected(!v.isSelected());
             animarSeleccio(v);
-            actualitzarBadgeFiltre();
 
             // AQUÍ: Cridaries la teva funció per filtrar el mapa
             // filtrarMapa("aigua", estatFiltres[0]);
-            updateMarkerVisibility(fontMarkers, estatFiltres[3]);
+            updateMarkerVisibility(lavabosMarkers, estatFiltres[3]);
+            actualitzarBadgeFiltre();
 
         });
 
@@ -408,6 +449,18 @@ public class IniciFragment extends Fragment implements MapListener, GpsStatus.Li
 
         return view;
     }
+
+    public static void aplicarAnimacioClick(View view) {
+        view.animate()
+                .scaleX(0.9f)
+                .scaleY(0.9f)
+                .setDuration(100)
+                .withEndAction(() -> {
+                    view.animate().scaleX(1f).scaleY(1f).setDuration(100).start();
+                })
+                .start();
+    }
+
     private void animarSeleccio(View v) {
         v.animate().scaleX(1.1f).scaleY(1.1f).setDuration(100)
                 .withEndAction(() -> v.animate().scaleX(1f).scaleY(1f).setDuration(100).start())
@@ -415,17 +468,18 @@ public class IniciFragment extends Fragment implements MapListener, GpsStatus.Li
     }
     private void actualitzarBadgeFiltre() {
 
-        // Comprovem si algun filtre de l'array està en true
-        boolean algunActiu = false;
+        // Comprovem si algun filtre de l'array està en false. marcats estan en true
+        boolean algunDesactivat = false;
+
         for (boolean estat : estatFiltres) {
-            if (estat) {
-                algunActiu = true;
+            if (!estat) {
+                algunDesactivat = true;
                 break;
             }
         }
 
         // Mostrem o amaguem la rodoneta
-        binding.badgeFiltre.setVisibility(algunActiu ? View.VISIBLE : View.GONE);
+        binding.badgeFiltre.setVisibility(algunDesactivat ? View.VISIBLE : View.GONE);
     }
 
     private void toggleMenu() {
@@ -496,7 +550,7 @@ public class IniciFragment extends Fragment implements MapListener, GpsStatus.Li
         for (Lavabo lavabo:llistaLavabos) {
             Marker marker = new Marker(mMap);
             marker.setPosition(new GeoPoint(Double.parseDouble(lavabo.getLatitud()), Double.parseDouble(lavabo.getLongitud())));
-            marker.setIcon(ContextCompat.getDrawable(getContext(), R.drawable.icona_lavabo));
+            marker.setIcon(ContextCompat.getDrawable(getContext(), R.drawable.icona_lavabo_color));
             marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
             marker.setInfoWindow(new InformacioPuntLavabo(mMap,lavabo, obtenirAdreca(lavabo.getLatitud(),lavabo.getLongitud()),getContext(),this));
             marker.setOnMarkerClickListener((m, mapView) -> {
@@ -524,7 +578,7 @@ public class IniciFragment extends Fragment implements MapListener, GpsStatus.Li
         for (Picnic picnic:llistaPicnics) {
             Marker marker = new Marker(mMap);
             marker.setPosition(new GeoPoint(Double.parseDouble(picnic.getLatitud()), Double.parseDouble(picnic.getLongitud())));
-            marker.setIcon(ContextCompat.getDrawable(getContext(), R.drawable.icona_picnic));
+            marker.setIcon(ContextCompat.getDrawable(getContext(), R.drawable.icona_picnic_color));
             marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
             marker.setInfoWindow(new InformacioPuntPicnic(mMap,picnic, obtenirAdreca(picnic.getLatitud(),picnic.getLongitud()),getContext(),this));
             marker.setOnMarkerClickListener((m, mapView) -> {
@@ -552,7 +606,7 @@ public class IniciFragment extends Fragment implements MapListener, GpsStatus.Li
         for (Contenidor contenidor:llistaContenidors) {
             Marker marker = new Marker(mMap);
             marker.setPosition(new GeoPoint(Double.parseDouble(contenidor.getLatitud()), Double.parseDouble(contenidor.getLongitud())));
-            marker.setIcon(ContextCompat.getDrawable(getContext(), R.drawable.icona_contenidor));
+            marker.setIcon(ContextCompat.getDrawable(getContext(), R.drawable.icona_contenidor_color));
             marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
             marker.setInfoWindow(new InformacioPuntContenidor(mMap,contenidor, obtenirAdreca(contenidor.getLatitud(),contenidor.getLongitud()),getContext(),this));
             marker.setOnMarkerClickListener((m, mapView) -> {
@@ -581,7 +635,7 @@ public class IniciFragment extends Fragment implements MapListener, GpsStatus.Li
         for (Font font:llistaFonts) {
             Marker marker = new Marker(mMap);
             marker.setPosition(new GeoPoint(Double.parseDouble(font.getLatitud()), Double.parseDouble(font.getLongitud())));
-            marker.setIcon(ContextCompat.getDrawable(getContext(), R.drawable.icona_font));
+            marker.setIcon(ContextCompat.getDrawable(getContext(), R.drawable.icona_font_color));
             marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
             marker.setInfoWindow(new InformacioPuntFont(mMap,font, obtenirAdreca(font.getLatitud(),font.getLongitud()),getContext(),this));
             marker.setOnMarkerClickListener((m, mapView) -> {

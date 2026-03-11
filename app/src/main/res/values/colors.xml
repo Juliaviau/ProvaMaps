@@ -12,6 +12,12 @@
     <color name="teal_d200">#FF03DAC5</color>
     <color name="teal_d700">#FF018786</color-->
 
+    <!-- Colors icones -->
+    <color name="color_font">#4F8AB7</color>
+    <color name="color_contenidor">#E69138</color>
+    <color name="color_picnic">#77A15D</color>
+    <color name="color_lavabo">#9F7FB0</color>
+
     <!-- Colors contenidors -->
     <color name="contenidor_vidre_seleccionat">#1C7F28</color>
     <color name="contenidor_paper_seleccionat">#033E78</color>
