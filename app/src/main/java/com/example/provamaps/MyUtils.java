@@ -3,6 +3,7 @@ package com.example.provamaps;
 import android.content.Context;
 import android.location.Address;
 import android.location.Geocoder;
+import android.view.View;
 import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
@@ -24,6 +25,15 @@ public class MyUtils {
         return System.currentTimeMillis();
     }
 
-
+    public static void aplicarAnimacioClick(View view) {
+        view.animate()
+                .scaleX(0.9f)
+                .scaleY(0.9f)
+                .setDuration(100)
+                .withEndAction(() -> {
+                    view.animate().scaleX(1f).scaleY(1f).setDuration(100).start();
+                })
+                .start();
+    }
 
 }

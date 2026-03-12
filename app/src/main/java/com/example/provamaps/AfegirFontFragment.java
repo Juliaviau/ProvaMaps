@@ -45,6 +45,19 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
+
+/*
+mapa arrodonit i treure els long lat
+Millora: Fes servir un sol botó principal de "Afegir imatge" (o una icona de càmera gran al centre de l'àrea d'imatge) i,
+ en clicar-lo, obre un BottomSheet o un AlertDialog que doni a triar entre "Càmera" o "Galeria". Això allibera espai i queda molt més net.
+
+Consell: Utilitza un Style per als textos de secció. Així, si vols canviar el color de tots els títols de cop, no hauràs de canviar-ne 5 o 6 un per un.
+
+
+*/
+
+
+
 public class AfegirFontFragment extends Fragment {
 
     Uri uriImatge;

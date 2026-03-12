@@ -30,6 +30,12 @@ public class InformacioPuntFont extends InfoWindow {
 
     @Override
     public void onOpen(Object item) {
+
+        mView.setAlpha(0f);
+        mView.setScaleX(0.8f);
+        mView.setScaleY(0.8f);
+        mView.animate().alpha(1f).scaleX(1f).scaleY(1f).setDuration(250).start();
+
         Marker marker = (Marker) item;
 
         //posa el text que se li diu des del marker
@@ -46,6 +52,7 @@ public class InformacioPuntFont extends InfoWindow {
 
         Button btnMoreInfo = mView.findViewById(R.id.infoPunt_anar);
         btnMoreInfo.setOnClickListener(v -> {
+            MyUtils.aplicarAnimacioClick(v);
             // al clicar el boto anar, mostrar la ruta des del punt actual fins al punt
             fragment.calculateRoute(marker.getPosition());
 

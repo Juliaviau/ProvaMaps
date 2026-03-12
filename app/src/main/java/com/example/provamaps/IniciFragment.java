@@ -187,7 +187,7 @@ public class IniciFragment extends Fragment implements MapListener, GpsStatus.Li
                     controller.setCenter(startPoint);
                     controller.animateTo(startPoint);
                 }*/
-                aplicarAnimacioClick(v);
+                MyUtils.aplicarAnimacioClick(v);
                 if (mMyLocationOverlay.getMyLocation() != null) {
                     // Centra en l'usuari i activa el seguiment
                     mMyLocationOverlay.enableFollowLocation();
@@ -339,7 +339,7 @@ public class IniciFragment extends Fragment implements MapListener, GpsStatus.Li
         }
 
         binding.btnEliminarRuta.setOnClickListener(v -> {
-            aplicarAnimacioClick(v);
+            MyUtils.aplicarAnimacioClick(v);
             if (routePolyline != null) {
                 mMap.getOverlays().remove(routePolyline);
                 destinacioRuta= null;
@@ -353,7 +353,7 @@ public class IniciFragment extends Fragment implements MapListener, GpsStatus.Li
 
         //Mostrar panell per els filtres
         binding.btnFiltres.setOnClickListener(v -> {
-            aplicarAnimacioClick(v);
+            MyUtils.aplicarAnimacioClick(v);
             toggleMenu();
                 if (!filtresOberts) {
                     obrirMenu();
@@ -448,17 +448,6 @@ public class IniciFragment extends Fragment implements MapListener, GpsStatus.Li
         mMap.addMapListener(this);*/
 
         return view;
-    }
-
-    public static void aplicarAnimacioClick(View view) {
-        view.animate()
-                .scaleX(0.9f)
-                .scaleY(0.9f)
-                .setDuration(100)
-                .withEndAction(() -> {
-                    view.animate().scaleX(1f).scaleY(1f).setDuration(100).start();
-                })
-                .start();
     }
 
     private void animarSeleccio(View v) {
@@ -717,6 +706,7 @@ public class IniciFragment extends Fragment implements MapListener, GpsStatus.Li
             });
         }
     }
+
     public String formatDuration(double durationInSeconds) {
         // Convertir la duración a minutos y segundos
         int totalSeconds = (int) Math.round(durationInSeconds);
@@ -812,6 +802,7 @@ public class IniciFragment extends Fragment implements MapListener, GpsStatus.Li
 
         mMap.getOverlays().add(mMyLocationOverlay);
     }
+
     private Handler routeUpdateHandler = new Handler();
     private Runnable routeUpdateRunnable = new Runnable() {
         @Override
