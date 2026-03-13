@@ -1,5 +1,6 @@
 package com.example.provamaps;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.location.Address;
@@ -21,6 +22,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -38,6 +40,13 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
+
+import org.osmdroid.api.IGeoPoint;
+import org.osmdroid.events.MapListener;
+import org.osmdroid.events.ScrollEvent;
+import org.osmdroid.events.ZoomEvent;
+import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
+import org.osmdroid.util.GeoPoint;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -63,7 +72,7 @@ public class AfegirFontFragment extends Fragment {
     Uri uriImatge;
     ImageView imatgeFont;
     private FragmentAfegirFontBinding binding;
-    private float latitud, longitud;
+    private float latitud = 41.964109f, longitud= 2.829905f;
     private Geocoder geocoder;
     private List<Address> adreca;
     private int seleccioPotable = View.NO_ID;
@@ -172,6 +181,13 @@ public class AfegirFontFragment extends Fragment {
                     return;
                 }
 
+
+                //afegit
+                String latStr = String.valueOf(latitud);
+                String lonStr = String.valueOf(longitud);
+
+                //afegit
+
                 //Que hi hagi coordenades
                 /*String latitud = binding.textLatitudFont.getText().toString();
                 String longitud = binding.textLongitudFont.getText().toString();
@@ -181,7 +197,7 @@ public class AfegirFontFragment extends Fragment {
                     return;
                 }*/
 
-                double lat = Double.parseDouble(binding.textLatitudFont.getText().toString());
+                /*double lat = Double.parseDouble(binding.textLatitudFont.getText().toString());
                 double lon = Double.parseDouble(binding.textLongitudFont.getText().toString());
 
                 try {
@@ -196,7 +212,7 @@ public class AfegirFontFragment extends Fragment {
                 } catch (NumberFormatException e) {
                     binding.textLatitudFont.setError("Latitud incorrecta");
                     binding.textLongitudFont.setError("Longitud incorrecta");
-                }
+                }*/
 
 
                 //Foto opcional?
@@ -208,8 +224,7 @@ public class AfegirFontFragment extends Fragment {
                         byte[] compressedImage = comprimirImatge(getContext(), uriImatge);
 
                         // Llama al método que sube la imagen comprimida
-                        realtimeManager.afegirFont(binding.textLatitudFont.getText().toString(),
-                                binding.textLongitudFont.getText().toString(),
+                        realtimeManager.afegirFont(latStr,lonStr,
                                 potable, estat, compressedImage, new PenjarImatges.OnImageUploadListener() {
                                     @Override
                                     public void onUploadSuccess(String imageUrl) {
@@ -230,7 +245,7 @@ public class AfegirFontFragment extends Fragment {
 
                 } else {
                     // Crear la Font sense foto
-                    realtimeManager.afegirFont(binding.textLatitudFont.getText().toString(), binding.textLongitudFont.getText().toString(), potable, estat, null, new PenjarImatges.OnImageUploadListener() {
+                    realtimeManager.afegirFont(latStr, lonStr, potable, estat, null, new PenjarImatges.OnImageUploadListener() {
                                 @Override
                                 public void onUploadSuccess(String imageUrl) {
                                     Toast.makeText(getContext(), "Font afegida sense foto amb èxit!", Toast.LENGTH_SHORT).show();
@@ -350,14 +365,69 @@ public class AfegirFontFragment extends Fragment {
         }
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         geocoder = new Geocoder(getActivity(), Locale.getDefault());
 
-        //Comprova si se li han passat les coordenades des del mainactivity
+        //afegit
+
         if (getArguments() != null) {
+            latitud = getArguments().getFloat("latitud", 0.0f);
+            longitud = getArguments().getFloat("longitud", 0.0f);
+        }
+
+        // Inicialitzar el mapa (com fas a la pantalla principal)
+        binding.mapaAfegirFont.setTileSource(TileSourceFactory.MAPNIK);
+        binding.mapaAfegirFont.setMultiTouchControls(true);
+
+        // Centrar el mapa a la posició inicial que t'ha passat el GPS
+        GeoPoint startPoint = new GeoPoint(latitud, longitud);
+        binding.mapaAfegirFont.getController().setZoom(18.0);
+        binding.mapaAfegirFont.getController().setCenter(startPoint);
+
+        // ESCULTOR DE MOVIMENT
+        binding.mapaAfegirFont.addMapListener(new MapListener() {
+            @Override
+            public boolean onScroll(ScrollEvent event) {
+                // Quan l'usuari mou el mapa, el centre canvia
+                IGeoPoint centre = binding.mapaAfegirFont.getMapCenter();
+                latitud = (float) centre.getLatitude();
+                longitud = (float) centre.getLongitude();
+
+                // Actualitzem l'adreça escrita (però sense carregar Yandex!)
+                obtenirAdrecaSenseMapa();
+                return true;
+            }
+
+            @Override
+            public boolean onZoom(ZoomEvent event) { return false; }
+        });
+
+        binding.mapaAfegirFont.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        // Bloquegem l'scroll de la pàgina
+                        v.getParent().requestDisallowInterceptTouchEvent(true);
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        // Alliberem l'scroll quan aixequem el dit
+                        v.getParent().requestDisallowInterceptTouchEvent(false);
+                        break;
+                }
+                return false; // Retornem false per permetre que el mapa també rebi el toc
+            }
+        });
+
+        //afegit
+
+
+        //Comprova si se li han passat les coordenades des del mainactivity
+        /*if (getArguments() != null) {
             latitud = getArguments().getFloat("latitud", 0.0f);
             longitud = getArguments().getFloat("longitud", 0.0f);
 
@@ -365,9 +435,9 @@ public class AfegirFontFragment extends Fragment {
             binding.textLongitudFont.setText(longitud+"");
 
             obtenirAdreca();
-        }
+        }*/
 
-        binding.textLongitudFont.addTextChangedListener(new TextWatcher() {
+        /*binding.textLongitudFont.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
@@ -399,10 +469,10 @@ public class AfegirFontFragment extends Fragment {
                     binding.textLatitudFont.setError("Latitud incorrecte");
                 }
             }
-        });
+        });*/
     }
 
-    private void obtenirAdreca () {
+    /*private void obtenirAdreca () {
 
         try {
             double lat = Double.parseDouble(binding.textLatitudFont.getText().toString());
@@ -425,8 +495,8 @@ public class AfegirFontFragment extends Fragment {
                 binding.textAdrecaFont.setText(carrer + ", " + numero + ", " + poblacio + ", " + comarca + ", " + provincia + ", " + pais);
 
                 // Actualiza la imagen del mapa
-                String url = "https://static-maps.yandex.ru/1.x/?lang=en-US&ll=" + lon + "," + lat + "&z=18&size=440,310&l=sat&pt=" + lon + "," + lat + ",pm2rdl";
-                Picasso.get().load(url).into(binding.ivMapaLocalitzacioAfegirFont);
+                //String url = "https://static-maps.yandex.ru/1.x/?lang=en-US&ll=" + lon + "," + lat + "&z=18&size=440,310&l=sat&pt=" + lon + "," + lat + ",pm2rdl";
+              //  Picasso.get().load(url).into(binding.ivMapaLocalitzacioAfegirFont);
             } else {
                 // Si no se encuentra una dirección, muestra un mensaje o realiza alguna acción
                 binding.textAdrecaFont.setText("Adreça no trobada");
@@ -434,8 +504,26 @@ public class AfegirFontFragment extends Fragment {
         } catch (IOException | NumberFormatException e) {
             e.printStackTrace();
             binding.textAdrecaFont.setText("Error en obtenir l'adreça");
-        }
+        }*/
 
+    private void obtenirAdrecaSenseMapa() {
+        try {
+            List<Address> addresses = geocoder.getFromLocation(latitud, longitud, 1);
+            if (addresses != null && !addresses.isEmpty()) {
+                Address adr = addresses.get(0);
+                String carrer = adr.getThoroughfare() != null ? adr.getThoroughfare() : "S/N";
+                String numero = adr.getSubThoroughfare() != null ? adr.getSubThoroughfare() : "";
+                String localitat = adr.getLocality() != null ? adr.getLocality() : "";//poblacio
+                String comarca = adr.getSubAdminArea() != null ? adr.getSubAdminArea() : "";
+                String provincia = adr.getAdminArea() != null ? adr.getAdminArea() : "";
+                String pais = adr.getCountryName() != null ? adr.getCountryName() : "";
+
+                binding.textAdrecaFont.setText(carrer + ", " + numero + ", " + localitat + ", " + comarca + ", " + provincia + ", " + pais);
+            }
+        } catch (IOException e) {
+            binding.textAdrecaFont.setText("Buscant adreça...");
+        }
+    }
 
 
 
@@ -471,5 +559,5 @@ public class AfegirFontFragment extends Fragment {
         String url = "https://static-maps.yandex.ru/1.x/?lang=en-US&ll=" + lon + "," + lat + "&z=" + 18 + "&size=" + 440 + "," + 310 + "&l=sat&pt=" + lon + "," + lat + ",pm2rdl";
 
         Picasso.get().load(url).into(binding.ivMapaLocalitzacioAfegirFont);*/
-    }
+
 }
