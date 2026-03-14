@@ -144,9 +144,8 @@ public class EditFontFragment extends Fragment {
                 }
             });
 
-
             // Configurar el estado de los ToggleButtons
-            if (font.getPotable() != null) {
+            /*if (font.getPotable() != null) {
                 switch (font.getPotable()) {
                     case "potable":
                         tggbPotable.check(R.id.boto_tggb_fontPotable);
@@ -172,9 +171,15 @@ public class EditFontFragment extends Fragment {
                         tggbEstat.check(R.id.boto_tggb_fontNoInformacio);
                         break;
                 }
-            }
-        }
+            }*/
 
+
+            /*
+            * falta posar lo del mapa al editar, i comprovar que estigui be lo de seleccionar noves caracteristieques. modificar a la base de dades els p np d ss es...
+            * */
+            marcarBotonsSegonsDades(font.getPotable(),font.getEstat());//marca la seleccio
+
+        }
 
 
         tggbPotable.addOnButtonCheckedListener(new MaterialButtonToggleGroup.OnButtonCheckedListener() {
@@ -208,6 +213,32 @@ public class EditFontFragment extends Fragment {
         btnSave.setOnClickListener(v -> saveChanges());
 
         return view;
+    }
+
+
+    // Dins del teu Fragment d'editar/afegir
+    private void marcarBotonsSegonsDades(String tagPotableBD, String tagEstatBD) {
+
+        // Per al grup de Potable
+        for (int i = 0; i < binding.tggbFontPotable.getChildCount(); i++) {
+            View v = binding.tggbFontPotable.getChildAt(i);
+            if (v instanceof MaterialButton) {
+                MaterialButton btn = (MaterialButton) v;
+                // Si el TAG del botó coincideix amb el de la BD, el marquem
+                if (tagPotableBD.equals(btn.getTag())) {
+                    binding.tggbFontPotable.check(btn.getId());
+                    break;
+                }
+            }
+        }
+
+        // Per al grup d'Estat (el mateix sistema)
+        for (int i = 0; i < binding.tggbFontEstat.getChildCount(); i++) {
+            View v = binding.tggbFontEstat.getChildAt(i);
+            if (v instanceof MaterialButton && tagEstatBD.equals(v.getTag())) {
+                binding.tggbFontEstat.check(v.getId());
+            }
+        }
     }
 
     private void saveChanges() {

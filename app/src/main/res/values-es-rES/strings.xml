@@ -19,7 +19,7 @@
     <string name="escull_una_opcio_categoria">Elige una opción de cada categoría.</string>
     <string name="potable">Potable</string>
     <string name="no_potable">No potable</string>
-    <string name="sense_informacio">Sin información</string>
+    <string name="sense_informacio">Desconocida</string>
     <string name="estat">Estado</string>
     <string name="en_servei">En servicio</string>
     <string name="sense_servei">Fuera de servicio</string>

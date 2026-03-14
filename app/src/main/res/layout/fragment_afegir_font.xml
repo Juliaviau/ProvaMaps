@@ -4,44 +4,64 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#F5F5F7"
-    android:fillViewport="true">
+    android:fillViewport="true"
+    android:fitsSystemWindows="true">
 
     <LinearLayout
+        android:id="@+id/lay_principal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:paddingBottom="24dp">
 
-        <RelativeLayout
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:fitsSystemWindows="true">
+            <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@android:color/white"
-            android:padding="8dp">
+            app:elevation="0dp">
 
-            <TextView
-                android:id="@+id/tv_TitolAfegirFont"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="12dp"
-                android:text="@string/afegir_font"
-                android:textColor="@color/black"
-                android:textSize="22sp"
-                android:textStyle="bold" />
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar_afegir"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize">
 
-            <Button
-                android:id="@+id/boto_tancar_afegir_font"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:backgroundTint="@color/color_font"
-                android:contentDescription="Tancar"
-                android:src="@android:drawable/ic_menu_close_clear_cancel"
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingEnd="16dp">
 
-                app:tint="@color/black" />
-        </RelativeLayout>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:textColor="@color/black"
+                        android:id="@+id/tv_TitolAfegirFont"
+                        android:layout_marginStart="12dp"
+                        android:text="@string/afegir_font"
+                        android:textSize="22sp"
+                        android:textStyle="bold"
+                        />
 
+                    <ImageButton
+                        android:id="@+id/boto_tancar_afegir_font"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:src="@drawable/icona_tancar"
+                        app:tint="@color/black"
+                        android:contentDescription="Tancar" />
+                </RelativeLayout>
+            </androidx.appcompat.widget.Toolbar>
+        </com.google.android.material.appbar.AppBarLayout>
+
+        </LinearLayout>
 
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
@@ -51,8 +71,6 @@
             app:cardElevation="0dp"
             app:strokeWidth="1dp"
             app:strokeColor="#E0E0E0"
-
-
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="16dp"
             app:cardBackgroundColor="@android:color/white">
@@ -61,203 +79,208 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="20dp"> <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Imatge de la font"
-            android:textColor="@color/black"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            />
-
-            <TextView
-                android:layout_width="match_parent"
+            android:padding="20dp">
+                <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="@string/penja_imatge_font_desc"
-                android:textSize="14sp"
-                android:textColor="#666666"
-                android:textStyle="italic" />
+                android:text="Imatge de la font"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:textStyle="bold"/>
 
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:layout_marginVertical="16dp"
-                app:cardBackgroundColor="#F2F2F2"
-                app:cardCornerRadius="12dp"
-                app:cardElevation="0dp">
-
-                <ImageView
-                    android:id="@+id/iv_imatgeAfegirFont"
+                <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:scaleType="fitCenter"
-                    android:padding="40dp"
-                    android:src="@drawable/icona_imatge" />
-            </com.google.android.material.card.MaterialCardView>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="horizontal">
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/boto_afegirImatgeFont"
-                    style="?attr/materialButtonOutlinedStyle"
-                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="8dp"
-                    app:icon="@drawable/icona_galeria"
-                    app:iconGravity="textStart"
-                    app:cornerRadius="20dp"
-                    android:drawableTint="#302D2D"
-                    android:textColor="#616161"
-                    android:text="Galeria"
-                    android:textAllCaps="false"/>
+                    android:layout_marginTop="4dp"
+                    android:text="@string/penja_imatge_font_desc"
+                    android:textSize="14sp"
+                    android:textColor="#666666"
+                    android:textStyle="italic"
+                    android:lineSpacingExtra="2sp"/>
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/boto_ferFotoFont"
-                    style="?attr/materialButtonOutlinedStyle"
-                    android:layout_width="wrap_content"
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:layout_marginVertical="16dp"
+                    app:cardBackgroundColor="#F2F2F2"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="0dp">
+                    <ImageView
+                        android:id="@+id/iv_imatgeAfegirFont"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="fitCenter"
+                        android:padding="40dp"
+                        android:src="@drawable/icona_imatge" />
+                </com.google.android.material.card.MaterialCardView>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:icon="@drawable/icona_fer_foto"
-                    app:iconGravity="textStart"
-                    app:cornerRadius="20dp"
-                    android:drawableTint="#302D2D"
-                    android:textColor="#616161"
-                    android:text="Càmera"
-                    android:textAllCaps="false"/>
+                    android:gravity="center"
+                    android:orientation="horizontal">
 
-            </LinearLayout>
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/boto_afegirImatgeFont"
+                        style="?attr/materialButtonOutlinedStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
+                        app:icon="@drawable/icona_galeria"
+                        app:iconGravity="textStart"
+                        app:cornerRadius="20dp"
+                        android:drawableTint="#302D2D"
+                        android:textColor="#616161"
+                        android:text="Galeria"
+                        android:textAllCaps="false"/>
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/boto_ferFotoFont"
+                        style="?attr/materialButtonOutlinedStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:icon="@drawable/icona_fer_foto"
+                        app:iconGravity="textStart"
+                        app:cornerRadius="20dp"
+                        android:drawableTint="#302D2D"
+                        android:textColor="#616161"
+                        android:text="Càmera"
+                        android:textAllCaps="false"/>
+                </LinearLayout>
         </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
-
-
-
-
-
-
-
-
 
 
 
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
-            android:layout_marginTop="16dp"
+            android:layout_margin="16dp"
             app:cardCornerRadius="20dp"
             app:cardElevation="0dp"
             app:strokeWidth="1dp"
-            app:strokeColor="#E0E0E0"
-            app:cardBackgroundColor="@android:color/white"> <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="20dp">
+            app:strokeColor="#C5C5C5"
+            app:cardBackgroundColor="@android:color/white">
 
-            <TextView
-                android:text="Característiques"
-                android:textStyle="bold"
-                android:textColor="@color/black"
-                android:textSize="18sp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-
-            <TextView
-                android:text="Potable?"
-                android:layout_marginTop="16dp"
-                android:textColor="#666666"
-                android:textSize="13sp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-
-            <com.google.android.material.button.MaterialButtonToggleGroup
-                android:id="@+id/tggb_fontPotable"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                app:singleSelection="true"
-                app:selectionRequired="true">
+                android:orientation="vertical"
+                android:padding="20dp">
 
-                <Button
-                    android:id="@+id/btn_potable_si"
-                    style="?attr/materialButtonOutlinedStyle"
-                    android:layout_weight="1"
-                    android:layout_width="0dp"
+                <TextView
+                    android:text="Configuració de la font"
+                    android:textStyle="bold"
+                    android:textColor="#333333"
+                    android:textSize="20sp"
+                    android:layout_marginBottom="20dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:text="Qualitat de l'aigua"
+                    android:textStyle="bold"
+                    android:textColor="#555555"
+                    android:textSize="15sp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <com.google.android.material.button.MaterialButtonToggleGroup
+                    android:id="@+id/tggb_fontPotable"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Potable"
+                    android:layout_marginBottom="24dp"
+                    app:singleSelection="true"
+                    app:selectionRequired="true">
+                    <Button
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Potable"
+                        android:tag="P"
+                        style="?attr/materialButtonOutlinedStyle"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:ellipsize="none"
+                        android:paddingHorizontal="2dp"
+                        android:textSize="12sp"
+                        android:id="@+id/btn_potable_si"
+                        android:textAllCaps="false"
+                        app:strokeColor="#D1D1D1"
+                        app:backgroundTint="@color/selector_estat"/>
+                    <Button
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="No potable"
+                        android:tag="NP"
+                        style="?attr/materialButtonOutlinedStyle"
+                        android:id="@+id/btn_potable_no"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:ellipsize="none"
+                        android:paddingHorizontal="2dp"
+                        android:textSize="12sp"
+                        android:textAllCaps="false"
+                        app:strokeColor="#D1D1D1"
+                        app:backgroundTint="@color/selector_estat"/>
+                    <Button
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Desconeguda"
+                        android:tag="D"
+                        style="?attr/materialButtonOutlinedStyle"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:ellipsize="none"
+                        android:paddingHorizontal="2dp"
+                        android:id="@+id/btn_potable_desconeguda"
+                        android:textSize="12sp"
+                        android:textAllCaps="false"
+                        app:strokeColor="#D1D1D1"
+                        app:backgroundTint="@color/selector_estat"/>
+                </com.google.android.material.button.MaterialButtonToggleGroup>
 
-                    android:textAllCaps="false"
-                    app:strokeColor="#D1D1D1"
-                    app:backgroundTint="@color/selector_estat"/>
+                <TextView
+                    android:text="Estat del servei"
+                    android:textStyle="bold"
+                    android:textColor="#555555"
+                    android:textSize="15sp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
 
-                <Button
-                    android:id="@+id/btn_potable_no"
-                    style="?attr/materialButtonOutlinedStyle"
-                    android:layout_weight="1"
-                    android:layout_width="0dp"
+                <com.google.android.material.button.MaterialButtonToggleGroup
+                    android:id="@+id/tggb_fontEstat"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="No"
-                    android:textAllCaps="false"
-                    app:backgroundTint="@color/selector_estat"
-                    app:strokeColor="#D1D1D1" />
-
-                <Button
-                    android:id="@+id/btn_potable_ns"
-                    style="?attr/materialButtonOutlinedStyle"
-                    android:layout_weight="1"
-                    android:layout_width="0dp"
-                    app:backgroundTint="@color/selector_estat"
-                    android:layout_height="wrap_content"
-                    android:text="S/N"
-                    android:textAllCaps="false"
-                    app:strokeColor="#D1D1D1" />
-            </com.google.android.material.button.MaterialButtonToggleGroup>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Estat de servei"
-                android:layout_marginTop="20dp"
-                android:textColor="#666666"
-                android:textSize="13sp"/>
-
-            <com.google.android.material.button.MaterialButtonToggleGroup
-                android:id="@+id/tggb_fontEstat"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                app:singleSelection="true"
-                app:selectionRequired="true">
-
-                <Button
-                    android:id="@+id/boto_tggb_fontServei"
-                    style="?attr/materialButtonOutlinedStyle"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    app:backgroundTint="@color/selector_estat"
-                    android:text="@string/en_servei"
-                    android:textAllCaps="false"
-                    app:strokeColor="#D1D1D1" />
-
-                <Button
-                    android:id="@+id/boto_tggb_fontNoServei"
-                    style="?attr/materialButtonOutlinedStyle"
-                    android:layout_width="0dp"
-                    app:backgroundTint="@color/selector_estat"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:text="@string/sense_servei"
-                    android:textAllCaps="false"
-                    app:strokeColor="#D1D1D1" />
-            </com.google.android.material.button.MaterialButtonToggleGroup>
-
-        </LinearLayout>
+                    app:singleSelection="true"
+                    app:selectionRequired="true">
+                    <Button android:id="@+id/boto_tggb_fontServei"
+                        style="?attr/materialButtonOutlinedStyle"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="En servei"
+                        android:tag="ES"
+                        android:textAllCaps="false"
+                        app:strokeColor="#D1D1D1"
+                        app:backgroundTint="@color/selector_estat"/>
+                    <Button android:id="@+id/boto_tggb_fontNoServei"
+                        style="?attr/materialButtonOutlinedStyle"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="Sense servei"
+                        android:tag="SS"
+                        android:textAllCaps="false"
+                        app:strokeColor="#D1D1D1"
+                        app:backgroundTint="@color/selector_estat"/>
+                </com.google.android.material.button.MaterialButtonToggleGroup>
+            </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
+
 
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
@@ -288,15 +311,12 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
             android:textStyle="italic"
             android:textAlignment="center"
             android:layout_gravity="center"
             android:paddingHorizontal="15sp"
             android:text="@string/adrecanodisponible"
             android:id="@+id/textAdrecaFont"/>
-
-
 
         <Button
             android:id="@+id/boto_afegir_afegirFont"

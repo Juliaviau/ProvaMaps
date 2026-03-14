@@ -38,11 +38,30 @@ public class InformacioPuntFont extends InfoWindow {
 
         Marker marker = (Marker) item;
 
+        //afegit
+        // Recuperem el TAG que hi ha guardat a la base de dades
+        String tagPotable = font.getPotable(); // Ex: "P", "NP", "D"
+        String tagEstat = font.getEstat();     // Ex: "ES", "SS"
+
+        // Busquem el text que correspon al TAG
+        int resIdPotable = 0;
+        if ("P".equals(tagPotable)) resIdPotable = R.string.potable;
+        else if ("NP".equals(tagPotable)) resIdPotable = R.string.no_potable;
+        else resIdPotable = R.string.sense_informacio;
+
+        int resIdEstat = "ES".equals(tagEstat) ? R.string.en_servei : R.string.sense_servei;
+
+        // Ara posem el text traduint el recurs ID
+        ((TextView) mView.findViewById(R.id.infoPunt_extra1)).setText(context.getString(resIdPotable));
+        ((TextView) mView.findViewById(R.id.infoPunt_extra2)).setText(context.getString(resIdEstat));
+        //afegit
+
+
         //posa el text que se li diu des del marker
         ((TextView) mView.findViewById(R.id.infoPunt_tipus)).setText(font.getTipus());
         ((TextView) mView.findViewById(R.id.infoPunt_adreca)).setText(adreca);
-        ((TextView) mView.findViewById(R.id.infoPunt_extra1)).setText(font.getPotable());
-        ((TextView) mView.findViewById(R.id.infoPunt_extra2)).setText(font.getEstat());
+       // ((TextView) mView.findViewById(R.id.infoPunt_extra1)).setText(font.getPotable());
+       // ((TextView) mView.findViewById(R.id.infoPunt_extra2)).setText(font.getEstat());
 
         Glide.with(context)
                 .load(font.getUrlfoto())
@@ -55,12 +74,8 @@ public class InformacioPuntFont extends InfoWindow {
             MyUtils.aplicarAnimacioClick(v);
             // al clicar el boto anar, mostrar la ruta des del punt actual fins al punt
             fragment.calculateRoute(marker.getPosition());
-
         });
-
     }
-
-
 
     @Override
     public void onClose() {

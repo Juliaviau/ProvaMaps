@@ -3,6 +3,7 @@ package com.example.provamaps;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.net.Uri;
@@ -14,6 +15,10 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.FileProvider;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
+import androidx.core.view.WindowInsetsControllerCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
@@ -25,7 +30,9 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -49,6 +56,7 @@ import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.util.GeoPoint;
 
 import java.io.ByteArrayOutputStream;
+import java.io.Console;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
@@ -115,21 +123,16 @@ public class AfegirFontFragment extends Fragment {
         binding = FragmentAfegirFontBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
 
-        Button closeButton = view.findViewById(R.id.boto_tancar_afegir_font);
-        closeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                tancarFragment();
-            }
-        });
+
+        // Dins de onViewCreated
+        binding.botoTancarAfegirFont.setOnClickListener(v -> tancarFragment());
 
         Context context = requireContext();
         uriImatge = createImageUri(context);
 
         imatgeFont = view.findViewById(R.id.iv_imatgeAfegirFont);
 
-        Button botoFerFoto = view.findViewById(R.id.boto_ferFotoFont);
-        botoFerFoto.setOnClickListener(new View.OnClickListener() {
+        binding.botoFerFotoFont.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (uriImatge != null) {
@@ -141,8 +144,7 @@ public class AfegirFontFragment extends Fragment {
         });
 
         //Afegir imatge des de la galeria
-        Button botoAfegirImatge = view.findViewById(R.id.boto_afegirImatgeFont);
-        botoAfegirImatge.setOnClickListener(new View.OnClickListener() {
+        binding.botoAfegirImatgeFont.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view)             {
                 escullImatgeGaleria.launch(new PickVisualMediaRequest.Builder()
@@ -152,8 +154,7 @@ public class AfegirFontFragment extends Fragment {
         });
 
 
-        Button botoAfegirFont = view.findViewById(R.id.boto_afegir_afegirFont);
-        botoAfegirFont.setOnClickListener(new View.OnClickListener() {
+        binding.botoAfegirAfegirFont.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view){
 
@@ -161,7 +162,23 @@ public class AfegirFontFragment extends Fragment {
                 String potable = null;
                 String estat = null;
 
-                if (seleccioPotable != View.NO_ID) {
+
+                String valorPotableBD = "";
+
+                // Obtenim l'ID del botó que realment està marcat en aquest moment
+                int idSeleccionatP = binding.tggbFontPotable.getCheckedButtonId();
+
+                if (idSeleccionatP != View.NO_ID) {
+                    // Busquem el botó per ID i en traguem el TAG
+                    MaterialButton botoSeleccionat = binding.getRoot().findViewById(idSeleccionatP);
+                    potable = botoSeleccionat.getTag().toString();
+                    // Ara valorPotableBD serà "SI", "NO" o "DESCONEGUT"
+                } else {
+                    MyUtils.toast(getContext(), "Selecciona si la font és potable.");
+                    return;
+                }
+
+                /*if (seleccioPotable != View.NO_ID) {
                     MaterialButton selectedButton = binding.getRoot().findViewById(seleccioPotable);
                     potable = selectedButton.getText().toString();
                     //selectedButton.getText()
@@ -169,9 +186,22 @@ public class AfegirFontFragment extends Fragment {
                     //No s'ha seleccionat cap
                     MyUtils.toast(getContext(),"Selecciona si la font és potable.");
                     return;
+                }*/
+
+                // Obtenim l'ID del botó que realment està marcat en aquest moment
+                int idSeleccionatS = binding.tggbFontEstat.getCheckedButtonId();
+
+                if (idSeleccionatS != View.NO_ID) {
+                    // Busquem el botó per ID i en traguem el TAG
+                    MaterialButton botoSeleccionat = binding.getRoot().findViewById(idSeleccionatS);
+                    estat = botoSeleccionat.getTag().toString();
+                    // Ara valorPotableBD serà "SI", "NO" o "DESCONEGUT"
+                } else {
+                    MyUtils.toast(getContext(), "Selecciona si la font esta en servei.");
+                    return;
                 }
 
-                if (seleccioEstat != View.NO_ID) {
+                /*if (seleccioEstat != View.NO_ID) {
                     MaterialButton selectedButton = binding.getRoot().findViewById(seleccioEstat);
                     estat = selectedButton.getText().toString();
                     //selectedButton.getText()
@@ -179,7 +209,7 @@ public class AfegirFontFragment extends Fragment {
                     //No s'ha seleccionat cap
                     MyUtils.toast(getContext(),"Selecciona si la font esta en servei.");
                     return;
-                }
+                }*/
 
 
                 //afegit
@@ -220,7 +250,7 @@ public class AfegirFontFragment extends Fragment {
                 if (hiHaFoto && uriImatge != null) {
 
                     try {
-                        // Comprime la imagen antes de subirla
+                        // Comprimeix la imatge abans de penjarla
                         byte[] compressedImage = comprimirImatge(getContext(), uriImatge);
 
                         // Llama al método que sube la imagen comprimida
@@ -229,7 +259,6 @@ public class AfegirFontFragment extends Fragment {
                                     @Override
                                     public void onUploadSuccess(String imageUrl) {
                                         Toast.makeText(getContext(), "Font afegida amb èxit!", Toast.LENGTH_SHORT).show();
-                                        // Aquí puedes realizar alguna acción después de la subida exitosa
                                         tancarFragment();
                                     }
 
@@ -264,7 +293,7 @@ public class AfegirFontFragment extends Fragment {
         });
 
         //Cada vegada que es canvia de boto canvia la variable que diu quin esta seleccionat
-        binding.tggbFontPotable.addOnButtonCheckedListener(new MaterialButtonToggleGroup.OnButtonCheckedListener() {
+        /*binding.tggbFontPotable.addOnButtonCheckedListener(new MaterialButtonToggleGroup.OnButtonCheckedListener() {
             @Override
             public void onButtonChecked(MaterialButtonToggleGroup grup, int idSeleccionat, boolean estaSeleccionat) {
                 if (estaSeleccionat) {
@@ -287,9 +316,7 @@ public class AfegirFontFragment extends Fragment {
                     Snackbar.make(binding.getRoot(), "Error: S'ha de seleccionar una opció", Snackbar.LENGTH_LONG).show();
                 }
             }
-        });
-
-
+        });*/
         return view;
     }
 
@@ -373,6 +400,27 @@ public class AfegirFontFragment extends Fragment {
         geocoder = new Geocoder(getActivity(), Locale.getDefault());
 
         //afegit
+        // Això posa les icones de la barra d'estat en color FOSC (perquè es vegin sobre fons blanc)
+        Window window = requireActivity().getWindow();
+        View decorView = window.getDecorView();
+        window.setStatusBarColor(Color.BLACK); // Posa la barra de color blanc
+
+        WindowInsetsControllerCompat controller = new WindowInsetsControllerCompat(window, decorView);
+        controller.setAppearanceLightStatusBars(true); // true = icones fosques, false = icones blanques
+
+
+// Identifica el contenidor principal del teu layout (el que conté la Toolbar)
+        View containerPrincipal = view.findViewById(R.id.lay_principal);
+
+        // Obté l'alçada de la barra d'estat
+        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            int statusBarHeight = getResources().getDimensionPixelSize(resourceId);
+
+            // Aplica el padding només a aquest fragment
+            containerPrincipal.setPadding(0, statusBarHeight, 0, 0);
+        }
+
 
         if (getArguments() != null) {
             latitud = getArguments().getFloat("latitud", 0.0f);
@@ -524,8 +572,6 @@ public class AfegirFontFragment extends Fragment {
             binding.textAdrecaFont.setText("Buscant adreça...");
         }
     }
-
-
 
 /*
         double lat = Double.parseDouble(binding.textLatitudFont.getText().toString());
