@@ -9,7 +9,7 @@
     <string name="zona_picnic">Zona de picnic</string>
 
     <string name="cancelar">Cancelar</string>
-    <string name="penja_una_imatge">Sube una imagen:</string>
+    <string name="penja_una_imatge">Imagen</string>
     <string name="afegir_imatge">Añadir imagen</string>
     <string name="caracteristiques">Características:</string>
     <string name="afegir">Añadir</string>
@@ -17,8 +17,8 @@
     <string name="afegir_font">Añadir una fuente</string>
     <string name="penja_imatge_font_desc">Toma una imagen de la fuente en la que se vea correctamente. Procura hacerla desde la distancia correcta, ni muy cerca ni muy lejos, y con buena iluminación.</string>
     <string name="escull_una_opcio_categoria">Elige una opción de cada categoría.</string>
-    <string name="potable">Potable</string>
-    <string name="no_potable">No potable</string>
+    <string name="potable">Agua potable</string>
+    <string name="no_potable">Agua no potable</string>
     <string name="sense_informacio">Desconocida</string>
     <string name="estat">Estado</string>
     <string name="en_servei">En servicio</string>

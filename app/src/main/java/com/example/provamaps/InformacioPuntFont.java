@@ -2,6 +2,7 @@ package com.example.provamaps;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -43,7 +44,9 @@ public class InformacioPuntFont extends InfoWindow {
         String tagPotable = font.getPotable(); // Ex: "P", "NP", "D"
         String tagEstat = font.getEstat();     // Ex: "ES", "SS"
 
-        // Busquem el text que correspon al TAG
+        Log.d("INFOPUNT", "potable:  " + tagPotable);
+        Log.d("INFOPUNT", "estat:  " + tagEstat);
+
         int resIdPotable = 0;
         if ("P".equals(tagPotable)) resIdPotable = R.string.potable;
         else if ("NP".equals(tagPotable)) resIdPotable = R.string.no_potable;
@@ -51,9 +54,11 @@ public class InformacioPuntFont extends InfoWindow {
 
         int resIdEstat = "ES".equals(tagEstat) ? R.string.en_servei : R.string.sense_servei;
 
-        // Ara posem el text traduint el recurs ID
         ((TextView) mView.findViewById(R.id.infoPunt_extra1)).setText(context.getString(resIdPotable));
         ((TextView) mView.findViewById(R.id.infoPunt_extra2)).setText(context.getString(resIdEstat));
+
+
+
         //afegit
 
 

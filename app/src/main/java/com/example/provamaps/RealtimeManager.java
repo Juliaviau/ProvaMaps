@@ -98,7 +98,7 @@ public class RealtimeManager {
                 @Override
                 public void onUploadSuccess(String imagenUri) {
                     font.setImageUrl(imagenUri);
-                    modificarLavabo(fontId,font);
+                    modificarFont(fontId,font);
                     listener.onUploadSuccess(imagenUri);
                 }
 
@@ -108,12 +108,12 @@ public class RealtimeManager {
                 }
             });
         } else {
-            modificarLavabo(fontId,font);
+            modificarFont(fontId,font);
             listener.onUploadSuccess(null);
         }
     }
 
-    void modificarLavabo(String fontId, Font font) {
+    void modificarFont(String fontId, Font font) { //estava posat modificar lavabo canviat al 17/3/26
         databaseReferenceFonts.child(fontId).setValue(font)
                 .addOnSuccessListener(aVoid -> {
                     Log.d("RealtimeManager", "Font modificada exitosament");
@@ -241,7 +241,7 @@ public class RealtimeManager {
                 @Override
                 public void onUploadSuccess(String imagenUri) {
                     lavabo.setImageUrl(imagenUri);
-                    modificarLavabo(lavaboId,lavabo);
+                    modificarFont(lavaboId,lavabo);
                     listener.onUploadSuccess(imagenUri);
                 }
 
@@ -251,12 +251,12 @@ public class RealtimeManager {
                 }
             });
         } else {
-            modificarLavabo(lavaboId,lavabo);
+            modificarFont(lavaboId,lavabo);
             listener.onUploadSuccess(null);
         }
     }
 
-    void modificarLavabo(String lavaboId, Lavabo lavabo) {
+    void modificarFont(String lavaboId, Lavabo lavabo) {
         databaseReferenceLavabos.child(lavaboId).setValue(lavabo)
                 .addOnSuccessListener(aVoid -> {
                     Log.d("RealtimeManager", "Lavabo modificat exitosament");
@@ -324,6 +324,11 @@ public class RealtimeManager {
 
         return liveData;
     }
+
+
+
+
+
 
     //CONTENIDORS
     public void afegirContenidor(String latitud, String longitud, List<String> tipusContenidor, byte[] imageData, PenjarImatges.OnImageUploadListener listener) {

@@ -287,7 +287,7 @@ public class EditLavaboFragment extends Fragment {
 
         } else {
             // Crear la Lavabo sense foto
-            realtimeManager.modificarLavabo(lavabo.getKey(), lavabo);
+            realtimeManager.modificarFont(lavabo.getKey(), lavabo);
         }
         getActivity().getSupportFragmentManager().popBackStack();
     }

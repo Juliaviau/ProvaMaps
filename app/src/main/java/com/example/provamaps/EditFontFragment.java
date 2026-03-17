@@ -1,13 +1,18 @@
 package com.example.provamaps;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.location.Address;
+import android.location.Geocoder;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -18,6 +23,7 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.FileProvider;
+import androidx.core.view.WindowInsetsControllerCompat;
 import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
@@ -26,9 +32,18 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.button.MaterialButtonToggleGroup;
 import com.google.android.material.snackbar.Snackbar;
 
+import org.osmdroid.api.IGeoPoint;
+import org.osmdroid.events.MapListener;
+import org.osmdroid.events.ScrollEvent;
+import org.osmdroid.events.ZoomEvent;
+import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
+import org.osmdroid.util.GeoPoint;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
+import java.util.Locale;
 
 public class EditFontFragment extends Fragment {
 
@@ -42,6 +57,8 @@ public class EditFontFragment extends Fragment {
     private MaterialButtonToggleGroup tggbPotable;
     private MaterialButtonToggleGroup tggbEstat;
     private Font font;
+    private float latitud , longitud;
+    private Geocoder geocoder;
 
     ActivityResultLauncher<Uri> contract = registerForActivityResult(new ActivityResultContracts.TakePicture(), result -> {
         imatgeFont.setImageURI(null);
@@ -94,13 +111,8 @@ public class EditFontFragment extends Fragment {
         View view = binding.getRoot();
 
         //Mostrar l'imatge de la font, i posar la funcionalitat als botons per a fer o penjar foto
-        Button closeButton = view.findViewById(R.id.boto_tancar_edit_font);
-        closeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getActivity().getSupportFragmentManager().popBackStack();
-            }
-        });
+        binding.botoTancarEditFont.setOnClickListener(v -> getActivity().getSupportFragmentManager().popBackStack());
+
 
         imatgeFont = view.findViewById(R.id.iv_imatgeEditFont);//la foto
         tggbPotable = view.findViewById(R.id.tggb_fontPotable);
@@ -148,13 +160,13 @@ public class EditFontFragment extends Fragment {
             /*if (font.getPotable() != null) {
                 switch (font.getPotable()) {
                     case "potable":
-                        tggbPotable.check(R.id.boto_tggb_fontPotable);
+                        tggbPotable.check(R.id.btn_potable_si);
                         break;
                     case "no_potable":
-                        tggbPotable.check(R.id.boto_tggb_fontNoPotable);
+                        tggbPotable.check(R.id.btn_potable_no);
                         break;
                     case "sense_informacio":
-                        tggbPotable.check(R.id.boto_tggb_noInformaciofontPotable);
+                        tggbPotable.check(R.id.btn_potable_desconeguda);
                         break;
                 }
             }
@@ -167,20 +179,20 @@ public class EditFontFragment extends Fragment {
                     case "no_en_servei":
                         tggbEstat.check(R.id.boto_tggb_fontNoServei);
                         break;
-                    case "sense_informacio":
-                        tggbEstat.check(R.id.boto_tggb_fontNoInformacio);
-                        break;
                 }
             }*/
 
 
             /*
-            * falta posar lo del mapa al editar, i comprovar que estigui be lo de seleccionar noves caracteristieques. modificar a la base de dades els p np d ss es...
-            * */
-            marcarBotonsSegonsDades(font.getPotable(),font.getEstat());//marca la seleccio
+            * falta posar lo del mapa al editar, i comprovar que estigui be lo de seleccionar noves caracteristieques.
+            * modificar a la base de dades els p np d ss es...
+            */
+           // marcarBotonsSegonsDades(font.getPotable(),font.getEstat());//marca la seleccio
+
+            latitud = Float.parseFloat(font.getLatitud());
+            longitud = Float.parseFloat(font.getLongitud());
 
         }
-
 
         tggbPotable.addOnButtonCheckedListener(new MaterialButtonToggleGroup.OnButtonCheckedListener() {
             @Override
@@ -207,14 +219,103 @@ public class EditFontFragment extends Fragment {
             }
         });
 
-
-
-        Button btnSave = view.findViewById(R.id.boto_afegir_afegirFont);
-        btnSave.setOnClickListener(v -> saveChanges());
+        binding.botoActualitzarEditFont.setOnClickListener(
+                v -> saveChanges()
+        );
 
         return view;
     }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        geocoder = new Geocoder(getActivity(), Locale.getDefault());
+
+        // Això posa les icones de la barra d'estat en color FOSC (perquè es vegin sobre fons blanc)
+        Window window = requireActivity().getWindow();
+        View decorView = window.getDecorView();
+        window.setStatusBarColor(Color.BLACK); // Posa la barra de color blanc
+
+        WindowInsetsControllerCompat controller = new WindowInsetsControllerCompat(window, decorView);
+        controller.setAppearanceLightStatusBars(true); // true = icones fosques, false = icones blanques
+
+        // Identifica el contenidor principal del teu layout (el que conté la Toolbar)
+
+        // Obté l'alçada de la barra d'estat
+        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            int statusBarHeight = getResources().getDimensionPixelSize(resourceId);
+
+            // Aplica el padding només a aquest fragment
+            binding.layPrincipalEdit.setPadding(0, statusBarHeight, 0, 0);
+        }
+
+        // Inicialitzar el mapa (com fas a la pantalla principal)
+        binding.mapaAfegirFont.setTileSource(TileSourceFactory.MAPNIK);
+        binding.mapaAfegirFont.setMultiTouchControls(true);
+
+        // Centrar el mapa a la posició inicial que t'ha passat el GPS
+        GeoPoint startPoint = new GeoPoint(latitud, longitud);
+        binding.mapaAfegirFont.getController().setZoom(18.0);
+        binding.mapaAfegirFont.getController().setCenter(startPoint);
+
+        // ESCULTOR DE MOVIMENT
+        binding.mapaAfegirFont.addMapListener(new MapListener() {
+            @Override
+            public boolean onScroll(ScrollEvent event) {
+                // Quan l'usuari mou el mapa, el centre canvia
+                IGeoPoint centre = binding.mapaAfegirFont.getMapCenter();
+                latitud = (float) centre.getLatitude();
+                longitud = (float) centre.getLongitude();
+
+                // Actualitzem l'adreça escrita (però sense carregar Yandex!)
+                obtenirAdrecaSenseMapa();
+                return true;
+            }
+
+            @Override
+            public boolean onZoom(ZoomEvent event) { return false; }
+        });
+
+        binding.mapaAfegirFont.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        // Bloquegem l'scroll de la pàgina
+                        v.getParent().requestDisallowInterceptTouchEvent(true);
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        // Alliberem l'scroll quan aixequem el dit
+                        v.getParent().requestDisallowInterceptTouchEvent(false);
+                        break;
+                }
+                return false; // Retornem false per permetre que el mapa també rebi el toc
+            }
+        });
+
+
+    }
+
+    private void obtenirAdrecaSenseMapa() {
+        try {
+            List<Address> addresses = geocoder.getFromLocation(latitud, longitud, 1);
+            if (addresses != null && !addresses.isEmpty()) {
+                Address adr = addresses.get(0);
+                String carrer = adr.getThoroughfare() != null ? adr.getThoroughfare() : "S/N";
+                String numero = adr.getSubThoroughfare() != null ? adr.getSubThoroughfare() : "";
+                String localitat = adr.getLocality() != null ? adr.getLocality() : "";//poblacio
+                String comarca = adr.getSubAdminArea() != null ? adr.getSubAdminArea() : "";
+                String provincia = adr.getAdminArea() != null ? adr.getAdminArea() : "";
+                String pais = adr.getCountryName() != null ? adr.getCountryName() : "";
+
+                binding.textAdrecaFont.setText(carrer + ", " + numero + ", " + localitat + ", " + comarca + ", " + provincia + ", " + pais);
+            }
+        } catch (IOException e) {
+            binding.textAdrecaFont.setText("Buscant adreça...");
+        }
+    }
 
     // Dins del teu Fragment d'editar/afegir
     private void marcarBotonsSegonsDades(String tagPotableBD, String tagEstatBD) {
@@ -251,14 +352,14 @@ public class EditFontFragment extends Fragment {
         if (seleccioPotable != View.NO_ID) {
             MaterialButton selectedButton = binding.getRoot().findViewById(seleccioPotable);
             //potable = selectedButton.getText().toString();
-            font.setPotable(selectedButton.getText().toString());
+            font.setPotable(selectedButton.getTag().toString());
             //selectedButton.getText()
         }
 
         if (seleccioEstat != View.NO_ID) {
             MaterialButton selectedButton = binding.getRoot().findViewById(seleccioEstat);
             //estat = selectedButton.getText().toString();
-            font.setEstat(selectedButton.getText().toString());
+            font.setEstat(selectedButton.getTag().toString());
             //selectedButton.getText()
         }
 
@@ -290,7 +391,7 @@ public class EditFontFragment extends Fragment {
             // Crear la Font sense foto
            // Toast.makeText(getContext(), "mod no foto", Toast.LENGTH_SHORT).show();
             //Font novaFont = new Font(font.getKey(),font.getLatitud(),font.getLongitud(),potable,estat,null);
-            realtimeManager.modificarLavabo(font.getKey(),font);
+            realtimeManager.modificarFont(font.getKey(),font);
 
             //Toast.makeText(getContext(), "mod ", Toast.LENGTH_SHORT).show();
 
@@ -337,17 +438,6 @@ public class EditFontFragment extends Fragment {
     }
 
 }
-
-
-
-
-
-
-
-
-
-
-
 
 /*
 

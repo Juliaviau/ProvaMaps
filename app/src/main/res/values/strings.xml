@@ -15,8 +15,8 @@
     <string name="afegir_font">Afegir una font</string>
     <string name="penja_imatge_font_desc">Fes una imatge a la font on es vegi correctament. Procura fer-la des de la distància correcte, ni molt aprop ni molt lluny. I amb una bona il·luminació.</string>
     <string name="escull_una_opcio_categoria">Escull una opció de cada categoria.</string>
-    <string name="potable">Potable</string>
-    <string name="no_potable">No Potable</string>
+    <string name="potable">Aigua potable</string>
+    <string name="no_potable">Aigua no potable</string>
     <string name="sense_informacio">Sense informació</string>
     <string name="estat">Estat</string>
     <string name="en_servei">En servei</string>
