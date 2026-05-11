@@ -113,7 +113,6 @@ public class EditFontFragment extends Fragment {
         //Mostrar l'imatge de la font, i posar la funcionalitat als botons per a fer o penjar foto
         binding.botoTancarEditFont.setOnClickListener(v -> getActivity().getSupportFragmentManager().popBackStack());
 
-
         imatgeFont = view.findViewById(R.id.iv_imatgeEditFont);//la foto
         tggbPotable = view.findViewById(R.id.tggb_fontPotable);
         tggbEstat = view.findViewById(R.id.tggb_fontEstat);
@@ -187,7 +186,7 @@ public class EditFontFragment extends Fragment {
             * falta posar lo del mapa al editar, i comprovar que estigui be lo de seleccionar noves caracteristieques.
             * modificar a la base de dades els p np d ss es...
             */
-           // marcarBotonsSegonsDades(font.getPotable(),font.getEstat());//marca la seleccio
+            marcarBotonsSegonsDades(font.getPotable(),font.getEstat());//marca la seleccio
 
             latitud = Float.parseFloat(font.getLatitud());
             longitud = Float.parseFloat(font.getLongitud());
